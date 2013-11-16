@@ -22,13 +22,11 @@ import toxi.geom.mesh.*;
 public class ModelWriter {
 
 
-    public void write(File file, Mesh3D mesh) {
+    public void write(File file, TriangleMesh mesh) {
         OutputStream stream;
         try {
             stream = new FileOutputStream(file);
-            TriangleMesh triangleMesh = new TriangleMesh();
-            triangleMesh.addMesh(mesh);
-            triangleMesh.saveAsSTL(stream);
+            mesh.saveAsSTL(stream);
         } catch (FileNotFoundException ex) {
             Logger.getLogger(ModelWriter.class.getName()).log(Level.SEVERE, null, ex);
         }
