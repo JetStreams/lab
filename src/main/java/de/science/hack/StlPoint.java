@@ -14,9 +14,6 @@ public class StlPoint extends Point3d{
 
     public StlPoint(double x, double y, double z) {
         super(x, y ,z);
-        this.x = x;
-        this.y = y;
-        this.z = z;
     }
 
     public double getX() {
