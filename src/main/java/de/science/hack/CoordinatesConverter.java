@@ -24,7 +24,7 @@ public class CoordinatesConverter {
     private CoordinatesConverter() {
     }
 
-    public static Stl toStl(LatLonAlt lla) {
+    public static StlCoordinate toStl(LonLatAltCoordinate lla) {
         double lat = Math.toRadians(lla.getLat());
         double lon = Math.toRadians(lla.getLon());
         double alt = lla.getAlt();
@@ -39,7 +39,7 @@ public class CoordinatesConverter {
         y = Math.round(a + y);
         z = Math.round(a + z);
         
-        return new Stl(x, y, z);
+        return new StlCoordinate(x, y, z);
     }
     
 }

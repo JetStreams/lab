@@ -7,14 +7,14 @@ package de.science.hack;
  * Represents longitude, latitude and altitude
  * @author Mario
  */
-public class LatLonAlt {
+public class LonLatAltCoordinate {
     private double lat;
     private double lon;
     private double alt;
 
-    public LatLonAlt(double lat, double lon, double alt) {
-        this.lat = lat;
+    public LonLatAltCoordinate(double lon, double lat, double alt) {
         this.lon = lon;
+        this.lat = lat;
         this.alt = alt;
     }
 

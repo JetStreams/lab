@@ -13,6 +13,9 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import static java.lang.Double.parseDouble;
+import static java.lang.Math.abs;
+
 /**
  *
  * @author Mario
@@ -36,8 +39,17 @@ public class WindDataReader {
         return content;
     }
     
-    public List<Stl> read(String name){
-        List<Stl> data = new ArrayList<>();
+    public List<StlCoordinate> read(String name){
+        List<StlCoordinate> data = new ArrayList<>();
+        List<String[]> content = readString(name);
+        for (String[] cnt : content) {
+            //we assume that the array length is 3
+            double lon = parseDouble(cnt[0]);
+            double lat = parseDouble(cnt[1]);
+            double alt = abs(parseDouble(cnt[2]));
+            LonLatAltCoordinate lla = new LonLatAltCoordinate(lon, lat, alt);
+            data.add(CoordinatesConverter.toStl(lla));
+        }
         
         return data;
     }
