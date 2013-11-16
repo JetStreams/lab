@@ -24,7 +24,7 @@ public class CoordinatesConverter {
     private CoordinatesConverter() {
     }
 
-    public static Ecef toEcef(LatLonAlt lla) {
+    public static Slf toSlf(LatLonAlt lla) {
         double lat = Math.toRadians(lla.getLat());
         double lon = Math.toRadians(lla.getLon());
         double alt = lla.getAlt();
@@ -34,6 +34,12 @@ public class CoordinatesConverter {
         double x = (N + alt) * Math.cos(lat) * Math.cos(lon);
         double y = (N + alt) * Math.cos(lat) * Math.sin(lon);
         double z = ((1 - esq) * N + alt) * Math.sin(lat);
-        return new Ecef(x, y, z);
+        
+        x = Math.round(a + x);
+        y = Math.round(a + y);
+        z = Math.round(a + z);
+        
+        return new Slf(x, y, z);
     }
+    
 }
