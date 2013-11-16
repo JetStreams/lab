@@ -1,10 +1,7 @@
-Documentation and Resources
+This project attempts to create a 3D Model of JetStreams in the atmosphere
 =========
 
-This project attempts to create a 3D Model of JetStreams in the atmosphere
----------
-
-Links
+Documentation and Resources
 ---------
 
 Converting coordinates: http://stackoverflow.com/questions/16614057/longitude-latitude-altitude-to-3d-cartesian-coordinate-systems
