@@ -44,32 +44,31 @@ public class WindDataReader {
         return content;
     }
 
-    private Group<LonLatAltCoordinate> readCoordinates(String name) {
-        List<LonLatAltCoordinate> coordinates = new ArrayList<>();
+    private Group<Coordinate> readCoordinates(String name) {
+        List<Coordinate> coordinates = new ArrayList<>();
         List<String[]> content = readString(name);
         for (String[] cnt : content) {
             //we assume that the array length is 3
             double lon = parseDouble(cnt[0]);
             double lat = parseDouble(cnt[1]);
             double alt = abs(parseDouble(cnt[2]));
-            LonLatAltCoordinate lla = new LonLatAltCoordinate(lon, lat, alt);
-            coordinates.add(lla);
+            coordinates.add(new Coordinate(lon, lat, alt));
         }
-        return group(coordinates, by(on(LonLatAltCoordinate.class).getLon()));
+        return group(coordinates, by(on(Coordinate.class).getLon()));
     }
 
-    public Map<String, List<StlCoordinate>> read(String name) {
-        Map<String, List<StlCoordinate>> map = new HashMap<>();
-        Group<LonLatAltCoordinate> group = readCoordinates(name);
+    public Map<String, List<StlPoint>> read(String name) {
+        Map<String, List<StlPoint>> map = new HashMap<>();
+        Group<Coordinate> group = readCoordinates(name);
         Set<String> keys = group.keySet();
         for (String key : keys) {
-            List<StlCoordinate> stlCoordinates = new ArrayList<>();
-            List<LonLatAltCoordinate> coordinates = group.find(key);
-            for (LonLatAltCoordinate coord : coordinates) {
-                LonLatAltCoordinate groundCoord = new LonLatAltCoordinate(coord.getLon(), coord.getLat(), 0);
-                StlCoordinate coordForGround = CoordinatesConverter.toStl(groundCoord);
+            List<StlPoint> stlCoordinates = new ArrayList<>();
+            List<Coordinate> coordinates = group.find(key);
+            for (Coordinate coord : coordinates) {
+                Coordinate groundCoord = new Coordinate(coord.getLon(), coord.getLat(), 0);
+                StlPoint coordForGround = CoordinatesConverter.toStl(groundCoord);
                 stlCoordinates.add(coordForGround);
-                StlCoordinate coordForWind = CoordinatesConverter.toStl(coord);
+                StlPoint coordForWind = CoordinatesConverter.toStl(coord);
                 stlCoordinates.add(coordForWind);
             }
             map.put(key, stlCoordinates);

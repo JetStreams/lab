@@ -16,7 +16,7 @@ import toxi.geom.Triangle3D;
  */
 public class MeshBuilderTest {
     
-    private List<StlCoordinate> stlCoordinates;
+    private List<StlPoint> stlCoordinates;
     
     private MeshBuilder classUnderTest;
     

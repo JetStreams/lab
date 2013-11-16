@@ -30,18 +30,18 @@ public class WindDataReaderTest {
     @Test
     public void testRead() {
         String name = getClass().getResource("short.txt").getFile();
-        Map<String, List<StlCoordinate>> result = classUnderTest.read(name);
+        Map<String, List<StlPoint>> result = classUnderTest.read(name);
         assertNotNull(result);
         assertFalse(result.isEmpty());
         assertEquals(2, result.size());
         
-        for (Map.Entry<String, List<StlCoordinate>> entry : result.entrySet()) {
+        for (Map.Entry<String, List<StlPoint>> entry : result.entrySet()) {
             String key = entry.getKey();
             assertNotNull(key);
             assertFalse(key.isEmpty());
-            List<StlCoordinate> list = entry.getValue();
+            List<StlPoint> list = entry.getValue();
             assertFalse(list.isEmpty());
-            StlCoordinate first = list.get(0);
+            StlPoint first = list.get(0);
             assertTrue(first.getX() != 0.0);
             
         }

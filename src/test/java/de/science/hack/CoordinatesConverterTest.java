@@ -16,18 +16,16 @@ public class CoordinatesConverterTest {
 
     @Test
     public void testToStl() {
-        LonLatAltCoordinate lla = new LonLatAltCoordinate(0, 0, 0);
-        StlCoordinate result = CoordinatesConverter.toStl(lla);
-        assertNotNull(result);
-        assertEquals(12756274.0, result.getX(), DIFF);
-        assertEquals(6378137.0, result.getY(), DIFF);
-        assertEquals(6378137.0, result.getZ(), DIFF);
+        StlPoint point = CoordinatesConverter.toStl(new Coordinate(0, 0, 0));
+        assertNotNull(point);
+        assertEquals(12756274.0, point.getX(), DIFF);
+        assertEquals(6378137.0, point.getY(), DIFF);
+        assertEquals(6378137.0, point.getZ(), DIFF);
         
-        lla = new LonLatAltCoordinate(-180, 0, 0);
-        result = CoordinatesConverter.toStl(lla);
-        assertNotNull(result);
-        assertEquals(0.0, result.getX(), DIFF);
-        assertEquals(6378137.0, result.getY(), DIFF);
-        assertEquals(6378137.0, result.getZ(), DIFF);
+        point = CoordinatesConverter.toStl(new Coordinate(-180, 0, 0));
+        assertNotNull(point);
+        assertEquals(0.0, point.getX(), DIFF);
+        assertEquals(6378137.0, point.getY(), DIFF);
+        assertEquals(6378137.0, point.getZ(), DIFF);
     }
 }

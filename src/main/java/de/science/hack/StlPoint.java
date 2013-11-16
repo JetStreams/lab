@@ -4,16 +4,16 @@
  */
 package de.science.hack;
 
+import javax.vecmath.Point3d;
+
 /**
  *
  * @author Mario
  */
-public class StlCoordinate {
-    private double x;
-    private double y;
-    private double z;
+public class StlPoint extends Point3d{
 
-    public StlCoordinate(double x, double y, double z) {
+    public StlPoint(double x, double y, double z) {
+        super(x, y ,z);
         this.x = x;
         this.y = y;
         this.z = z;
