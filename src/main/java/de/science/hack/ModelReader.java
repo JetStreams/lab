@@ -19,7 +19,7 @@ public class ModelReader {
         return read(file);
     }
 
-    private Mesh3D read(String fileName) {
+    public Mesh3D read(String fileName) {
         return reader.loadBinary(fileName, STLReader.TRIANGLEMESH);
     }
 }
