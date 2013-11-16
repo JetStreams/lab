@@ -39,8 +39,8 @@ public class WindDataReader {
         return content;
     }
     
-    public List<StlCoordinate> read(String name){
-        List<StlCoordinate> data = new ArrayList<>();
+    private List<LonLatAltCoordinate> readCoordinates(String name){
+        List<LonLatAltCoordinate> coordinates = new ArrayList<>(); 
         List<String[]> content = readString(name);
         for (String[] cnt : content) {
             //we assume that the array length is 3
@@ -48,9 +48,21 @@ public class WindDataReader {
             double lat = parseDouble(cnt[1]);
             double alt = abs(parseDouble(cnt[2]));
             LonLatAltCoordinate lla = new LonLatAltCoordinate(lon, lat, alt);
-            data.add(CoordinatesConverter.toStl(lla));
+            coordinates.add(lla);
         }
-        
-        return data;
+        return coordinates;
+    }
+    
+    public List<StlCoordinate> read(String name){
+        List<StlCoordinate> coordinates = new ArrayList<>();
+        List<LonLatAltCoordinate> realCoordinates = readCoordinates(name);
+        for (LonLatAltCoordinate realCoord : realCoordinates) {
+            LonLatAltCoordinate groundCoord = new LonLatAltCoordinate(realCoord.getLon(), realCoord.getLat(), 0);
+            StlCoordinate coordForGround = CoordinatesConverter.toStl(groundCoord);
+            coordinates.add(coordForGround);
+            StlCoordinate coordForWind = CoordinatesConverter.toStl(realCoord);
+            coordinates.add(coordForWind);
+        }
+        return coordinates;
     }
 }

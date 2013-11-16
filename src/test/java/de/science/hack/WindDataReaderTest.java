@@ -32,8 +32,10 @@ public class WindDataReaderTest {
         List<StlCoordinate> result = classUnderTest.read(name);
         assertNotNull(result);
         assertFalse(result.isEmpty());
-        assertEquals(6480, result.size());
-        StlCoordinate first = result.get(0);
-        assertEquals(8670555, first.getX(), DIFF);
+        assertEquals(12960, result.size());
+        StlCoordinate coord = result.get(0);
+        assertEquals(8670554, coord.getX(), DIFF);
+        coord = result.get(1);
+        assertEquals(8670555, coord.getX(), DIFF);
     }
 }
