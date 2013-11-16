@@ -4,6 +4,7 @@
 package de.science.hack;
 
 import java.util.List;
+import java.util.Map;
 import org.junit.Before;
 import org.junit.Test;
 import static org.junit.Assert.*;
@@ -28,14 +29,21 @@ public class WindDataReaderTest {
      */
     @Test
     public void testRead() {
-        String name = getClass().getResource("wind.txt").getFile();
-        List<StlCoordinate> result = classUnderTest.read(name);
+        String name = getClass().getResource("short.txt").getFile();
+        Map<String, List<StlCoordinate>> result = classUnderTest.read(name);
         assertNotNull(result);
         assertFalse(result.isEmpty());
-        assertEquals(12960, result.size());
-        StlCoordinate coord = result.get(0);
-        assertEquals(8670554, coord.getX(), DIFF);
-        coord = result.get(1);
-        assertEquals(8670555, coord.getX(), DIFF);
+        assertEquals(2, result.size());
+        
+        for (Map.Entry<String, List<StlCoordinate>> entry : result.entrySet()) {
+            String key = entry.getKey();
+            assertNotNull(key);
+            assertFalse(key.isEmpty());
+            List<StlCoordinate> list = entry.getValue();
+            assertFalse(list.isEmpty());
+            StlCoordinate first = list.get(0);
+            assertTrue(first.getX() != 0.0);
+            
+        }
     }
 }
