@@ -25,7 +25,7 @@ public class WindDataReader {
         return new CSVReader(reader, ',');
     }
     
-    public List<String[]> read(String name){
+    private List<String[]> readString(String name){
         List<String[]> content = new ArrayList<>();
         try {
             CSVReader reader = createReader(name);
@@ -34,5 +34,11 @@ public class WindDataReader {
             Logger.getLogger(WindDataReader.class.getName()).log(Level.SEVERE, null, ex);
         }
         return content;
+    }
+    
+    public List<Stl> read(String name){
+        List<Stl> data = new ArrayList<>();
+        
+        return data;
     }
 }
