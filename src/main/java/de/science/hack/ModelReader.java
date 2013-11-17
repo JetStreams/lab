@@ -13,10 +13,12 @@ public class ModelReader {
     
     private STLReader reader = new STLReader();
     
-    public Mesh3D readEarth() {
+    public TriangleMesh readEarth() {
         URL resource = getClass().getResource("earth.stl");
         String file = resource.getFile();
-        return read(file);
+        TriangleMesh earth = (TriangleMesh)read(file);
+        float maxbefore = earth.getBoundingBox().getMax().x;
+        return earth.getScaled((float)CoordinatesConverter.RADIUS/maxbefore);
     }
 
     public Mesh3D read(String fileName) {

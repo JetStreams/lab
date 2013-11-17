@@ -39,7 +39,7 @@ public class ModelWriterTest {
         out.addMesh(source);
         
         float maxbefore = out.getBoundingBox().getMax().x;
-        out = out.getScaled(6378137/maxbefore);
+        out = out.getScaled((float)CoordinatesConverter.RADIUS/maxbefore);
         float maxafter = out.getBoundingBox().getMax().x;
         assertFalse(maxbefore == maxafter);
         

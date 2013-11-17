@@ -31,6 +31,6 @@ public class ModelReaderTest {
         assertNotNull(result);
         assertEquals(489882, result.getNumFaces());
         AABB box = result.getBoundingBox();
-        assertEquals(99.93, box.getMax().x, 0.1);
+        assertEquals(CoordinatesConverter.RADIUS, box.getMax().x, 0.1);
     }
 }
