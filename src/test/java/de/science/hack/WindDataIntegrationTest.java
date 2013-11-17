@@ -9,12 +9,7 @@ import java.util.SortedMap;
 import org.junit.Before;
 import org.junit.Test;
 
-import au.com.bytecode.opencsv.CSVReader;
-import au.com.bytecode.opencsv.CSVWriter;
 import static org.junit.Assert.*;
-import toxi.geom.Vec2D;
-import toxi.geom.Vec3D;
-import toxi.geom.mesh.Face;
 import toxi.geom.mesh.Mesh3D;
 import toxi.geom.mesh.TriangleMesh;
 
@@ -38,25 +33,6 @@ public class WindDataIntegrationTest {
         builder = new MeshBuilder();
         writer = new ModelWriter();
     }
-    
-   /*
-    @Test
-    public void testWindDataConversion() throws IOException {
-    	 String name = getClass().getResource("wind.txt").getFile();
-         List<StlCoordinate> windData = windDataReader.read(name);
-         String path = getClass().getResource(".").getFile();
-         File file = new File(path, "winddata-as-stlcordinates.csv");
-         CSVWriter csvWriter = new CSVWriter(new FileWriter(file));
-         for(StlCoordinate coordinate: windData) {
-        	 String xValue = ((Double) coordinate.getX()).toString();
-        	 String yValue = ((Double) coordinate.getY()).toString();			
-        	 String zValue = ((Double) coordinate.getZ()).toString();
-        	 String[] line = {xValue, yValue, zValue};
-        	 csvWriter.writeNext(line);
-         }
-         csvWriter.close();
-  
-    } */
 
     @Test
     public void testWindDataOutput() {
