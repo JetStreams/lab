@@ -36,9 +36,14 @@ public class WindDataReaderTest {
         assertFalse(keys.isEmpty());
         assertEquals(2, keys.size());
         
+        Float key = -100f;
         for (Map.Entry<Float,List<PointProjection>> entry : result.entrySet()) {
-            Float key = entry.getKey();
-            assertNotNull(key);
+            
+            Float currentKey = entry.getKey();
+            assertNotNull(currentKey);
+            assertTrue("expected increasing key", key < currentKey);
+            key = currentKey;
+            
             List<PointProjection> list = entry.getValue();
             assertFalse(list.isEmpty());
             PointProjection projection = list.get(0);
