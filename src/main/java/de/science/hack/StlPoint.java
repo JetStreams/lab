@@ -7,7 +7,7 @@ package de.science.hack;
 import javax.vecmath.Point3d;
 
 /**
- *
+ * A point in the STL world.
  * @author Mario
  */
 public class StlPoint extends Point3d{

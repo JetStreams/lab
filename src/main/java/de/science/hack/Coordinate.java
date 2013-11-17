@@ -6,7 +6,7 @@ package de.science.hack;
 import javax.vecmath.Point3d;
 
 /**
- * Represents longitude, latitude and altitude
+ * Represents longitude, latitude and altitude in real world.
  * @author Mario
  */
 public class Coordinate extends Point3d{
@@ -27,5 +27,7 @@ public class Coordinate extends Point3d{
         return z;
     }
     
-    
+    public void setAlt(double alt){
+        z = alt;
+    }
 }

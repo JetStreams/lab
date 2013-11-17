@@ -65,7 +65,9 @@ public class WindDataReader {
             List<StlPoint> stlCoordinates = new ArrayList<>();
             List<Coordinate> coordinates = group.find(key);
             for (Coordinate coord : coordinates) {
-                Coordinate groundCoord = new Coordinate(coord.getLon(), coord.getLat(), 0);
+                Coordinate groundCoord = (Coordinate)coord.clone();
+                groundCoord.setAlt(0.0);
+                
                 StlPoint coordForGround = CoordinatesConverter.toStl(groundCoord);
                 stlCoordinates.add(coordForGround);
                 StlPoint coordForWind = CoordinatesConverter.toStl(coord);
