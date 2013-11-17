@@ -3,24 +3,27 @@
  */
 package de.science.hack;
 
-import au.com.bytecode.opencsv.CSVReader;
-import ch.lambdaj.group.Group;
+import static ch.lambdaj.Lambda.by;
+import static ch.lambdaj.Lambda.group;
+import static ch.lambdaj.Lambda.on;
+import static java.lang.Double.parseDouble;
+import static java.lang.Float.parseFloat;
+import static java.lang.Math.abs;
+
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-
-import static java.lang.Double.parseDouble;
-import static java.lang.Float.parseFloat;
-import static java.lang.Math.abs;
-import static ch.lambdaj.Lambda.*;
 import java.util.Set;
 import java.util.SortedMap;
 import java.util.TreeMap;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
+import au.com.bytecode.opencsv.CSVReader;
+import ch.lambdaj.group.Group;
 
 /**
  *
@@ -80,5 +83,20 @@ public class WindDataReader {
         }
 
         return data;
+    }
+    
+    public List<ModellPoint> readOld(String name){
+    	List<ModellPoint> data = new ArrayList<>();
+    	List<String[]> content = readString(name);
+    	for (String[] cnt : content) {
+    		//we assume that the array length is 3
+    		double lon = parseDouble(cnt[0]);
+    		double lat = parseDouble(cnt[1]);
+    		double alt = abs(parseDouble(cnt[2]));
+    		Coordinate lla = new Coordinate(lon, lat, alt);
+    		data.add(CoordinatesConverter.toModel(lla));
+    	}
+
+    	return data;
     }
 }

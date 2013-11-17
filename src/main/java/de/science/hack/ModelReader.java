@@ -21,7 +21,7 @@ public class ModelReader {
         return earth.getScaled((float)CoordinatesConverter.RADIUS/maxbefore);
     }
 
-    public Mesh3D read(String fileName) {
+    Mesh3D read(String fileName) {
         return reader.loadBinary(fileName, STLReader.TRIANGLEMESH);
     }
 }

@@ -9,7 +9,7 @@ import java.io.FileOutputStream;
 import java.io.OutputStream;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import toxi.geom.mesh.*;
+import toxi.geom.mesh.TriangleMesh;
 
 /**
  *
