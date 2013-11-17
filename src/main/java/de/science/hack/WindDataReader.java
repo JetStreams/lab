@@ -30,6 +30,8 @@ import ch.lambdaj.group.Group;
  * @author Mario
  */
 public class WindDataReader {
+    
+    private static final int FAC = 40000;
 
     private CSVReader createReader(String name) throws FileNotFoundException {
         File file = new File(name);
@@ -55,7 +57,7 @@ public class WindDataReader {
             //we assume that the array length is 3
             double lon = parseDouble(cnt[0]);
             double lat = parseDouble(cnt[1]);
-            double alt = abs(parseDouble(cnt[2]));
+            double alt = abs(parseDouble(cnt[2])) * FAC;
             coordinates.add(new Coordinate(lon, lat, alt));
         }
         return group(coordinates, by(on(Coordinate.class).getLon()));
