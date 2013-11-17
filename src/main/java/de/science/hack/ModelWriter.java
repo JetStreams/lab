@@ -7,13 +7,10 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.OutputStream;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.LinkedList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import toxi.geom.*;
-import toxi.geom.mesh.*;
+
+import toxi.geom.mesh.TriangleMesh;
 
 /**
  *

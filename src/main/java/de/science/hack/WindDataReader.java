@@ -4,15 +4,20 @@
 package de.science.hack;
 
 import au.com.bytecode.opencsv.CSVReader;
+
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.Vector;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import toxi.geom.Vec2D;
 import static java.lang.Double.parseDouble;
 import static java.lang.Math.abs;
 
@@ -57,7 +62,7 @@ public class WindDataReader {
         List<StlCoordinate> coordinates = new ArrayList<>();
         List<LonLatAltCoordinate> realCoordinates = readCoordinates(name);
         for (LonLatAltCoordinate realCoord : realCoordinates) {
-            LonLatAltCoordinate groundCoord = new LonLatAltCoordinate(realCoord.getLon(), realCoord.getLat(), 0);
+            LonLatAltCoordinate groundCoord = new LonLatAltCoordinate(realCoord.getLon(), realCoord.getLat(), realCoord.getAlt() * 40000);
             StlCoordinate coordForGround = CoordinatesConverter.toStl(groundCoord);
             coordinates.add(coordForGround);
             StlCoordinate coordForWind = CoordinatesConverter.toStl(realCoord);

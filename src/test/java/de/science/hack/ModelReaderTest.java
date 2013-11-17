@@ -3,9 +3,12 @@
  */
 package de.science.hack;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+
 import org.junit.Before;
 import org.junit.Test;
-import static org.junit.Assert.*;
+
 import toxi.geom.AABB;
 import toxi.geom.mesh.Mesh3D;
 
@@ -33,4 +36,6 @@ public class ModelReaderTest {
         AABB box = result.getBoundingBox();
         assertEquals(99.93, box.getMax().x, 0.1);
     }
+    
+    
 }
