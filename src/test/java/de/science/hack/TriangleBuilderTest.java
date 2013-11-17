@@ -26,8 +26,7 @@ public class TriangleBuilderTest {
     public void setUp() {
         WindDataReader reader = new WindDataReader();
         String name = getClass().getResource("short.txt").getFile();
-//        stlCoordinates = reader.read(name);
-        
+        data = reader.read(name);
         classUnderTest = new TriangleBuilder();
     }
 
@@ -35,11 +34,10 @@ public class TriangleBuilderTest {
      * Test of build method, of class MeshConverter.
      */
     @Test
-    @Ignore
     public void testBuild() {
         List<Triangle3D> result = classUnderTest.build(data);
         assertNotNull(result);
         assertFalse(result.isEmpty());
-        assertFalse(result.size() == data.size());
+        assertEquals(24, result.size());
     }
 }
