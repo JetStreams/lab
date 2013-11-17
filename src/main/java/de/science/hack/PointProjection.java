@@ -7,22 +7,22 @@ package de.science.hack;
  * Represent a a radial vector from the sphere's surface to the wind data point.
  * @author Mario
  */
-public class StlPointProjection {
+public class PointProjection {
     
-    private StlPoint groundPoint;
+    private ModellPoint groundPoint;
     
-    private StlPoint dataPoint;
+    private ModellPoint dataPoint;
 
-    public StlPointProjection(StlPoint groundPoint, StlPoint dataPoint) {
+    public PointProjection(ModellPoint groundPoint, ModellPoint dataPoint) {
         this.groundPoint = groundPoint;
         this.dataPoint = dataPoint;
     }
 
-    public StlPoint getGroundPoint() {
+    public ModellPoint getGroundPoint() {
         return groundPoint;
     }
 
-    public StlPoint getDataPoint() {
+    public ModellPoint getDataPoint() {
         return dataPoint;
     }
     

@@ -16,16 +16,16 @@ public class CoordinatesConverterTest {
 
     @Test
     public void testToStl() {
-        StlPoint point = CoordinatesConverter.toStl(new Coordinate(0, 0, 0));
+        ModellPoint point = CoordinatesConverter.toModel(new Coordinate(0, 0, 0));
         assertNotNull(point);
         assertEquals(12756274.0, point.getX(), DIFF);
-        assertEquals(6378137.0, point.getY(), DIFF);
-        assertEquals(6378137.0, point.getZ(), DIFF);
+        assertEquals(CoordinatesConverter.RADIUS, point.getY(), DIFF);
+        assertEquals(CoordinatesConverter.RADIUS, point.getZ(), DIFF);
         
-        point = CoordinatesConverter.toStl(new Coordinate(-180, 0, 0));
+        point = CoordinatesConverter.toModel(new Coordinate(-180, 0, 0));
         assertNotNull(point);
         assertEquals(0.0, point.getX(), DIFF);
-        assertEquals(6378137.0, point.getY(), DIFF);
-        assertEquals(6378137.0, point.getZ(), DIFF);
+        assertEquals(CoordinatesConverter.RADIUS, point.getY(), DIFF);
+        assertEquals(CoordinatesConverter.RADIUS, point.getZ(), DIFF);
     }
 }

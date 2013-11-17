@@ -57,20 +57,20 @@ public class WindDataReader {
         return group(coordinates, by(on(Coordinate.class).getLon()));
     }
 
-    public Map<String, List<StlPoint>> read(String name) {
-        Map<String, List<StlPoint>> map = new HashMap<>();
+    public Map<String, List<ModellPoint>> read(String name) {
+        Map<String, List<ModellPoint>> map = new HashMap<>();
         Group<Coordinate> group = readCoordinates(name);
         Set<String> keys = group.keySet();
         for (String key : keys) {
-            List<StlPoint> stlCoordinates = new ArrayList<>();
+            List<ModellPoint> stlCoordinates = new ArrayList<>();
             List<Coordinate> coordinates = group.find(key);
             for (Coordinate coord : coordinates) {
                 Coordinate groundCoord = (Coordinate)coord.clone();
                 groundCoord.setAlt(0.0);
                 
-                StlPoint coordForGround = CoordinatesConverter.toStl(groundCoord);
+                ModellPoint coordForGround = CoordinatesConverter.toModel(groundCoord);
                 stlCoordinates.add(coordForGround);
-                StlPoint coordForWind = CoordinatesConverter.toStl(coord);
+                ModellPoint coordForWind = CoordinatesConverter.toModel(coord);
                 stlCoordinates.add(coordForWind);
             }
             map.put(key, stlCoordinates);

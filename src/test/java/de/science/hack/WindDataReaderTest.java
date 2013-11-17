@@ -15,8 +15,6 @@ import static org.junit.Assert.*;
  */
 public class WindDataReaderTest {
     
-    private static final double DIFF = 0.1;
-    
     private WindDataReader classUnderTest;
     
     @Before
@@ -30,20 +28,19 @@ public class WindDataReaderTest {
     @Test
     public void testRead() {
         String name = getClass().getResource("short.txt").getFile();
-        Map<String, List<StlPoint>> result = classUnderTest.read(name);
+        Map<String, List<ModellPoint>> result = classUnderTest.read(name);
         assertNotNull(result);
         assertFalse(result.isEmpty());
         assertEquals(2, result.size());
         
-        for (Map.Entry<String, List<StlPoint>> entry : result.entrySet()) {
+        for (Map.Entry<String, List<ModellPoint>> entry : result.entrySet()) {
             String key = entry.getKey();
             assertNotNull(key);
             assertFalse(key.isEmpty());
-            List<StlPoint> list = entry.getValue();
+            List<ModellPoint> list = entry.getValue();
             assertFalse(list.isEmpty());
-            StlPoint first = list.get(0);
+            ModellPoint first = list.get(0);
             assertTrue(first.getX() != 0.0);
-            
         }
     }
 }

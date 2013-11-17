@@ -14,13 +14,13 @@ import java.util.TreeMap;
  */
 public class WindData {
     
-    private Map<Float,List<StlPointProjection>> data = new TreeMap<>();
+    private Map<Float,List<PointProjection>> data = new TreeMap<>();
     
-    public void put(float lon, List<StlPointProjection> projections){
+    public void put(float lon, List<PointProjection> projections){
         data.put(lon, projections);
     }
     
-    public List<StlPointProjection> getProjections(float lon){
+    public List<PointProjection> getProjections(float lon){
         return data.get(lon);
     }
     
