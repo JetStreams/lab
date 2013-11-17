@@ -10,6 +10,7 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.SortedMap;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -40,6 +41,7 @@ public class WindDataIntegrationTest {
         modelReader = new ModelReader();
     }
     
+   /*
     @Test
     public void testWindDataConversion() throws IOException {
     	 String name = getClass().getResource("wind.txt").getFile();
@@ -56,51 +58,42 @@ public class WindDataIntegrationTest {
          }
          csvWriter.close();
   
-    }
+    } */
 
     @Test
     public void testWindDataOutput() { 
-   	 String windFile = getClass().getResource("wind.txt").getFile();
-     List<StlCoordinate> windData = windDataReader.read(windFile);
-     Map<Vec2D, Float> windDataAsMap = new HashMap<>();
-     
-     for(StlCoordinate coord: windData){
-    	 Vec2D xy = new Vec2D();
-    	 xy.x = (float) coord.getX();
-    	 xy.y = (float) coord.getY();
-    	 windDataAsMap.put(xy, (float) coord.getZ());
-     }
-    	
-    	Mesh3D mesh = modelReader.readEarth();
-        assertNotNull(mesh);
-        
-        TriangleMesh newMesh = new TriangleMesh();
-	   	newMesh.addMesh(mesh);
-	   	//TriangleMesh offers easier access to the faces, 
-	   	//unfortunately it is also significantly slower when adding faces
-	   	 
-	   	 for(int i = 0; i < newMesh.faces.size(); i++) {
-	   		 Face face = newMesh.faces.get(i);
-	   		 
-	   		 Vec3D cloudPoint = face.getCentroid();
-	   		 Vec2D lookupPoint = new Vec2D();
-	   		 lookupPoint.x = cloudPoint.x;
-	   		 lookupPoint.y = cloudPoint.y;
-	   		 if(windDataAsMap.get(lookupPoint) != null) {
-	   			 cloudPoint.z  += (windDataAsMap.get(lookupPoint)) * 1000;
-	   		 }
-	   		 mesh.addFace(cloudPoint, face.a, face.b);
-	   		 mesh.addFace(cloudPoint, face.b, face.c);
-	   		 mesh.addFace(cloudPoint,face.c, face.a);
-	   	 }
-	   	 
-	   	 mesh.computeFaceNormals();
+   	String windFile = getClass().getResource("short.txt").getFile();
+   	SortedMap<Float,List<PointProjection>> windData = windDataReader.read(windFile);
 
-	   	 String path = getClass().getResource(".").getFile();
-	   	 File outputFile = new File(path, "windy-earth.stl");
-	   	 TriangleMesh meshforWriting = new TriangleMesh();
-	   	 meshforWriting.addMesh(mesh);
-	     writer.write(outputFile, meshforWriting);
-	    }
+     Mesh3D mesh = modelReader.readEarth();
+     assertNotNull(mesh);
+
+     TriangleMesh newMesh = new TriangleMesh();
+     newMesh.addMesh(mesh);
+     //TriangleMesh offers easier access to the faces, 
+     //unfortunately it is also significantly slower when adding faces
+
+     for(int i = 0; i < newMesh.faces.size(); i++) {
+    	 Face face = newMesh.faces.get(i);
+
+    	 Vec3D cloudPoint = face.getCentroid();
+    	 Vec2D lookupPoint = new Vec2D();
+    	 lookupPoint.x = cloudPoint.x;
+    	 lookupPoint.y = cloudPoint.y;
+    	 System.out.println("LookupPoint:" + lookupPoint.toString());
+
+    	 mesh.addFace(cloudPoint, face.a, face.b);
+    	 mesh.addFace(cloudPoint, face.b, face.c);
+    	 mesh.addFace(cloudPoint,face.c, face.a);
+     }
+
+     mesh.computeFaceNormals();
+
+     String path = getClass().getResource(".").getFile();
+     File outputFile = new File(path, "windy-earth.stl");
+     TriangleMesh meshforWriting = new TriangleMesh();
+     meshforWriting.addMesh(mesh);
+     writer.write(outputFile, meshforWriting);
+    }
 
 }
