@@ -33,7 +33,7 @@ public class ModelReaderTest {
     public void testReadEarth() {
         Mesh3D result = classUnderTest.readEarth();
         assertNotNull(result);
-        assertEquals(489882, result.getNumFaces());
+        assertEquals(480335, result.getNumFaces());
         AABB box = result.getBoundingBox();
         assertFalse(box.getMax().x == 0.0);
     }

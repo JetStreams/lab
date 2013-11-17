@@ -1,13 +1,18 @@
 /*
- * Represents coordinates in ECEF, howeever the origin is not within the sphere
- * but in the lower left corner of a cube around the sphere.
+ * 
  */
 package de.science.hack;
 
 import javax.vecmath.Point3d;
 
 /**
- * A point in the model world.
+ * A point in the model world.<br/>
+ * Represents coordinates in ECEF, howeever the origin is not within the sphere
+ * but in the lower left corner of a cube around the sphere.
+ * 
+ * It is not really necessary but makes it clearer to separate real world and
+ * model coordinates.
+ * 
  * @author Mario
  */
 public class ModellPoint extends Point3d{
@@ -27,6 +32,4 @@ public class ModellPoint extends Point3d{
     public double getZ() {
         return z;
     }
-    
-    
 }

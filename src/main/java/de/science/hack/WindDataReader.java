@@ -26,11 +26,14 @@ import au.com.bytecode.opencsv.CSVReader;
 import ch.lambdaj.group.Group;
 
 /**
- *
+ * Reads the wind data from a CSV based file. The values in the file must be as 
+ * as a tripple of a longitude, latitude and wind speed per line separated by a 
+ * comma.
  * @author Mario
  */
 public class WindDataReader {
     
+    /* factor to exxagerate the value for the wind speed */
     private static final int FAC = 40000;
 
     private CSVReader createReader(String name) throws FileNotFoundException {
@@ -60,11 +63,13 @@ public class WindDataReader {
             double alt = abs(parseDouble(cnt[2])) * FAC;
             coordinates.add(new Coordinate(lon, lat, alt));
         }
+        //group coordinates by longitude
         return group(coordinates, by(on(Coordinate.class).getLon()));
     }
 
     public SortedMap<Float,List<PointProjection>> read(String name) {
         SortedMap<Float,List<PointProjection>> data = new TreeMap<>();
+        
         Group<Coordinate> group = readCoordinates(name);
         Set<String> keys = group.keySet();
         for (String key : keys) {
@@ -74,6 +79,7 @@ public class WindDataReader {
                 Coordinate groundCoord = (Coordinate)coord.clone();
                 groundCoord.setAlt(0.0);
                 
+                //create the line surface - data point
                 ModellPoint groundPoint = CoordinatesConverter.toModel(groundCoord);
                 ModellPoint dataPoint = CoordinatesConverter.toModel(coord);
                 PointProjection projection = new PointProjection(groundPoint, dataPoint);
@@ -83,20 +89,5 @@ public class WindDataReader {
         }
 
         return data;
-    }
-    
-    public List<ModellPoint> readOld(String name){
-    	List<ModellPoint> data = new ArrayList<>();
-    	List<String[]> content = readString(name);
-    	for (String[] cnt : content) {
-    		//we assume that the array length is 3
-    		double lon = parseDouble(cnt[0]);
-    		double lat = parseDouble(cnt[1]);
-    		double alt = abs(parseDouble(cnt[2]));
-    		Coordinate lla = new Coordinate(lon, lat, alt);
-    		data.add(CoordinatesConverter.toModel(lla));
-    	}
-
-    	return data;
     }
 }

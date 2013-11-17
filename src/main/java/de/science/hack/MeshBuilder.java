@@ -12,7 +12,7 @@ import toxi.geom.Vec3D;
 import toxi.geom.mesh.TriangleMesh;
 
 /**
- *
+ * This builder constructs the mesh for the wind data.
  * @author Mario
  */
 public class MeshBuilder {
@@ -29,6 +29,11 @@ public class MeshBuilder {
         return new Vec3D[]{toVec(point1), toVec(point2), toVec(point3)};
     }
 
+    /**
+     * creates two triangle based on the two projections
+     * @param projections
+     * @return 
+     */
     private List<Vec3D[]> creatTriangles(LinkedList<PointProjection> projections) {
         List<Vec3D[]> triangles = new ArrayList<>(2);
 
@@ -42,6 +47,7 @@ public class MeshBuilder {
         return triangles;
     }
 
+    //the next two projections
     private LinkedList<PointProjection> nextTuple(List<PointProjection> projections, int current) {
         LinkedList<PointProjection> tuple = new LinkedList<>();
         if (current < projections.size() - 1) {
@@ -51,6 +57,11 @@ public class MeshBuilder {
         return tuple;
     }
 
+    /**
+     * Creats a triangle mesh for the wind data.
+     * @param data as sorted map.
+     * @return 
+     */
     public TriangleMesh build(SortedMap<Float, List<PointProjection>> data) {
         
         TriangleMesh mesh = new TriangleMesh();
@@ -58,9 +69,11 @@ public class MeshBuilder {
         for (Entry<Float, List<PointProjection>> entry : data.entrySet()) {
             List<PointProjection> projections = entry.getValue();
             for (int i = 0, m = projections.size(); i < m; i++) {
+                //contains two projection or the four corners of a rectangle which is used to construct two triangles
                 LinkedList<PointProjection> tuple = nextTuple(projections, i);
                 List<Vec3D[]> faces = creatTriangles(tuple);
                 for (Vec3D[] face : faces) {
+                    //add a face, which is a triangle
                     mesh.addFace(face[FIRST], face[SECOND], face[THRIRD]);
                 }
             }

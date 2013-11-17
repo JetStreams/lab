@@ -12,11 +12,10 @@ import java.util.logging.Logger;
 import toxi.geom.mesh.TriangleMesh;
 
 /**
- *
+ * Writes the mesh to a file.
  * @author Mario
  */
 public class ModelWriter {
-
 
     public void write(File file, TriangleMesh mesh) {
         OutputStream stream;

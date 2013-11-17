@@ -4,7 +4,7 @@
 package de.science.hack;
 
 /**
- * Converter for lat, long & altitude <-> ECEF.
+ * Converter for lat, long & altitude -> ECEF.
  *
  * @author Mario
  */
@@ -13,7 +13,7 @@ public class CoordinatesConverter {
     /*
      * WGS84 ellipsoid constants Radius
      */
-    public static final double RADIUS = 6378137;
+    static final double RADIUS = 6378137;
     /*
      * eccentricity
      */

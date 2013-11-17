@@ -4,7 +4,7 @@
 package de.science.hack;
 
 /**
- * Represent a a radial vector from the sphere's surface to the wind data point.
+ * Represent a a radial line between the sphere's surface to the wind data point.
  * @author Mario
  */
 public class PointProjection {
@@ -18,10 +18,18 @@ public class PointProjection {
         this.dataPoint = dataPoint;
     }
 
+    /**
+     * Get the point on the surface.
+     * @return 
+     */
     public ModellPoint getGroundPoint() {
         return groundPoint;
     }
 
+    /**
+     * Get the actual data point.
+     * @return 
+     */
     public ModellPoint getDataPoint() {
         return dataPoint;
     }
