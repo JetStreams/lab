@@ -5,6 +5,7 @@ package de.science.hack;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import org.junit.Before;
 import org.junit.Test;
 import static org.junit.Assert.*;
@@ -28,19 +29,20 @@ public class WindDataReaderTest {
     @Test
     public void testRead() {
         String name = getClass().getResource("short.txt").getFile();
-        Map<String, List<ModellPoint>> result = classUnderTest.read(name);
+        WindData result = classUnderTest.read(name);
         assertNotNull(result);
-        assertFalse(result.isEmpty());
-        assertEquals(2, result.size());
+        Set<Float> keys = result.keySet();
+        assertFalse(keys.isEmpty());
+        assertEquals(2, keys.size());
         
-        for (Map.Entry<String, List<ModellPoint>> entry : result.entrySet()) {
-            String key = entry.getKey();
+        for (Map.Entry<Float,List<PointProjection>> entry : result.entrySet()) {
+            Float key = entry.getKey();
             assertNotNull(key);
-            assertFalse(key.isEmpty());
-            List<ModellPoint> list = entry.getValue();
+            List<PointProjection> list = entry.getValue();
             assertFalse(list.isEmpty());
-            ModellPoint first = list.get(0);
-            assertTrue(first.getX() != 0.0);
+            PointProjection projection = list.get(0);
+            assertNotNull(projection);
+            assertTrue(projection.getGroundPoint().getX() != 0.0);
         }
     }
 }

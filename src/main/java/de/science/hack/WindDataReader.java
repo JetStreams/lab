@@ -15,10 +15,9 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import static java.lang.Double.parseDouble;
+import static java.lang.Float.parseFloat;
 import static java.lang.Math.abs;
 import static ch.lambdaj.Lambda.*;
-import java.util.HashMap;
-import java.util.Map;
 import java.util.Set;
 
 /**
@@ -57,25 +56,25 @@ public class WindDataReader {
         return group(coordinates, by(on(Coordinate.class).getLon()));
     }
 
-    public Map<String, List<ModellPoint>> read(String name) {
-        Map<String, List<ModellPoint>> map = new HashMap<>();
+    public WindData read(String name) {
+        WindData data = new WindData();
         Group<Coordinate> group = readCoordinates(name);
         Set<String> keys = group.keySet();
         for (String key : keys) {
-            List<ModellPoint> stlCoordinates = new ArrayList<>();
+            List<PointProjection> projections = new ArrayList<>();
             List<Coordinate> coordinates = group.find(key);
             for (Coordinate coord : coordinates) {
                 Coordinate groundCoord = (Coordinate)coord.clone();
                 groundCoord.setAlt(0.0);
                 
-                ModellPoint coordForGround = CoordinatesConverter.toModel(groundCoord);
-                stlCoordinates.add(coordForGround);
-                ModellPoint coordForWind = CoordinatesConverter.toModel(coord);
-                stlCoordinates.add(coordForWind);
+                ModellPoint groundPoint = CoordinatesConverter.toModel(groundCoord);
+                ModellPoint dataPoint = CoordinatesConverter.toModel(coord);
+                PointProjection projection = new PointProjection(groundPoint, dataPoint);
+                projections.add(projection);
             }
-            map.put(key, stlCoordinates);
+            data.put(parseFloat(key), projections);
         }
 
-        return map;
+        return data;
     }
 }

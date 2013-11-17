@@ -14,11 +14,11 @@ import toxi.geom.Triangle3D;
  *
  * @author Mario
  */
-public class MeshBuilderTest {
+public class TriangleBuilderTest {
     
-    private List<ModellPoint> stlCoordinates;
+    private WindData data;
     
-    private MeshBuilder classUnderTest;
+    private TriangleBuilder classUnderTest;
     
     
     @Before
@@ -27,7 +27,7 @@ public class MeshBuilderTest {
         String name = getClass().getResource("short.txt").getFile();
 //        stlCoordinates = reader.read(name);
         
-        classUnderTest = new MeshBuilder();
+        classUnderTest = new TriangleBuilder();
     }
 
     /**
@@ -36,9 +36,9 @@ public class MeshBuilderTest {
     @Test
     @Ignore
     public void testBuild() {
-        List<Triangle3D> result = classUnderTest.build(stlCoordinates);
+        List<Triangle3D> result = classUnderTest.build(data);
         assertNotNull(result);
         assertFalse(result.isEmpty());
-        assertFalse(result.size() == stlCoordinates.size());
+        assertFalse(result.size() == data.size());
     }
 }
