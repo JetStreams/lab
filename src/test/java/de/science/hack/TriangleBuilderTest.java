@@ -4,6 +4,7 @@
 package de.science.hack;
 
 import java.util.List;
+import java.util.SortedMap;
 import org.junit.Before;
 import org.junit.Test;
 import static org.junit.Assert.*;
@@ -16,7 +17,7 @@ import toxi.geom.Triangle3D;
  */
 public class TriangleBuilderTest {
     
-    private WindData data;
+    private SortedMap<Float,List<PointProjection>> data;
     
     private TriangleBuilder classUnderTest;
     

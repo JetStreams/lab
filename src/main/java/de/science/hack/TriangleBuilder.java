@@ -5,6 +5,7 @@ package de.science.hack;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.SortedMap;
 import toxi.geom.Triangle3D;
 import toxi.geom.Vec3D;
 
@@ -31,7 +32,7 @@ public class TriangleBuilder {
     }
     
 
-    public List<Triangle3D> build(WindData data) {
+    public List<Triangle3D> build(SortedMap<Float,List<PointProjection>> data) {
         //at least the size of the wind data
         List<Triangle3D> triangles = new ArrayList<>(data.size());
         

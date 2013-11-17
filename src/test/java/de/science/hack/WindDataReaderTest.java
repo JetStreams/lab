@@ -6,6 +6,7 @@ package de.science.hack;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.SortedMap;
 import org.junit.Before;
 import org.junit.Test;
 import static org.junit.Assert.*;
@@ -29,7 +30,7 @@ public class WindDataReaderTest {
     @Test
     public void testRead() {
         String name = getClass().getResource("short.txt").getFile();
-        WindData result = classUnderTest.read(name);
+        SortedMap<Float,List<PointProjection>> result = classUnderTest.read(name);
         assertNotNull(result);
         Set<Float> keys = result.keySet();
         assertFalse(keys.isEmpty());

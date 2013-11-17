@@ -19,6 +19,8 @@ import static java.lang.Float.parseFloat;
 import static java.lang.Math.abs;
 import static ch.lambdaj.Lambda.*;
 import java.util.Set;
+import java.util.SortedMap;
+import java.util.TreeMap;
 
 /**
  *
@@ -56,8 +58,8 @@ public class WindDataReader {
         return group(coordinates, by(on(Coordinate.class).getLon()));
     }
 
-    public WindData read(String name) {
-        WindData data = new WindData();
+    public SortedMap<Float,List<PointProjection>> read(String name) {
+        SortedMap<Float,List<PointProjection>> data = new TreeMap<>();
         Group<Coordinate> group = readCoordinates(name);
         Set<String> keys = group.keySet();
         for (String key : keys) {
