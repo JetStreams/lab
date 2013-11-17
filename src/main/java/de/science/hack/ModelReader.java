@@ -16,9 +16,7 @@ public class ModelReader {
     public TriangleMesh readEarth() {
         URL resource = getClass().getResource("earth.stl");
         String file = resource.getFile();
-        TriangleMesh earth = (TriangleMesh)read(file);
-        float maxbefore = earth.getBoundingBox().getMax().x;
-        return earth.getScaled((float)CoordinatesConverter.RADIUS/maxbefore);
+        return (TriangleMesh)read(file);
     }
 
     Mesh3D read(String fileName) {

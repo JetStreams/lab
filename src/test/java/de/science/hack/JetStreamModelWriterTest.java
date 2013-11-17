@@ -4,53 +4,40 @@
 package de.science.hack;
 
 import java.io.File;
-import java.util.List;
-import java.util.SortedMap;
 import org.junit.Before;
 import org.junit.Test;
 
-import static org.junit.Assert.*;
 import toxi.geom.mesh.Mesh3D;
-import toxi.geom.mesh.TriangleMesh;
+import static org.junit.Assert.*;
 
 /**
  *
  * @author Mario
  */
-public class WindDataIntegrationTest {
+public class JetStreamModelWriterTest {
     
-    private SortedMap<Float,List<PointProjection>> windData;
-    private ModelReader modelReader;
-    private MeshBuilder builder;
-    private ModelWriter writer;
+    private JetStreamModelWriter classUnderTest;
+    
+    private ModelReader reader;
 
     @Before
     public void setUp() {
-        String name = getClass().getResource("wind.txt").getFile();
-        WindDataReader windDataReader = new WindDataReader();
-        windData = windDataReader.read(name);
-        modelReader = new ModelReader();
-        builder = new MeshBuilder();
-        writer = new ModelWriter();
+        classUnderTest = new JetStreamModelWriter();
+        reader = new ModelReader();
     }
 
     @Test
-    public void testWindDataOutput() {
-        TriangleMesh earth = modelReader.readEarth();
-        TriangleMesh wind = builder.build(windData);
+    public void testWrite() {
         
-        float facEarth = earth.getBoundingBox().getMax().x;
-        float facWind = wind.getBoundingBox().getMax().x;
-        
-        wind = wind.getScaled((float)(facEarth/facWind));
-        earth.addMesh(wind);
-       
+        String input = getClass().getResource("wind.txt").getFile();
         String path = getClass().getResource(".").getFile();
         File file = new File(path, "jetstreams.stl");
-        writer.write(file, earth);
+        
+        classUnderTest.write(input, file.getPath());
+
         assertTrue(file.exists());
         
-        Mesh3D exported = modelReader.read(file.getPath());
+        Mesh3D exported = reader.read(file.getPath());
         assertNotNull(exported);
     }
 

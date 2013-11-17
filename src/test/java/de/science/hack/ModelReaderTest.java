@@ -5,6 +5,7 @@ package de.science.hack;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertFalse;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -34,7 +35,7 @@ public class ModelReaderTest {
         assertNotNull(result);
         assertEquals(489882, result.getNumFaces());
         AABB box = result.getBoundingBox();
-        assertEquals(CoordinatesConverter.RADIUS, box.getMax().x, 0.1);
+        assertFalse(box.getMax().x == 0.0);
     }
     
     

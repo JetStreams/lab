@@ -38,11 +38,6 @@ public class ModelWriterTest {
         TriangleMesh out = new TriangleMesh();
         out.addMesh(source);
         
-        float maxbefore = out.getBoundingBox().getMax().x;
-        out = out.getScaled((float)CoordinatesConverter.RADIUS/maxbefore);
-        float maxafter = out.getBoundingBox().getMax().x;
-        assertFalse(maxbefore == maxafter);
-        
         String path = getClass().getResource(".").getFile();
         File file = new File(path, "out.stl");
         classUnderTest.write(file, out);
