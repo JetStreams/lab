@@ -82,4 +82,19 @@ public class WindDataReader {
 
         return data;
     }
+    
+    public List<ModellPoint> readOld(String name){
+    	List<ModellPoint> data = new ArrayList<>();
+    	List<String[]> content = readString(name);
+    	for (String[] cnt : content) {
+    		//we assume that the array length is 3
+    		double lon = parseDouble(cnt[0]);
+    		double lat = parseDouble(cnt[1]);
+    		double alt = abs(parseDouble(cnt[2]));
+    		Coordinate lla = new Coordinate(lon, lat, alt);
+    		data.add(CoordinatesConverter.toModel(lla));
+    	}
+
+    	return data;
+    }
 }

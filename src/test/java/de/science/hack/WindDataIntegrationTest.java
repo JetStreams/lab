@@ -49,10 +49,10 @@ public class WindDataIntegrationTest {
          String path = getClass().getResource(".").getFile();
          File file = new File(path, "winddata-as-stlcordinates.csv");
          CSVWriter csvWriter = new CSVWriter(new FileWriter(file));
-         for(StlCoordinate cordinate: windData) {
-        	 String xValue = ((Double) cordinate.getX()).toString();
-        	 String yValue = ((Double) cordinate.getY()).toString();			
-        	 String zValue = ((Double) cordinate.getZ()).toString();
+         for(StlCoordinate coordinate: windData) {
+        	 String xValue = ((Double) coordinate.getX()).toString();
+        	 String yValue = ((Double) coordinate.getY()).toString();			
+        	 String zValue = ((Double) coordinate.getZ()).toString();
         	 String[] line = {xValue, yValue, zValue};
         	 csvWriter.writeNext(line);
          }
@@ -62,8 +62,8 @@ public class WindDataIntegrationTest {
 
     @Test
     public void testWindDataOutput() { 
-   	String windFile = getClass().getResource("short.txt").getFile();
-   	SortedMap<Float,List<PointProjection>> windData = windDataReader.read(windFile);
+   	String windFile = getClass().getResource("wind.txt").getFile();
+   	List<ModellPoint> windData = windDataReader.readOld(windFile);
 
      Mesh3D mesh = modelReader.readEarth();
      assertNotNull(mesh);
@@ -77,10 +77,7 @@ public class WindDataIntegrationTest {
     	 Face face = newMesh.faces.get(i);
 
     	 Vec3D cloudPoint = face.getCentroid();
-    	 Vec2D lookupPoint = new Vec2D();
-    	 lookupPoint.x = cloudPoint.x;
-    	 lookupPoint.y = cloudPoint.y;
-    	 System.out.println("LookupPoint:" + lookupPoint.toString());
+
 
     	 mesh.addFace(cloudPoint, face.a, face.b);
     	 mesh.addFace(cloudPoint, face.b, face.c);
