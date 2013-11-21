@@ -1,5 +1,8 @@
 /*
- * 
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version. 
  */
 package de.science.hack;
 
@@ -25,7 +28,7 @@ public class MeshBuilderTest {
     @Before
     public void setUp() {
         WindDataReader reader = new WindDataReader();
-        String name = getClass().getResource("short.txt").getFile();
+        String name = getClass().getResource("unit/short.txt").getFile();
         data = reader.read(name);
         classUnderTest = new MeshBuilder();
     }

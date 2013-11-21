@@ -1,5 +1,8 @@
 /*
- * 
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version. 
  */
 package de.science.hack;
 
@@ -66,7 +69,7 @@ public class WindDataReader {
         //group coordinates by longitude
         return group(coordinates, by(on(Coordinate.class).getLon()));
     }
-
+    
     public SortedMap<Float,List<PointProjection>> read(String name) {
         SortedMap<Float,List<PointProjection>> data = new TreeMap<>();
         
