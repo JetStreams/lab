@@ -18,9 +18,9 @@ import javax.vecmath.Point3d;
  * 
  * @author Mario
  */
-public class ModellPoint extends Point3d{
+public class ModelPoint extends Point3d{
 
-    public ModellPoint(double x, double y, double z) {
+    public ModelPoint(double x, double y, double z) {
         super(x, y ,z);
     }
 

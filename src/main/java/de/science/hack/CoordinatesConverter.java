@@ -26,7 +26,7 @@ public class CoordinatesConverter {
     private CoordinatesConverter() {
     }
 
-    public static ModellPoint toModel(Coordinate lla) {
+    public static ModelPoint toModel(Coordinate lla) {
         double lat = Math.toRadians(lla.getLat());
         double lon = Math.toRadians(lla.getLon());
         double alt = lla.getAlt();
@@ -41,7 +41,7 @@ public class CoordinatesConverter {
         y = Math.round(RADIUS + y);
         z = Math.round(RADIUS + z);
         
-        return new ModellPoint(x, y, z);
+        return new ModelPoint(x, y, z);
     }
     
 }

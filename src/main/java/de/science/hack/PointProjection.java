@@ -12,11 +12,11 @@ package de.science.hack;
  */
 public class PointProjection {
     
-    private ModellPoint groundPoint;
+    private ModelPoint groundPoint;
     
-    private ModellPoint dataPoint;
+    private ModelPoint dataPoint;
 
-    public PointProjection(ModellPoint groundPoint, ModellPoint dataPoint) {
+    public PointProjection(ModelPoint groundPoint, ModelPoint dataPoint) {
         this.groundPoint = groundPoint;
         this.dataPoint = dataPoint;
     }
@@ -25,7 +25,7 @@ public class PointProjection {
      * Get the point on the surface.
      * @return 
      */
-    public ModellPoint getGroundPoint() {
+    public ModelPoint getGroundPoint() {
         return groundPoint;
     }
 
@@ -33,7 +33,7 @@ public class PointProjection {
      * Get the actual data point.
      * @return 
      */
-    public ModellPoint getDataPoint() {
+    public ModelPoint getDataPoint() {
         return dataPoint;
     }
     

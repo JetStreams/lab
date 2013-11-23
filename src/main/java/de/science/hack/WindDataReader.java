@@ -83,8 +83,8 @@ public class WindDataReader {
                 groundCoord.setAlt(0.0);
                 
                 //create the line surface - data point
-                ModellPoint groundPoint = CoordinatesConverter.toModel(groundCoord);
-                ModellPoint dataPoint = CoordinatesConverter.toModel(coord);
+                ModelPoint groundPoint = CoordinatesConverter.toModel(groundCoord);
+                ModelPoint dataPoint = CoordinatesConverter.toModel(coord);
                 PointProjection projection = new PointProjection(groundPoint, dataPoint);
                 projections.add(projection);
             }

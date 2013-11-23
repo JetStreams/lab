@@ -24,11 +24,11 @@ public class MeshBuilder {
     private static final int SECOND = 1;
     private static final int THRIRD = 2;
 
-    private Vec3D toVec(ModellPoint point) {
+    private Vec3D toVec(ModelPoint point) {
         return new Vec3D((float) point.getX(), (float) point.getY(), (float) point.getZ());
     }
 
-    private Vec3D[] createTriangle(ModellPoint point1, ModellPoint point2, ModellPoint point3) {
+    private Vec3D[] createTriangle(ModelPoint point1, ModelPoint point2, ModelPoint point3) {
         return new Vec3D[]{toVec(point1), toVec(point2), toVec(point3)};
     }
 
@@ -37,7 +37,7 @@ public class MeshBuilder {
      * @param projections
      * @return 
      */
-    private List<Vec3D[]> creatTriangles(LinkedList<PointProjection> projections) {
+    private List<Vec3D[]> createTriangles(LinkedList<PointProjection> projections) {
         List<Vec3D[]> triangles = new ArrayList<>(2);
 
         if (!projections.isEmpty()) {
@@ -74,7 +74,7 @@ public class MeshBuilder {
             for (int i = 0, m = projections.size(); i < m; i++) {
                 //contains two projection or the four corners of a rectangle which is used to construct two triangles
                 LinkedList<PointProjection> tuple = nextTuple(projections, i);
-                List<Vec3D[]> faces = creatTriangles(tuple);
+                List<Vec3D[]> faces = createTriangles(tuple);
                 for (Vec3D[] face : faces) {
                     //add a face, which is a triangle
                     mesh.addFace(face[FIRST], face[SECOND], face[THRIRD]);

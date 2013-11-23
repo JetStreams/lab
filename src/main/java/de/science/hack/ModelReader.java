@@ -7,7 +7,6 @@
 package de.science.hack;
 
 import java.io.InputStream;
-import java.net.URL;
 import toxi.geom.mesh.*;
 
 /**

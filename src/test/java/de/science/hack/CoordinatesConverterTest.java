@@ -19,7 +19,7 @@ public class CoordinatesConverterTest {
 
     @Test
     public void testToStl() {
-        ModellPoint point = CoordinatesConverter.toModel(new Coordinate(0, 0, 0));
+        ModelPoint point = CoordinatesConverter.toModel(new Coordinate(0, 0, 0));
         assertNotNull(point);
         assertEquals(12756274.0, point.getX(), DIFF);
         assertEquals(CoordinatesConverter.RADIUS, point.getY(), DIFF);
