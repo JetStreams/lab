@@ -6,6 +6,7 @@
  */
 package de.science.hack;
 
+import java.io.InputStream;
 import java.net.URL;
 import toxi.geom.mesh.*;
 
@@ -14,6 +15,7 @@ import toxi.geom.mesh.*;
  * @author Mario
  */
 public class ModelReader {
+    private static final String EARTH = "earth.stl";
     
     private STLReader reader = new STLReader();
     
@@ -22,9 +24,8 @@ public class ModelReader {
      * @return 
      */
     public TriangleMesh readEarth() {
-        URL resource = getClass().getResource("earth.stl");
-        String file = resource.getFile();
-        return (TriangleMesh)read(file);
+        InputStream stream = getClass().getResourceAsStream(EARTH);
+        return (TriangleMesh)reader.loadBinary(stream, EARTH, STLReader.TRIANGLEMESH);
     }
 
     Mesh3D read(String fileName) {
