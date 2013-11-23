@@ -7,17 +7,18 @@
 package de.science.hack;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.Collection;
 import org.apache.commons.cli.CommandLine;
 import org.apache.commons.cli.CommandLineParser;
 import org.apache.commons.cli.GnuParser;
 import org.apache.commons.cli.Option;
-import org.apache.commons.cli.OptionBuilder;
 import org.apache.commons.cli.Options;
 import org.apache.commons.cli.ParseException;
 import toxi.geom.mesh.TriangleMesh;
 
 import static org.apache.commons.io.FileUtils.listFiles;
+import static org.apache.commons.cli.OptionBuilder.*;
 
 /**
  * Entry point for the jetstreams models. <br/>
@@ -26,12 +27,8 @@ import static org.apache.commons.io.FileUtils.listFiles;
  * @author Mario
  */
 public class Main {
-    private static final String I = "i";
-    private static final String O = "o";
-    private static final String IN = "input";
-    private static final String OUT = "output";
-    private static final String INPUT_DESC = "Folder with the wind data.";
-    private static final String OUTPUT_DESC = "Full path of the output.";
+
+    private static final String[] EXT = new String[]{"txt", "csv"};
     private static final String DEFAULT_OUT = "model.stl";
 
     private CommandLineParser parser;
@@ -43,14 +40,17 @@ public class Main {
     public Main() {
         parser = new GnuParser();
         
-        Option optionInput = OptionBuilder.withArgName(IN).hasArg().withDescription(INPUT_DESC).isRequired(true).create(I);
-        Option optionOutput = OptionBuilder.withArgName(OUT).hasArg().withDescription(OUTPUT_DESC).create(O);
         options = new Options();
-        options.addOption(optionInput);
-        options.addOption(optionOutput);
+        options.addOption(buildOption(CliArg.D));
+        options.addOption(buildOption(CliArg.F));
+        options.addOption(buildOption(CliArg.O));
         
         windModelBuilder = new WindModelBuilder();
         jetStreamModelWriter = new JetStreamModelWriter();
+    }
+    
+    private Option buildOption(CliArg arg) {
+        return withArgName(arg.getLongKey()).hasArg().withDescription(arg.getDescription()).create(arg.getShortKey());
     }
 
     /**
@@ -61,9 +61,7 @@ public class Main {
     private void process(String [] args) throws ParseException {
         CommandLine commandLine = parser.parse(options, args);
         
-        String[] extensions = new String[]{"txt", "csv"};
-        File folder = new File(getInput(commandLine));
-        Collection<File> inputFiles = listFiles(folder, extensions, false);
+        Collection<File> inputFiles = getInputFiles(commandLine);
         for (File file : inputFiles) {
             TriangleMesh mesh = windModelBuilder.build(file);
             jetStreamModelWriter.addWindModel(mesh);
@@ -72,14 +70,19 @@ public class Main {
         jetStreamModelWriter.write(getOutput(commandLine));
     }
     
-    /**
-     * This method returns the input folder from the command line.
-     * @param commandLine
-     * @return 
-     */
-    private String getInput(CommandLine commandLine){
-        return commandLine.getOptionValue(I);
+    private Collection<File> getInputFiles(CommandLine commandLine){
+       Collection<File> files = new ArrayList<>();
+       if(commandLine.hasOption(CliArg.F.getShortKey())){
+           String fileName = commandLine.getOptionValue(CliArg.F.getShortKey());
+           files.add(new File(fileName));
+       }else if(commandLine.hasOption(CliArg.D.getShortKey())){
+           String dirName = commandLine.getOptionValue(CliArg.D.getShortKey());
+           File directory = new File(dirName);
+           files.addAll(listFiles(directory, EXT, false));
+       }
+       return files;
     }
+ 
     
     /**
      * This method returns the output file from the command line.
@@ -87,7 +90,7 @@ public class Main {
      * @return 
      */
     private String getOutput(CommandLine commandLine){
-        String val = commandLine.getOptionValue(O);
+        String val = commandLine.getOptionValue(CliArg.O.getShortKey());
         return (val == null) ? getDefaultOut() : val;//return default if not provided
     }
 

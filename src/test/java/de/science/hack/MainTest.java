@@ -37,7 +37,7 @@ public class MainTest {
         File dataDirectory = new File(path).getParentFile();
         File out = new File(getClass().getResource(".").getPath(), "jetstreams.stl");
         
-        String [] arguments = new String[] {"-i", dataDirectory.getPath(), "-o", out.getPath()};
+        String [] arguments = new String[] {"-d", dataDirectory.getPath(), "-o", out.getPath()};
         Main.main(arguments);
         
         assertTrue(out.exists());
