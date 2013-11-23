@@ -70,13 +70,13 @@ public class WindDataReader {
         return group(coordinates, by(on(Coordinate.class).getLon()));
     }
     
-    public SortedMap<Float,List<PointProjection>> read(String name) {
-        SortedMap<Float,List<PointProjection>> data = new TreeMap<>();
+    public SortedMap<Float,List<Line>> read(String name) {
+        SortedMap<Float,List<Line>> data = new TreeMap<>();
         
         Group<Coordinate> group = readCoordinates(name);
         Set<String> keys = group.keySet();
         for (String key : keys) {
-            List<PointProjection> projections = new ArrayList<>();
+            List<Line> projections = new ArrayList<>();
             List<Coordinate> coordinates = group.find(key);
             for (Coordinate coord : coordinates) {
                 Coordinate groundCoord = (Coordinate)coord.clone();
@@ -85,7 +85,7 @@ public class WindDataReader {
                 //create the line surface - data point
                 ModelPoint groundPoint = CoordinatesConverter.toModel(groundCoord);
                 ModelPoint dataPoint = CoordinatesConverter.toModel(coord);
-                PointProjection projection = new PointProjection(groundPoint, dataPoint);
+                Line projection = new Line(groundPoint, dataPoint);
                 projections.add(projection);
             }
             data.put(parseFloat(key), projections);

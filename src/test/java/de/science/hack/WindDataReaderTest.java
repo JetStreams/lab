@@ -33,25 +33,25 @@ public class WindDataReaderTest {
     @Test
     public void testRead() {
         String name = getClass().getResource("unit/short.txt").getFile();
-        SortedMap<Float,List<PointProjection>> result = classUnderTest.read(name);
+        SortedMap<Float,List<Line>> result = classUnderTest.read(name);
         assertNotNull(result);
         Set<Float> keys = result.keySet();
         assertFalse(keys.isEmpty());
         assertEquals(2, keys.size());
         
         Float key = -100f;
-        for (Map.Entry<Float,List<PointProjection>> entry : result.entrySet()) {
+        for (Map.Entry<Float,List<Line>> entry : result.entrySet()) {
             
             Float currentKey = entry.getKey();
             assertNotNull(currentKey);
             assertTrue("expected increasing key", key < currentKey);
             key = currentKey;
             
-            List<PointProjection> list = entry.getValue();
+            List<Line> list = entry.getValue();
             assertFalse(list.isEmpty());
-            PointProjection projection = list.get(0);
+            Line projection = list.get(0);
             assertNotNull(projection);
-            assertTrue(projection.getGroundPoint().getX() != 0.0);
+            assertTrue(projection.getPoint1().getX() != 0.0);
         }
     }
 }

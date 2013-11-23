@@ -20,7 +20,7 @@ import toxi.geom.mesh.TriangleMesh;
  */
 public class MeshBuilderTest {
     
-    private SortedMap<Float,List<PointProjection>> data;
+    private SortedMap<Float,List<Line>> data;
     
     private MeshBuilder classUnderTest;
     

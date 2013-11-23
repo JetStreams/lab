@@ -7,6 +7,7 @@
 package de.science.hack;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map.Entry;
@@ -37,27 +38,93 @@ public class MeshBuilder {
      * @param projections
      * @return 
      */
-    private List<Vec3D[]> createTriangles(LinkedList<PointProjection> projections) {
+    private List<Vec3D[]> createTriangles(LinkedList<Line> projections) {
         List<Vec3D[]> triangles = new ArrayList<>(2);
 
         if (!projections.isEmpty()) {
-            PointProjection first = projections.getFirst();
-            PointProjection last = projections.getLast();
+            Line first = projections.getFirst();
+            Line last = projections.getLast();
 
-            triangles.add(createTriangle(first.getGroundPoint(), first.getDataPoint(), last.getGroundPoint()));
-            triangles.add(createTriangle(first.getDataPoint(), last.getGroundPoint(), last.getDataPoint()));
+            triangles.add(createTriangle(first.getPoint1(), first.getPoint2(), last.getPoint1()));
+            triangles.add(createTriangle(first.getPoint2(), last.getPoint1(), last.getPoint2()));
         }
         return triangles;
     }
 
+
     //the next two projections
-    private LinkedList<PointProjection> nextTuple(List<PointProjection> projections, int current) {
-        LinkedList<PointProjection> tuple = new LinkedList<>();
+    private LinkedList<Line> nextTuple(List<Line> projections, int current) {
+        LinkedList<Line> tuple = new LinkedList<>();
         if (current < projections.size() - 1) {
             tuple.add(projections.get(current));
             tuple.add(projections.get(current + 1));
         }
         return tuple;
+    }
+    
+    private void addFaces(TriangleMesh mesh, LinkedList<Line> tuple) {
+        List<Vec3D[]> faces = createTriangles(tuple);
+        for (Vec3D[] face : faces) {
+            //add a face, which is a triangle
+            mesh.addFace(face[FIRST], face[SECOND], face[THRIRD]);
+        }
+    }
+    
+    /**
+     * Adds faces to the mesh along the longitudes
+     * @param projections
+     * @param mesh 
+     */
+    private void addLongitudeFaces(TriangleMesh mesh, List<Line> projections) {
+        for (int i = 0, m = projections.size(); i < m; i++) {
+            //contains two projection or the four corners of a rectangle which is used to construct two triangles
+            LinkedList<Line> tuple = nextTuple(projections, i);
+            addFaces(mesh, tuple);
+        }
+    }
+    
+    /**
+     * Creates triangles along the latitudes. It assumes that both lists have the same length
+     * @param mesh
+     * @param previousProjections
+     * @param projections 
+     */
+    private void addLatitudeFaces(TriangleMesh mesh, List<Line> previousProjections, List<Line> projections) {
+        
+        Iterator<Line> itPrevious = previousProjections.iterator();
+        Iterator<Line> itCurrent = projections.iterator();
+        while(itPrevious.hasNext() && itCurrent.hasNext()){
+            Line projPrev = itPrevious.next();
+            Line projCurrent = itCurrent.next();
+            LinkedList<Line> tuple = new LinkedList<>();
+            tuple.add(projPrev);
+            tuple.add(projCurrent);
+            addFaces(mesh, tuple);
+        }
+    }
+    
+    /**
+     * Add triangles on top. It assumes that both lists have the same length
+     * @param mesh
+     * @param previousProjections
+     * @param projections 
+     */
+    private void addTopFaces(TriangleMesh mesh, List<Line> previousProjections, List<Line> projections) {
+        
+        for(int i = 0, m = projections.size() - 1; i < m; ){
+            
+            Line first = previousProjections.get(i);
+            Line second = projections.get(i);
+            i++;
+            Line third = previousProjections.get(i);
+            Line fourth = projections.get(i);
+            
+            LinkedList<Line> tuple = new LinkedList<>();
+            //ues only the the upper points, since we want to create more or less horizontal triangles
+            tuple.add(new Line(first.getPoint2(), second.getPoint2()));
+            tuple.add(new Line(third.getPoint2(), fourth.getPoint2()));
+            addFaces(mesh, tuple);
+        }
     }
 
     /**
@@ -65,21 +132,21 @@ public class MeshBuilder {
      * @param data as sorted map.
      * @return 
      */
-    public TriangleMesh build(SortedMap<Float, List<PointProjection>> data) {
+    public TriangleMesh build(SortedMap<Float, List<Line>> data) {
         
         TriangleMesh mesh = new TriangleMesh();
         //at least the size of the wind data
-        for (Entry<Float, List<PointProjection>> entry : data.entrySet()) {
-            List<PointProjection> projections = entry.getValue();
-            for (int i = 0, m = projections.size(); i < m; i++) {
-                //contains two projection or the four corners of a rectangle which is used to construct two triangles
-                LinkedList<PointProjection> tuple = nextTuple(projections, i);
-                List<Vec3D[]> faces = createTriangles(tuple);
-                for (Vec3D[] face : faces) {
-                    //add a face, which is a triangle
-                    mesh.addFace(face[FIRST], face[SECOND], face[THRIRD]);
-                }
+        List<Line> previousProjections = null;
+        for (Entry<Float, List<Line>> entry : data.entrySet()) {
+            List<Line> projections = entry.getValue();
+            
+            addLongitudeFaces(mesh, projections);
+            
+            if(previousProjections != null){
+                addLatitudeFaces(mesh, previousProjections, projections);
+                addTopFaces(mesh, previousProjections, projections);
             }
+            previousProjections = projections;
         }
         return mesh;
     }
