@@ -17,6 +17,7 @@ import toxi.geom.mesh.TriangleMesh;
 
 /**
  * This builder constructs the mesh for the wind data.
+ *
  * @author Mario
  */
 public class MeshBuilder {
@@ -35,8 +36,9 @@ public class MeshBuilder {
 
     /**
      * creates two triangle based on the two projections
+     *
      * @param projections
-     * @return 
+     * @return
      */
     private List<Vec3D[]> createTriangles(LinkedList<Line> projections) {
         List<Vec3D[]> triangles = new ArrayList<>(2);
@@ -51,7 +53,6 @@ public class MeshBuilder {
         return triangles;
     }
 
-
     //the next two projections
     private LinkedList<Line> nextTuple(List<Line> projections, int current) {
         LinkedList<Line> tuple = new LinkedList<>();
@@ -61,7 +62,7 @@ public class MeshBuilder {
         }
         return tuple;
     }
-    
+
     private void addFaces(TriangleMesh mesh, LinkedList<Line> tuple) {
         List<Vec3D[]> faces = createTriangles(tuple);
         for (Vec3D[] face : faces) {
@@ -69,11 +70,12 @@ public class MeshBuilder {
             mesh.addFace(face[FIRST], face[SECOND], face[THRIRD]);
         }
     }
-    
+
     /**
      * Adds faces to the mesh along the longitudes
+     *
      * @param projections
-     * @param mesh 
+     * @param mesh
      */
     private void addLongitudeFaces(TriangleMesh mesh, List<Line> projections) {
         for (int i = 0, m = projections.size(); i < m; i++) {
@@ -82,18 +84,20 @@ public class MeshBuilder {
             addFaces(mesh, tuple);
         }
     }
-    
+
     /**
-     * Creates triangles along the latitudes. It assumes that both lists have the same length
+     * Creates triangles along the latitudes. It assumes that both lists have
+     * the same length
+     *
      * @param mesh
      * @param previousProjections
-     * @param projections 
+     * @param projections
      */
     private void addLatitudeFaces(TriangleMesh mesh, List<Line> previousProjections, List<Line> projections) {
-        
+
         Iterator<Line> itPrevious = previousProjections.iterator();
         Iterator<Line> itCurrent = projections.iterator();
-        while(itPrevious.hasNext() && itCurrent.hasNext()){
+        while (itPrevious.hasNext() && itCurrent.hasNext()) {
             Line projPrev = itPrevious.next();
             Line projCurrent = itCurrent.next();
             LinkedList<Line> tuple = new LinkedList<>();
@@ -102,23 +106,24 @@ public class MeshBuilder {
             addFaces(mesh, tuple);
         }
     }
-    
+
     /**
      * Add triangles on top. It assumes that both lists have the same length
+     *
      * @param mesh
      * @param previousProjections
-     * @param projections 
+     * @param projections
      */
     private void addTopFaces(TriangleMesh mesh, List<Line> previousProjections, List<Line> projections) {
-        
-        for(int i = 0, m = projections.size() - 1; i < m; ){
-            
+
+        for (int i = 0, m = projections.size() - 1; i < m;) {
+
             Line first = previousProjections.get(i);
             Line second = projections.get(i);
             i++;
             Line third = previousProjections.get(i);
             Line fourth = projections.get(i);
-            
+
             LinkedList<Line> tuple = new LinkedList<>();
             //ues only the the upper points, since we want to create more or less horizontal triangles
             tuple.add(new Line(first.getPoint2(), second.getPoint2()));
@@ -129,24 +134,34 @@ public class MeshBuilder {
 
     /**
      * Creats a triangle mesh for the wind data.
+     *
      * @param data as sorted map.
-     * @return 
+     * @return
      */
     public TriangleMesh build(SortedMap<Float, List<Line>> data) {
-        
+
         TriangleMesh mesh = new TriangleMesh();
-        //at least the size of the wind data
-        List<Line> previousProjections = null;
-        for (Entry<Float, List<Line>> entry : data.entrySet()) {
-            List<Line> projections = entry.getValue();
-            
-            addLongitudeFaces(mesh, projections);
-            
-            if(previousProjections != null){
-                addLatitudeFaces(mesh, previousProjections, projections);
-                addTopFaces(mesh, previousProjections, projections);
+        if (!data.isEmpty()) {
+            //at least the size of the wind data
+            List<Line> previousProjections = null;
+            for (Entry<Float, List<Line>> entry : data.entrySet()) {
+                List<Line> currentProjections = entry.getValue();
+
+                addLongitudeFaces(mesh, currentProjections);
+
+                if (previousProjections != null) {
+                    addLatitudeFaces(mesh, previousProjections, currentProjections);
+                    addTopFaces(mesh, previousProjections, currentProjections);
+                }
+                previousProjections = currentProjections;
             }
-            previousProjections = projections;
+            //close mesh between first and last
+            Float firstLon = data.firstKey();
+            Float lastLon = data.lastKey();
+            if (firstLon != lastLon) {
+                addLatitudeFaces(mesh, data.get(firstLon), data.get(lastLon));
+                addTopFaces(mesh, data.get(firstLon), data.get(lastLon));
+            }
         }
         return mesh;
     }
