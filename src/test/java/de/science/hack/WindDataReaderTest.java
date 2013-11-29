@@ -32,7 +32,7 @@ public class WindDataReaderTest {
      */
     @Test
     public void testRead() {
-        String name = getClass().getResource("unit/short.txt").getFile();
+        String name = getClass().getResource("unit/north.txt").getFile();
         SortedMap<Float,List<Line>> result = classUnderTest.read(name);
         assertNotNull(result);
         Set<Float> keys = result.keySet();
