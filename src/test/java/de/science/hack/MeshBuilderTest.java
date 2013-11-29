@@ -20,25 +20,37 @@ import toxi.geom.mesh.TriangleMesh;
  */
 public class MeshBuilderTest {
     
-    private SortedMap<Float,List<Line>> data;
-    
     private MeshBuilder classUnderTest;
-    
     
     @Before
     public void setUp() {
-        WindDataReader reader = new WindDataReader();
-        String name = getClass().getResource("unit/short.txt").getFile();
-        data = reader.read(name);
         classUnderTest = new MeshBuilder();
+    }
+    
+    private SortedMap<Float,List<Line>> readData(String res) {
+        WindDataReader reader = new WindDataReader();
+        String name = getClass().getResource(res).getFile();
+        return reader.read(name);
     }
 
     /**
      * Test of build method, of class MeshConverter.
      */
     @Test
-    public void testBuild() {
-        TriangleMesh result = classUnderTest.build(data);
+    public void testBuildNorth() {
+        TriangleMesh result = classUnderTest.build(readData("unit/north.txt"));
+        assertNotNull(result);
+        assertFalse(result.getFaces().isEmpty());
+        AABB box = result.getBoundingBox();
+        assertFalse(box.getMax().x == 0);
+    }
+    
+    /**
+     * Test of build method, of class MeshConverter.
+     */
+    @Test
+    public void testBuildSouth() {
+        TriangleMesh result = classUnderTest.build(readData("unit/south.txt"));
         assertNotNull(result);
         assertFalse(result.getFaces().isEmpty());
         AABB box = result.getBoundingBox();
