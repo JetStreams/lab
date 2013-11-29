@@ -37,9 +37,9 @@ public class CoordinatesConverter {
         double y = (N + alt) * Math.cos(lat) * Math.sin(lon);
         double z = ((1 - esq) * N + alt) * Math.sin(lat);
         
-        x = Math.round(RADIUS + x);
-        y = Math.round(RADIUS + y);
-        z = Math.round(RADIUS + z);
+        x = RADIUS + x;
+        y = RADIUS + y;
+        z = RADIUS + z;
         
         return new ModelPoint(x, y, z);
     }
