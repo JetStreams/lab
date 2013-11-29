@@ -42,10 +42,10 @@ public class JetStreamModelWriter {
 
         TriangleMesh earth = modelReader.readEarth();
         float facEarth = earth.getBoundingBox().getMax().x;
+        float scaling = (float)CoordinatesConverter.RADIUS/facEarth;
+        earth = earth.getScaled(scaling-1000);
         
         for (TriangleMesh wind : windModels) {
-            float facWind = wind.getBoundingBox().getMax().x;
-            wind = wind.getScaled((float) (facEarth / facWind));
             earth.addMesh(wind);
         }
 

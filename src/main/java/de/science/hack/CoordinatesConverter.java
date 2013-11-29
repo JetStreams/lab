@@ -31,15 +31,15 @@ public class CoordinatesConverter {
         double lon = Math.toRadians(lla.getLon());
         double alt = lla.getAlt();
 
-        double N = RADIUS / Math.sqrt(1 - esq * Math.pow(Math.sin(lat), 2));
+//        double N = RADIUS / Math.sqrt(1 - esq * Math.pow(Math.sin(lat), 2));
 
-        double x = (N + alt) * Math.cos(lat) * Math.cos(lon);
-        double y = (N + alt) * Math.cos(lat) * Math.sin(lon);
-        double z = ((1 - esq) * N + alt) * Math.sin(lat);
+        double x = RADIUS * Math.cos(lat) * Math.cos(lon);
+        double y = RADIUS * Math.cos(lat) * Math.sin(lon);
+        double z = (RADIUS + alt) * Math.sin(lat);
         
-        x = RADIUS + x;
-        y = RADIUS + y;
-        z = RADIUS + z;
+//        x = RADIUS + x;
+//        y = RADIUS + y;
+//        z = RADIUS + z;
         
         return new ModelPoint(x, y, z);
     }

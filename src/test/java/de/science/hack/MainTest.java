@@ -33,10 +33,10 @@ public class MainTest {
         
         TriangleMesh meshBefore = reader.readEarth();
         
-        File dataFile = new File(getClass().getResource("wind.txt").getFile());
+        File dataFile = new File(getClass().getResource("wind_down.txt").getFile());
         File out = new File(getClass().getResource(".").getPath(), "jetstreams.stl");
         
-        String [] arguments = new String[] {"-f", dataFile.getPath(), "-o", out.getPath()};
+        String [] arguments = new String[] {"-d", dataFile.getParent(), "-o", out.getPath()};
         Main.main(arguments);
         
         assertTrue(out.exists());
