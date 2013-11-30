@@ -33,7 +33,7 @@ public class MainTest {
         
         TriangleMesh meshBefore = reader.readEarth();
         
-        File dataFile = new File(getClass().getResource("wind_down.txt").getFile());
+        File dataFile = new File(getClass().getResource("wind.txt").getFile());
         File out = new File(getClass().getResource(".").getPath(), "jetstreams.stl");
         
         String [] arguments = new String[] {"-d", dataFile.getParent(), "-o", out.getPath()};

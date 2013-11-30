@@ -14,6 +14,13 @@ import toxi.geom.mesh.*;
  * @author Mario
  */
 public class ModelReader {
+    
+    /**
+     * reduces the scaling factor so that the jet stream on the model
+     * don't dissapear
+     */
+    private static final int REDUCE = 1000;
+    
     private static final String EARTH = "earth.stl";
     
     private STLReader reader = new STLReader();
@@ -24,7 +31,10 @@ public class ModelReader {
      */
     public TriangleMesh readEarth() {
         InputStream stream = getClass().getResourceAsStream(EARTH);
-        return (TriangleMesh)reader.loadBinary(stream, EARTH, STLReader.TRIANGLEMESH);
+        TriangleMesh earth = (TriangleMesh)reader.loadBinary(stream, EARTH, STLReader.TRIANGLEMESH);
+        float facEarth = earth.getBoundingBox().getMax().x;
+        float scaling = (float)CoordinatesConverter.RADIUS/facEarth;
+        return earth.getScaled(scaling-REDUCE);
     }
 
     Mesh3D read(String fileName) {

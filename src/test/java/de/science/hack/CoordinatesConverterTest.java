@@ -25,18 +25,18 @@ public class CoordinatesConverterTest {
      * simple test from coordinate to xyz-point
      */
     @Test
-    public void testToStl() {
+    public void testToModel() {
         ModelPoint point = CoordinatesConverter.toModel(new Coordinate(0, 0, 0));
         assertNotNull(point);
-        assertEquals(12756274.0, point.getX(), DIFF);
-        assertEquals(CoordinatesConverter.RADIUS, point.getY(), DIFF);
-        assertEquals(CoordinatesConverter.RADIUS, point.getZ(), DIFF);
+        assertEquals(CoordinatesConverter.RADIUS, point.getX(), DIFF);
+        assertEquals(0.0, point.getY(), DIFF);
+        assertEquals(0.0, point.getZ(), DIFF);
 
         point = CoordinatesConverter.toModel(new Coordinate(-180, 0, 0));
         assertNotNull(point);
-        assertEquals(0.0, point.getX(), DIFF);
-        assertEquals(CoordinatesConverter.RADIUS, point.getY(), DIFF);
-        assertEquals(CoordinatesConverter.RADIUS, point.getZ(), DIFF);
+        assertEquals(-CoordinatesConverter.RADIUS, point.getX(), DIFF);
+        assertEquals(0.0, point.getY(), DIFF);
+        assertEquals(0.0, point.getZ(), DIFF);
     }
 
     /**
@@ -50,11 +50,12 @@ public class CoordinatesConverterTest {
         File file = new File(path, "dump.txt");
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(file))) {
 
-            for (int i = 0; i < 360; i++) {
+            for (int i = 0; i < 180; i++) {
                 ModelPoint point1 = CoordinatesConverter.toModel(new Coordinate(0, i, 0));
                 assertNotNull(point1);
-                ModelPoint point2 = CoordinatesConverter.toModel(new Coordinate(180, 360 - i, 0));
+                ModelPoint point2 = CoordinatesConverter.toModel(new Coordinate(180, 180 + i, 0));
                 assertNotNull(point2);
+                assertFalse(point1.distance(point2) == 0);
 
                 writer.write(strip(point1));
                 writer.newLine();

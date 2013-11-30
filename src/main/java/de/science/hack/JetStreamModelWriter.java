@@ -17,7 +17,7 @@ import toxi.geom.mesh.TriangleMesh;
  * @author Mario
  */
 public class JetStreamModelWriter {
-
+    
     private ModelReader modelReader;
     private ModelWriter writer;
     private List<TriangleMesh> windModels;
@@ -41,9 +41,6 @@ public class JetStreamModelWriter {
     public void write(String outputFile) {
 
         TriangleMesh earth = modelReader.readEarth();
-        float facEarth = earth.getBoundingBox().getMax().x;
-        float scaling = (float)CoordinatesConverter.RADIUS/facEarth;
-        earth = earth.getScaled(scaling-1000);
         
         for (TriangleMesh wind : windModels) {
             earth.addMesh(wind);

@@ -7,7 +7,9 @@
 package de.science.hack;
 
 /**
- * Converter for lat, long & altitude -> ECEF.
+ * Converter for lat, long & altitude into to spherical coordinates.<br/>
+ * We don't need eccentricity since our earth model is simply a sphere and not a 
+ * geoid.
  *
  * @author Mario
  */
@@ -17,11 +19,6 @@ public class CoordinatesConverter {
      * WGS84 ellipsoid constants Radius
      */
     static final double RADIUS = 6378137;
-    /*
-     * eccentricity
-     */
-    private static final double e = 8.1819190842622e-2;
-    private static final double esq = Math.pow(e, 2);
 
     private CoordinatesConverter() {
     }
@@ -31,17 +28,10 @@ public class CoordinatesConverter {
         double lon = Math.toRadians(lla.getLon());
         double alt = lla.getAlt();
 
-//        double N = RADIUS / Math.sqrt(1 - esq * Math.pow(Math.sin(lat), 2));
-
         double x = RADIUS * Math.cos(lat) * Math.cos(lon);
         double y = RADIUS * Math.cos(lat) * Math.sin(lon);
         double z = (RADIUS + alt) * Math.sin(lat);
         
-//        x = RADIUS + x;
-//        y = RADIUS + y;
-//        z = RADIUS + z;
-        
         return new ModelPoint(x, y, z);
     }
-    
 }
