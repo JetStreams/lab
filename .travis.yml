@@ -1,0 +1,7 @@
+language: java
+script: gradle check --info
+after_failure:
+  - "cat ./build/test-results/*.xml"
+jdk:
+  - oraclejdk7  
+
