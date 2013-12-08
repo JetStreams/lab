@@ -26,3 +26,5 @@ build.xml
 /gradle_localOverride.cmd
 /gradlew_updateWrapper.cmd
 /gradlew_repairHeaders.cmd
+!/src/main/java/de/science/hack/build/
+!/src/test/java/de/science/hack/build/
