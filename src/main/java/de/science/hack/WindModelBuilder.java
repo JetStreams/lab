@@ -6,6 +6,7 @@
  */
 package de.science.hack;
 
+import de.science.hack.build.MeshBuilder;
 import java.io.File;
 import toxi.geom.mesh.TriangleMesh;
 
