@@ -41,17 +41,17 @@ public class MeshBuilder {
         TriangleMesh mesh = new TriangleMesh();
         if (!data.isEmpty()) {
             //at least the size of the wind data
-            List<Line> previousProjections = null;
+            List<Line> previousLines = null;
             for (Entry<Float, List<Line>> entry : data.entrySet()) {
-                List<Line> currentProjections = entry.getValue();
+                List<Line> currentLines = entry.getValue();
 
-                longitudeFaceBuilder.build(mesh, currentProjections);
+                longitudeFaceBuilder.build(mesh, currentLines);
 
-                if (previousProjections != null) {
-                    latitudeFaceBuilder.build(mesh, previousProjections, currentProjections);
-                    topFaceBuilder.build(mesh, previousProjections, currentProjections);
+                if (previousLines != null) {
+                    latitudeFaceBuilder.build(mesh, previousLines, currentLines);
+                    topFaceBuilder.build(mesh, previousLines, currentLines);
                 }
-                previousProjections = currentProjections;
+                previousLines = currentLines;
             }
             
             //close mesh between first and last
