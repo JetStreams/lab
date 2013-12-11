@@ -4,7 +4,7 @@
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version. 
  */
-package de.science.hack.build;
+package de.science.hack.meshbuilding;
 
 import de.science.hack.Line;
 import java.util.List;
@@ -18,17 +18,6 @@ import toxi.geom.mesh.TriangleMesh;
  * @author Mario
  */
 public class MeshBuilder {
-    
-    private LatitudeFaceBuilder latitudeFaceBuilder;
-    private LongitudeFaceBuilder longitudeFaceBuilder;
-    private TopFaceBuilder topFaceBuilder;
-
-
-    public MeshBuilder() {
-        latitudeFaceBuilder = new LatitudeFaceBuilder();
-        longitudeFaceBuilder = new LongitudeFaceBuilder();
-        topFaceBuilder = new TopFaceBuilder();
-    }
 
     /**
      * Creats a triangle mesh for the wind data.
@@ -40,12 +29,17 @@ public class MeshBuilder {
 
         TriangleMesh mesh = new TriangleMesh();
         if (!data.isEmpty()) {
+            LatitudeFaceBuilder latitudeFaceBuilder = new LatitudeFaceBuilder();
+            LongitudeFaceBuilder longitudeFaceBuilder = new LongitudeFaceBuilder(data);
+            TopFaceBuilder topFaceBuilder = new TopFaceBuilder();
+            
+            mesh.addMesh(longitudeFaceBuilder.build());
+
+            //TODO change this loop to use builder like above
             //at least the size of the wind data
             List<Line> previousLines = null;
             for (Entry<Float, List<Line>> entry : data.entrySet()) {
                 List<Line> currentLines = entry.getValue();
-
-                longitudeFaceBuilder.build(mesh, currentLines);
 
                 if (previousLines != null) {
                     latitudeFaceBuilder.build(mesh, previousLines, currentLines);
@@ -53,7 +47,7 @@ public class MeshBuilder {
                 }
                 previousLines = currentLines;
             }
-            
+
             //close mesh between first and last
             Float firstLon = data.firstKey();
             Float lastLon = data.lastKey();

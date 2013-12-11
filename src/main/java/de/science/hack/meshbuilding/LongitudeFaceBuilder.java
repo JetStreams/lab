@@ -4,11 +4,13 @@
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version. 
  */
-package de.science.hack.build;
+package de.science.hack.meshbuilding;
 
 import de.science.hack.Line;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
+import java.util.SortedMap;
 import toxi.geom.mesh.TriangleMesh;
 
 /**
@@ -17,14 +19,28 @@ import toxi.geom.mesh.TriangleMesh;
  * @author Mario
  */
 class LongitudeFaceBuilder extends AbstractFaceBuilder {
+    
+    private SortedMap<Float, List<Line>> data;
 
+    LongitudeFaceBuilder(SortedMap<Float, List<Line>> data) {
+        this.data = data;
+    }
+    
+    TriangleMesh build() {
+        TriangleMesh mesh = new TriangleMesh();
+        for (Map.Entry<Float, List<Line>> entry : data.entrySet()) {
+            addFaces(mesh, entry.getValue());
+        }
+        return mesh;
+    }
+    
     /**
      * Adds faces to the mesh along the longitudes.
      *
      * @param lines
      * @param mesh
      */
-    void build(TriangleMesh mesh, List<Line> lines) {
+    private void addFaces(TriangleMesh mesh, List<Line> lines) {
         for (int i = 0, m = lines.size(); i < m; i++) {
             //contains two projection or the four corners of a rectangle which is used to construct two triangles
             LinkedList<Line> tuple = nextTuple(lines, i);

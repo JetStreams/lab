@@ -4,7 +4,7 @@
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version. 
  */
-package de.science.hack.build;
+package de.science.hack.meshbuilding;
 
 import de.science.hack.Line;
 import java.util.Iterator;
@@ -26,6 +26,7 @@ class LatitudeFaceBuilder extends AbstractFaceBuilder{
      * @param previousProjections
      * @param projections
      */
+    @Deprecated
     void build(TriangleMesh mesh, List<Line> previousProjections, List<Line> projections) {
 
         Iterator<Line> itPrevious = previousProjections.iterator();

@@ -4,9 +4,8 @@
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version. 
  */
-package de.science.hack.build;
+package de.science.hack.meshbuilding;
 
-import de.science.hack.meshbuilding.MeshBuilder;
 import de.science.hack.Line;
 import de.science.hack.WindDataReader;
 import java.util.List;
