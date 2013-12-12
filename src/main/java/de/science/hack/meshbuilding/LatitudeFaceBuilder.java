@@ -10,15 +10,49 @@ import de.science.hack.Line;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
+import java.util.SortedMap;
 import toxi.geom.mesh.TriangleMesh;
 
 /**
  * Creates triangles along the latitudes.
+ *
  * @author Mario
  */
-class LatitudeFaceBuilder extends AbstractFaceBuilder{
-    
-     /**
+class LatitudeFaceBuilder extends AbstractFaceBuilder {
+
+    private SortedMap<Float, List<Line>> data;
+
+    LatitudeFaceBuilder(SortedMap<Float, List<Line>> data) {
+        this.data = data;
+    }
+
+    TriangleMesh build() {
+        TriangleMesh mesh = new TriangleMesh();
+
+        Float firstLon = data.firstKey();
+        Float lastLon = data.lastKey();
+        List<Line> previousLines = null;
+        for (Map.Entry<Float, List<Line>> entry : data.entrySet()) {
+            Float lon = entry.getKey();
+            List<Line> currentLines = entry.getValue();
+
+            if (previousLines != null) {
+                addFaces(mesh, previousLines, currentLines);
+            }
+            previousLines = currentLines;
+            
+            //close mesh between first and last
+            if(lon.equals(lastLon)){
+                addFaces(mesh, data.get(firstLon), data.get(lastLon));
+            }
+            
+        }
+
+        return mesh;
+    }
+
+    /**
      * Creates triangles along the latitudes. It assumes that both lists have
      * the same length
      *
@@ -26,8 +60,7 @@ class LatitudeFaceBuilder extends AbstractFaceBuilder{
      * @param previousProjections
      * @param projections
      */
-    @Deprecated
-    void build(TriangleMesh mesh, List<Line> previousProjections, List<Line> projections) {
+    private void addFaces(TriangleMesh mesh, List<Line> previousProjections, List<Line> projections) {
 
         Iterator<Line> itPrevious = previousProjections.iterator();
         Iterator<Line> itCurrent = projections.iterator();

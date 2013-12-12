@@ -29,32 +29,13 @@ public class MeshBuilder {
 
         TriangleMesh mesh = new TriangleMesh();
         if (!data.isEmpty()) {
-            LatitudeFaceBuilder latitudeFaceBuilder = new LatitudeFaceBuilder();
             LongitudeFaceBuilder longitudeFaceBuilder = new LongitudeFaceBuilder(data);
-            TopFaceBuilder topFaceBuilder = new TopFaceBuilder();
+            LatitudeFaceBuilder latitudeFaceBuilder = new LatitudeFaceBuilder(data);
+            TopFaceBuilder topFaceBuilder = new TopFaceBuilder(data);
             
             mesh.addMesh(longitudeFaceBuilder.build());
-
-            //TODO change this loop to use builder like above
-            //at least the size of the wind data
-            List<Line> previousLines = null;
-            for (Entry<Float, List<Line>> entry : data.entrySet()) {
-                List<Line> currentLines = entry.getValue();
-
-                if (previousLines != null) {
-                    latitudeFaceBuilder.build(mesh, previousLines, currentLines);
-                    topFaceBuilder.build(mesh, previousLines, currentLines);
-                }
-                previousLines = currentLines;
-            }
-
-            //close mesh between first and last
-            Float firstLon = data.firstKey();
-            Float lastLon = data.lastKey();
-            if (firstLon != lastLon) {
-                latitudeFaceBuilder.build(mesh, data.get(firstLon), data.get(lastLon));
-                topFaceBuilder.build(mesh, data.get(firstLon), data.get(lastLon));
-            }
+            mesh.addMesh(latitudeFaceBuilder.build());
+            mesh.addMesh(topFaceBuilder.build());
         }
         return mesh;
     }

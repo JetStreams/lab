@@ -9,14 +9,48 @@ package de.science.hack.meshbuilding;
 import de.science.hack.Line;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
+import java.util.SortedMap;
 import toxi.geom.mesh.TriangleMesh;
 
 /**
  * Add triangles on top.
+ *
  * @author Mario
  */
-class TopFaceBuilder extends AbstractFaceBuilder{
-   
+class TopFaceBuilder extends AbstractFaceBuilder {
+
+    private SortedMap<Float, List<Line>> data;
+
+    TopFaceBuilder(SortedMap<Float, List<Line>> data) {
+        this.data = data;
+    }
+    
+    TriangleMesh build() {
+        TriangleMesh mesh = new TriangleMesh();
+
+        Float firstLon = data.firstKey();
+        Float lastLon = data.lastKey();
+        List<Line> previousLines = null;
+        for (Map.Entry<Float, List<Line>> entry : data.entrySet()) {
+            Float lon = entry.getKey();
+            List<Line> currentLines = entry.getValue();
+
+            if (previousLines != null) {
+                addFaces(mesh, previousLines, currentLines);
+            }
+            previousLines = currentLines;
+            
+            //close mesh between first and last
+            if(lon.equals(lastLon)){
+                addFaces(mesh, data.get(firstLon), data.get(lastLon));
+            }
+            
+        }
+
+        return mesh;
+    }
+
     /**
      * Add triangles on top. It assumes that both lists have the same length
      *
@@ -24,8 +58,7 @@ class TopFaceBuilder extends AbstractFaceBuilder{
      * @param previousProjections
      * @param projections
      */
-    @Deprecated
-    void build(TriangleMesh mesh, List<Line> previousProjections, List<Line> projections) {
+    private void addFaces(TriangleMesh mesh, List<Line> previousProjections, List<Line> projections) {
 
         for (int i = 0, m = projections.size() - 1; i < m;) {
 
@@ -42,5 +75,4 @@ class TopFaceBuilder extends AbstractFaceBuilder{
             addFaces(mesh, tuple);
         }
     }
-
 }
