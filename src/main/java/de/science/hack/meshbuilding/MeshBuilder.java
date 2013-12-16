@@ -8,7 +8,6 @@ package de.science.hack.meshbuilding;
 
 import de.science.hack.Line;
 import java.util.List;
-import java.util.Map.Entry;
 import java.util.SortedMap;
 import toxi.geom.mesh.TriangleMesh;
 

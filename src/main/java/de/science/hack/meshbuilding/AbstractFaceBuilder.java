@@ -18,7 +18,7 @@ import toxi.geom.mesh.TriangleMesh;
  *
  * @author Mario
  */
-class AbstractFaceBuilder {
+abstract class AbstractFaceBuilder {
     protected static final int FIRST = 0;
     protected static final int SECOND = 1;
     protected static final int THRIRD = 2;
@@ -56,4 +56,5 @@ class AbstractFaceBuilder {
         return triangles;
     }
     
+    abstract TriangleMesh build();
 }

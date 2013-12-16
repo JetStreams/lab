@@ -26,6 +26,7 @@ class LongitudeFaceBuilder extends AbstractFaceBuilder {
         this.data = data;
     }
     
+    @Override
     TriangleMesh build() {
         TriangleMesh mesh = new TriangleMesh();
         for (Map.Entry<Float, List<Line>> entry : data.entrySet()) {

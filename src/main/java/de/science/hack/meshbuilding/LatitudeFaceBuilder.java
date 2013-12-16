@@ -27,6 +27,7 @@ class LatitudeFaceBuilder extends AbstractFaceBuilder {
         this.data = data;
     }
 
+    @Override
     TriangleMesh build() {
         TriangleMesh mesh = new TriangleMesh();
 
@@ -60,7 +61,7 @@ class LatitudeFaceBuilder extends AbstractFaceBuilder {
      * @param previousProjections
      * @param projections
      */
-    private void addFaces(TriangleMesh mesh, List<Line> previousProjections, List<Line> projections) {
+    void addFaces(TriangleMesh mesh, List<Line> previousProjections, List<Line> projections) {
 
         Iterator<Line> itPrevious = previousProjections.iterator();
         Iterator<Line> itCurrent = projections.iterator();
