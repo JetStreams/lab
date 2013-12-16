@@ -19,16 +19,16 @@ import toxi.geom.mesh.TriangleMesh;
  *
  * @author Mario
  */
-class LatitudeFaceBuilder extends AbstractFaceBuilder {
+class LatitudeFaceBuilderTask extends AbstractFaceBuilderTask {
 
     private SortedMap<Float, List<Line>> data;
 
-    LatitudeFaceBuilder(SortedMap<Float, List<Line>> data) {
+    LatitudeFaceBuilderTask(SortedMap<Float, List<Line>> data) {
         this.data = data;
     }
 
     @Override
-    TriangleMesh build() {
+    protected TriangleMesh compute() {
         TriangleMesh mesh = new TriangleMesh();
 
         Float firstLon = data.firstKey();

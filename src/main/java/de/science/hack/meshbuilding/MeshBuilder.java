@@ -9,6 +9,7 @@ package de.science.hack.meshbuilding;
 import de.science.hack.Line;
 import java.util.List;
 import java.util.SortedMap;
+import java.util.concurrent.ForkJoinPool;
 import toxi.geom.mesh.TriangleMesh;
 
 /**
@@ -17,7 +18,13 @@ import toxi.geom.mesh.TriangleMesh;
  * @author Mario
  */
 public class MeshBuilder {
+    
+    private ForkJoinPool pool;
 
+    public MeshBuilder() {
+        pool = new ForkJoinPool();
+    }
+    
     /**
      * Creats a triangle mesh for the wind data.
      *
@@ -28,13 +35,7 @@ public class MeshBuilder {
 
         TriangleMesh mesh = new TriangleMesh();
         if (!data.isEmpty()) {
-            LongitudeFaceBuilder longitudeFaceBuilder = new LongitudeFaceBuilder(data);
-            LatitudeFaceBuilder latitudeFaceBuilder = new LatitudeFaceBuilder(data);
-            TopFaceBuilder topFaceBuilder = new TopFaceBuilder(data);
-            
-            mesh.addMesh(longitudeFaceBuilder.build());
-            mesh.addMesh(latitudeFaceBuilder.build());
-            mesh.addMesh(topFaceBuilder.build());
+            mesh.addMesh(pool.invoke(new MeshBuilderTask(data)));
         }
         return mesh;
     }

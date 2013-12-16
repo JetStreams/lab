@@ -11,6 +11,7 @@ import de.science.hack.ModelPoint;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.concurrent.RecursiveTask;
 import toxi.geom.Vec3D;
 import toxi.geom.mesh.TriangleMesh;
 
@@ -18,7 +19,7 @@ import toxi.geom.mesh.TriangleMesh;
  *
  * @author Mario
  */
-abstract class AbstractFaceBuilder {
+abstract class AbstractFaceBuilderTask extends RecursiveTask<TriangleMesh> {
     protected static final int FIRST = 0;
     protected static final int SECOND = 1;
     protected static final int THRIRD = 2;
@@ -56,5 +57,4 @@ abstract class AbstractFaceBuilder {
         return triangles;
     }
     
-    abstract TriangleMesh build();
 }

@@ -18,16 +18,16 @@ import toxi.geom.mesh.TriangleMesh;
  * 
  * @author Mario
  */
-class LongitudeFaceBuilder extends AbstractFaceBuilder {
+class LongitudeFaceBuilderTask extends AbstractFaceBuilderTask {
     
     private SortedMap<Float, List<Line>> data;
 
-    LongitudeFaceBuilder(SortedMap<Float, List<Line>> data) {
+    LongitudeFaceBuilderTask(SortedMap<Float, List<Line>> data) {
         this.data = data;
     }
     
     @Override
-    TriangleMesh build() {
+    protected TriangleMesh compute() {
         TriangleMesh mesh = new TriangleMesh();
         for (Map.Entry<Float, List<Line>> entry : data.entrySet()) {
             addFaces(mesh, entry.getValue());

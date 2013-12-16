@@ -17,10 +17,10 @@ import toxi.geom.mesh.TriangleMesh;
  *
  * @author Mario
  */
-class TopFaceBuilder extends LatitudeFaceBuilder {
+class TopFaceBuilderTask extends LatitudeFaceBuilderTask {
 
 
-    TopFaceBuilder(SortedMap<Float, List<Line>> data) {
+    TopFaceBuilderTask(SortedMap<Float, List<Line>> data) {
         super(data);
     }
 
