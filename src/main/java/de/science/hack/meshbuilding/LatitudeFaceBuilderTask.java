@@ -22,9 +22,12 @@ import static java.lang.Math.abs;
  * @author Mario
  */
 class LatitudeFaceBuilderTask extends AbstractFaceBuilderTask {
-    /**the maximum gap btween two longitudes*/
-    private static int MAX_GAP = 1;
 
+    /**
+     * the maximum gap btween two longitudes
+     */
+    private static int MAX_GAP = 1;
+    
     private SortedMap<Float, List<Line>> data;
 
     LatitudeFaceBuilderTask(SortedMap<Float, List<Line>> data) {
@@ -35,24 +38,22 @@ class LatitudeFaceBuilderTask extends AbstractFaceBuilderTask {
     protected TriangleMesh compute() {
         TriangleMesh mesh = new TriangleMesh();
 
-        Float firstLon = data.firstKey();
-        Float lastLon = data.lastKey();
-        float gap = abs(lastLon - firstLon);
-        
         List<Line> previousLines = null;
         for (Map.Entry<Float, List<Line>> entry : data.entrySet()) {
-            Float lon = entry.getKey();
             List<Line> currentLines = entry.getValue();
 
             if (previousLines != null) {
                 addFaces(mesh, previousLines, currentLines);
             }
             previousLines = currentLines;
-            
-            //close mesh between first and last when the gap is not more then maximum
-            if(gap <= MAX_GAP && lon.equals(lastLon)){
-                addFaces(mesh, data.get(firstLon), data.get(lastLon));
-            }
+        }
+
+        //close mesh between first and last when the gap is not more then max
+        Float firstLon = data.firstKey();
+        Float lastLon = data.lastKey();
+        float gap = abs(lastLon - firstLon);
+        if (gap > 0 && gap <= MAX_GAP) {
+            addFaces(mesh, data.get(firstLon), data.get(lastLon));
         }
 
         return mesh;
