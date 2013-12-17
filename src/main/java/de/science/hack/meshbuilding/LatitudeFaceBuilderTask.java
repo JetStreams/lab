@@ -14,12 +14,16 @@ import java.util.Map;
 import java.util.SortedMap;
 import toxi.geom.mesh.TriangleMesh;
 
+import static java.lang.Math.abs;
+
 /**
  * Creates triangles along the latitudes.
  *
  * @author Mario
  */
 class LatitudeFaceBuilderTask extends AbstractFaceBuilderTask {
+    /**the maximum gap btween two longitudes*/
+    private static int MAX_GAP = 1;
 
     private SortedMap<Float, List<Line>> data;
 
@@ -33,6 +37,8 @@ class LatitudeFaceBuilderTask extends AbstractFaceBuilderTask {
 
         Float firstLon = data.firstKey();
         Float lastLon = data.lastKey();
+        float gap = abs(lastLon - firstLon);
+        
         List<Line> previousLines = null;
         for (Map.Entry<Float, List<Line>> entry : data.entrySet()) {
             Float lon = entry.getKey();
@@ -43,11 +49,10 @@ class LatitudeFaceBuilderTask extends AbstractFaceBuilderTask {
             }
             previousLines = currentLines;
             
-            //close mesh between first and last
-            if(lon.equals(lastLon)){
+            //close mesh between first and last when the gap is not more then maximum
+            if(gap <= MAX_GAP && lon.equals(lastLon)){
                 addFaces(mesh, data.get(firstLon), data.get(lastLon));
             }
-            
         }
 
         return mesh;
