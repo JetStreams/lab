@@ -10,6 +10,8 @@ import de.science.hack.Line;
 import java.util.List;
 import java.util.SortedMap;
 import java.util.concurrent.ForkJoinPool;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import toxi.geom.mesh.TriangleMesh;
 
 /**
@@ -18,13 +20,13 @@ import toxi.geom.mesh.TriangleMesh;
  * @author Mario
  */
 public class MeshBuilder {
-    
+
     private ForkJoinPool pool;
 
     public MeshBuilder() {
         pool = new ForkJoinPool();
     }
-    
+
     /**
      * Creats a triangle mesh for the wind data.
      *
@@ -35,7 +37,12 @@ public class MeshBuilder {
 
         TriangleMesh mesh = new TriangleMesh();
         if (!data.isEmpty()) {
+            long start = System.currentTimeMillis();
+
             mesh.addMesh(pool.invoke(new MeshBuilderTask(data)));
+
+            long end = System.currentTimeMillis();
+            Logger.getLogger(getClass().getName()).log(Level.INFO, String.format("constructed mesh in %s ms", end - start));
         }
         return mesh;
     }
