@@ -41,7 +41,7 @@ public class ModelManipulationTest {
         //TriangleMesh offers easier access to the faces, 
         //unfortunately it is also significantly slower when adding faces
 
-        for (int i = 0; i < newMesh.faces.size(); i++) {
+        for (int i = 0; i < 100; i++) {
             Face face = newMesh.faces.get(i);
 
             Vec3D cloudPoint = face.getCentroid();
