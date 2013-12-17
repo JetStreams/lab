@@ -1,5 +1,8 @@
 /*
- * 
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version. 
  */
 package de.science.hack.meshbuilding;
 
@@ -10,7 +13,9 @@ import java.util.concurrent.RecursiveTask;
 import toxi.geom.mesh.TriangleMesh;
 
 /**
- *
+ * This Task constructs the mesh for one set of wind data. It splits the 
+ * construction into other sub tasks.
+ * 
  * @author Mario
  */
 class MeshBuilderTask extends RecursiveTask<TriangleMesh> {
