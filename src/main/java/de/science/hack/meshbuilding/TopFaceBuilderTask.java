@@ -9,7 +9,6 @@ package de.science.hack.meshbuilding;
 import de.science.hack.Line;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.SortedMap;
 import toxi.geom.mesh.TriangleMesh;
 
 /**
@@ -19,11 +18,10 @@ import toxi.geom.mesh.TriangleMesh;
  */
 class TopFaceBuilderTask extends LatitudeFaceBuilderTask {
 
-
-    TopFaceBuilderTask(SortedMap<Float, List<Line>> data) {
-        super(data);
+    TopFaceBuilderTask(TriangleMesh mesh) {
+        super(mesh);
     }
-
+    
     /**
      * Add triangles on top. It assumes that both lists have the same length
      *
@@ -32,7 +30,7 @@ class TopFaceBuilderTask extends LatitudeFaceBuilderTask {
      * @param projections
      */
     @Override
-    void addFaces(TriangleMesh mesh, List<Line> previousProjections, List<Line> projections) {
+    void addFaces(List<Line> previousProjections, List<Line> projections) {
 
         for (int i = 0, m = projections.size() - 1; i < m;) {
 
@@ -46,7 +44,7 @@ class TopFaceBuilderTask extends LatitudeFaceBuilderTask {
             //ues only the the upper points, since we want to create more or less horizontal triangles
             tuple.add(new Line(first.getPoint2(), second.getPoint2()));
             tuple.add(new Line(third.getPoint2(), fourth.getPoint2()));
-            addFaces(mesh, tuple);
+            addFaces(tuple);
         }
     }
 }

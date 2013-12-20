@@ -42,7 +42,7 @@ public class MeshBuilderTest {
     public void testBuildNorth() {
         TriangleMesh result = classUnderTest.build(readData("../unit/north.txt"));
         assertNotNull(result);
-        assertFalse(result.getFaces().isEmpty());
+        assertEquals(76, result.getFaces().size());
         AABB box = result.getBoundingBox();
         assertFalse(box.getMax().x == 0);
     }
@@ -54,7 +54,7 @@ public class MeshBuilderTest {
     public void testBuildSouth() {
         TriangleMesh result = classUnderTest.build(readData("../unit/south.txt"));
         assertNotNull(result);
-        assertFalse(result.getFaces().isEmpty());
+        assertEquals(1530, result.getFaces().size());
         AABB box = result.getBoundingBox();
         assertFalse(box.getMax().x == 0);
     }

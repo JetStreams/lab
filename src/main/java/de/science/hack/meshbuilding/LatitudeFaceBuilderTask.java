@@ -10,11 +10,7 @@ import de.science.hack.Line;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Map;
-import java.util.SortedMap;
 import toxi.geom.mesh.TriangleMesh;
-
-import static java.lang.Math.abs;
 
 /**
  * Creates triangles along the latitudes.
@@ -23,40 +19,12 @@ import static java.lang.Math.abs;
  */
 class LatitudeFaceBuilderTask extends AbstractFaceBuilderTask {
 
-    /**
-     * the maximum gap btween two longitudes
-     */
-    private static int MAX_GAP = 1;
-    
-    private SortedMap<Float, List<Line>> data;
-
-    LatitudeFaceBuilderTask(SortedMap<Float, List<Line>> data) {
-        this.data = data;
+    LatitudeFaceBuilderTask(TriangleMesh mesh) {
+        super(mesh);
     }
-
-    @Override
-    protected TriangleMesh compute() {
-        TriangleMesh mesh = new TriangleMesh();
-
-        List<Line> previousLines = null;
-        for (Map.Entry<Float, List<Line>> entry : data.entrySet()) {
-            List<Line> currentLines = entry.getValue();
-
-            if (previousLines != null) {
-                addFaces(mesh, previousLines, currentLines);
-            }
-            previousLines = currentLines;
-        }
-
-        //close mesh between first and last when the gap is not more then max
-        Float firstLon = data.firstKey();
-        Float lastLon = data.lastKey();
-        float gap = abs(lastLon - firstLon);
-        if (gap > 0 && gap <= MAX_GAP) {
-            addFaces(mesh, data.get(firstLon), data.get(lastLon));
-        }
-
-        return mesh;
+    
+    protected void compute() {
+        addFaces(workUnits[0], workUnits[1]);
     }
 
     /**
@@ -67,7 +35,7 @@ class LatitudeFaceBuilderTask extends AbstractFaceBuilderTask {
      * @param previousProjections
      * @param projections
      */
-    void addFaces(TriangleMesh mesh, List<Line> previousProjections, List<Line> projections) {
+    void addFaces(List<Line> previousProjections, List<Line> projections) {
 
         Iterator<Line> itPrevious = previousProjections.iterator();
         Iterator<Line> itCurrent = projections.iterator();
@@ -77,7 +45,7 @@ class LatitudeFaceBuilderTask extends AbstractFaceBuilderTask {
             LinkedList<Line> tuple = new LinkedList<>();
             tuple.add(projPrev);
             tuple.add(projCurrent);
-            addFaces(mesh, tuple);
+            addFaces(tuple);
         }
     }
 }

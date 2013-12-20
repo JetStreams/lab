@@ -11,7 +11,6 @@ import de.science.hack.ModelPoint;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.concurrent.RecursiveTask;
 import toxi.geom.Vec3D;
 import toxi.geom.mesh.TriangleMesh;
 
@@ -19,10 +18,25 @@ import toxi.geom.mesh.TriangleMesh;
  *
  * @author Mario
  */
-abstract class AbstractFaceBuilderTask extends RecursiveTask<TriangleMesh> {
+abstract class AbstractFaceBuilderTask {
+
     protected static final int FIRST = 0;
     protected static final int SECOND = 1;
     protected static final int THRIRD = 2;
+    protected List<Line>[] workUnits;
+    private TriangleMesh mesh;
+
+    AbstractFaceBuilderTask(TriangleMesh mesh) {
+        this.mesh = mesh;
+    }
+
+    void setWorkUnits(List<Line>... workUnits) {
+        this.workUnits = workUnits;
+    }
+
+    void setMesh(TriangleMesh mesh) {
+        this.mesh = mesh;
+    }
 
     protected Vec3D[] createTriangle(ModelPoint point1, ModelPoint point2, ModelPoint point3) {
         return new Vec3D[]{toVec(point1), toVec(point2), toVec(point3)};
@@ -30,6 +44,10 @@ abstract class AbstractFaceBuilderTask extends RecursiveTask<TriangleMesh> {
 
     protected Vec3D toVec(ModelPoint point) {
         return new Vec3D((float) point.getX(), (float) point.getY(), (float) point.getZ());
+    }
+
+    protected void addFaces(LinkedList<Line> tuple) {
+        addFaces(mesh, tuple);
     }
 
     protected void addFaces(TriangleMesh mesh, LinkedList<Line> tuple) {
@@ -56,5 +74,4 @@ abstract class AbstractFaceBuilderTask extends RecursiveTask<TriangleMesh> {
         }
         return triangles;
     }
-    
 }

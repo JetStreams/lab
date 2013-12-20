@@ -43,7 +43,9 @@ public class MainTest {
         
         Mesh3D exported = reader.read(out.getPath());
         assertNotNull(exported);
-        assertFalse(exported.getNumVertices() == meshBefore.getNumVertices());
+        int expVertices = exported.getNumVertices();
+        assertFalse(expVertices == meshBefore.getNumVertices());
+        assertEquals(267917, expVertices);
     }
 
 }

@@ -9,8 +9,6 @@ package de.science.hack.meshbuilding;
 import de.science.hack.Line;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Map;
-import java.util.SortedMap;
 import toxi.geom.mesh.TriangleMesh;
 
 /**
@@ -19,20 +17,13 @@ import toxi.geom.mesh.TriangleMesh;
  * @author Mario
  */
 class LongitudeFaceBuilderTask extends AbstractFaceBuilderTask {
-    
-    private SortedMap<Float, List<Line>> data;
 
-    LongitudeFaceBuilderTask(SortedMap<Float, List<Line>> data) {
-        this.data = data;
+    LongitudeFaceBuilderTask(TriangleMesh mesh) {
+        super(mesh);
     }
     
-    @Override
-    protected TriangleMesh compute() {
-        TriangleMesh mesh = new TriangleMesh();
-        for (Map.Entry<Float, List<Line>> entry : data.entrySet()) {
-            addFaces(mesh, entry.getValue());
-        }
-        return mesh;
+    protected void compute() {
+        addFaces(workUnits[0]);
     }
     
     /**
@@ -41,11 +32,11 @@ class LongitudeFaceBuilderTask extends AbstractFaceBuilderTask {
      * @param lines
      * @param mesh
      */
-    private void addFaces(TriangleMesh mesh, List<Line> lines) {
+    private void addFaces(List<Line> lines) {
         for (int i = 0, m = lines.size(); i < m; i++) {
             //contains two projection or the four corners of a rectangle which is used to construct two triangles
             LinkedList<Line> tuple = nextTuple(lines, i);
-            addFaces(mesh, tuple);
+            addFaces(tuple);
         }
     }
     
