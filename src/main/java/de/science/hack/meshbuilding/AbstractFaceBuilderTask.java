@@ -11,31 +11,19 @@ import de.science.hack.ModelPoint;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.concurrent.RecursiveTask;
 import toxi.geom.Vec3D;
-import toxi.geom.mesh.TriangleMesh;
 
 /**
- *
+ * Parent task to create faces for the mesh.
  * @author Mario
  */
-abstract class AbstractFaceBuilderTask {
+abstract class AbstractFaceBuilderTask extends RecursiveTask<List<Vec3D[]>> {
 
-    protected static final int FIRST = 0;
-    protected static final int SECOND = 1;
-    protected static final int THRIRD = 2;
     protected List<Line>[] workUnits;
-    private TriangleMesh mesh;
-
-    AbstractFaceBuilderTask(TriangleMesh mesh) {
-        this.mesh = mesh;
-    }
 
     void setWorkUnits(List<Line>... workUnits) {
         this.workUnits = workUnits;
-    }
-
-    void setMesh(TriangleMesh mesh) {
-        this.mesh = mesh;
     }
 
     protected Vec3D[] createTriangle(ModelPoint point1, ModelPoint point2, ModelPoint point3) {
@@ -44,18 +32,6 @@ abstract class AbstractFaceBuilderTask {
 
     protected Vec3D toVec(ModelPoint point) {
         return new Vec3D((float) point.getX(), (float) point.getY(), (float) point.getZ());
-    }
-
-    protected void addFaces(LinkedList<Line> tuple) {
-        addFaces(mesh, tuple);
-    }
-
-    protected void addFaces(TriangleMesh mesh, LinkedList<Line> tuple) {
-        List<Vec3D[]> faces = createTriangles(tuple);
-        for (Vec3D[] face : faces) {
-            //add a face, which is a triangle
-            mesh.addFace(face[FIRST], face[SECOND], face[THRIRD]);
-        }
     }
 
     /**

@@ -7,10 +7,11 @@
 package de.science.hack.meshbuilding;
 
 import de.science.hack.Line;
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
-import toxi.geom.mesh.TriangleMesh;
+import toxi.geom.Vec3D;
 
 /**
  * Creates triangles along the latitudes.
@@ -19,12 +20,9 @@ import toxi.geom.mesh.TriangleMesh;
  */
 class LatitudeFaceBuilderTask extends AbstractFaceBuilderTask {
 
-    LatitudeFaceBuilderTask(TriangleMesh mesh) {
-        super(mesh);
-    }
-    
-    protected void compute() {
-        addFaces(workUnits[0], workUnits[1]);
+    @Override
+    protected List<Vec3D[]> compute() {
+        return addFaces(workUnits[0], workUnits[1]);
     }
 
     /**
@@ -35,7 +33,9 @@ class LatitudeFaceBuilderTask extends AbstractFaceBuilderTask {
      * @param previousProjections
      * @param projections
      */
-    void addFaces(List<Line> previousProjections, List<Line> projections) {
+    List<Vec3D[]> addFaces(List<Line> previousProjections, List<Line> projections) {
+        
+        List<Vec3D[]> faces = new ArrayList<>();
 
         Iterator<Line> itPrevious = previousProjections.iterator();
         Iterator<Line> itCurrent = projections.iterator();
@@ -45,7 +45,9 @@ class LatitudeFaceBuilderTask extends AbstractFaceBuilderTask {
             LinkedList<Line> tuple = new LinkedList<>();
             tuple.add(projPrev);
             tuple.add(projCurrent);
-            addFaces(tuple);
+            faces.addAll(createTriangles(tuple));
         }
+        
+        return faces;
     }
 }

@@ -21,6 +21,12 @@ import toxi.geom.mesh.TriangleMesh;
  */
 public class MeshBuilder {
 
+    private ForkJoinPool pool;
+
+    public MeshBuilder() {
+        pool = new ForkJoinPool();
+    }
+
     /**
      * Creats a triangle mesh for the wind data.
      *
@@ -32,9 +38,8 @@ public class MeshBuilder {
         TriangleMesh mesh = new TriangleMesh();
         if (!data.isEmpty()) {
             long start = System.currentTimeMillis();
-            
-            MeshBuilderTask task = new MeshBuilderTask(data);
-            mesh = task.compute();
+
+            mesh = pool.invoke(new MeshBuilderTask(data));
 
             long end = System.currentTimeMillis();
             Logger.getLogger(getClass().getName()).log(Level.INFO, String.format("constructed mesh in %s ms", end - start));
