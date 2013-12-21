@@ -7,12 +7,12 @@
 package de.science.hack.meshbuilding;
 
 import de.science.hack.Line;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.SortedMap;
 import java.util.concurrent.RecursiveTask;
 import toxi.geom.Vec3D;
-import toxi.geom.mesh.TriangleMesh;
 
 /**
  * This Task constructs the mesh for one set of wind data. It splits the
@@ -20,11 +20,8 @@ import toxi.geom.mesh.TriangleMesh;
  *
  * @author Mario
  */
-class MeshBuilderTask extends RecursiveTask<TriangleMesh> {
+class FacesBuilderTask extends RecursiveTask<List<Vec3D[]>> {
     
-    private static final int FIRST = 0;
-    private static final int SECOND = 1;
-    private static final int THRIRD = 2;
     /**
      * the maximum gap btween two longitudes
      */
@@ -35,12 +32,12 @@ class MeshBuilderTask extends RecursiveTask<TriangleMesh> {
     private LongitudeFaceBuilderTask longitudeFaceBuilder;
     private LatitudeFaceBuilderTask latitudeFaceBuilder;
     private TopFaceBuilderTask topFaceBuilder;
-    private TriangleMesh mesh;
+    private List<Vec3D[]> faces;
 
-    MeshBuilderTask(SortedMap<Float, List<Line>> data) {
+    FacesBuilderTask(SortedMap<Float, List<Line>> data) {
         this.data = data;
 
-        mesh = new TriangleMesh();
+        faces = new ArrayList<>();
 
         longitudeFaceBuilder = new LongitudeFaceBuilderTask();
         topFaceBuilder = new TopFaceBuilderTask();
@@ -48,7 +45,7 @@ class MeshBuilderTask extends RecursiveTask<TriangleMesh> {
     }
 
     @Override
-    protected TriangleMesh compute() {
+    protected List<Vec3D[]> compute() {
 
 
         List<Line> previousLines = null;
@@ -60,25 +57,21 @@ class MeshBuilderTask extends RecursiveTask<TriangleMesh> {
             if (previousLines != null) {
                 latitudeFaceBuilder.setWorkUnits(previousLines, currentLines);
                 topFaceBuilder.setWorkUnits(previousLines, currentLines);
-
-                topFaceBuilder.fork();
-                addFaces(topFaceBuilder.compute());
                 
+                longitudeFaceBuilder.fork();
                 addFaces(latitudeFaceBuilder.compute());
-                addFaces(longitudeFaceBuilder.compute());
-                
-                topFaceBuilder.join();
+                addFaces(topFaceBuilder.compute());
+                addFaces(longitudeFaceBuilder.join());
             }else {
                 addFaces(longitudeFaceBuilder.compute());
             }
-            
 
             previousLines = currentLines;
         }
 
         closeMesh();
 
-        return mesh;
+        return faces;
     }
 
     /**
@@ -99,18 +92,14 @@ class MeshBuilderTask extends RecursiveTask<TriangleMesh> {
             latitudeFaceBuilder.setWorkUnits(firstLine, lastLine);
             topFaceBuilder.setWorkUnits(firstLine, lastLine);
 
-            topFaceBuilder.fork();
+            latitudeFaceBuilder.fork();
             addFaces(topFaceBuilder.compute());
-            addFaces(latitudeFaceBuilder.compute());
+            addFaces(latitudeFaceBuilder.join());
             
-            topFaceBuilder.join();
         }
     }
 
     private void addFaces(List<Vec3D[]> faces) {
-        for (Vec3D[] face : faces) {
-            //add a face, which is a triangle
-            mesh.addFace(face[FIRST], face[SECOND], face[THRIRD]);
-        }
+        this.faces.addAll(faces);
     }
 }

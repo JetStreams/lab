@@ -45,7 +45,7 @@ public class MainTest {
         assertNotNull(exported);
         int expVertices = exported.getNumVertices();
         assertFalse(expVertices == meshBefore.getNumVertices());
-        assertEquals(267917, expVertices);
+        assertEquals(255779, expVertices);
     }
 
 }

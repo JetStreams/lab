@@ -12,6 +12,7 @@ import java.util.SortedMap;
 import java.util.concurrent.ForkJoinPool;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import toxi.geom.Vec3D;
 import toxi.geom.mesh.TriangleMesh;
 
 /**
@@ -21,6 +22,9 @@ import toxi.geom.mesh.TriangleMesh;
  */
 public class MeshBuilder {
 
+    private static final int FIRST = 0;
+    private static final int SECOND = 1;
+    private static final int THRIRD = 2;
     private ForkJoinPool pool;
 
     public MeshBuilder() {
@@ -39,11 +43,18 @@ public class MeshBuilder {
         if (!data.isEmpty()) {
             long start = System.currentTimeMillis();
 
-            mesh = pool.invoke(new MeshBuilderTask(data));
+            addFaces(mesh, pool.invoke(new FacesBuilderTask(data)));
 
             long end = System.currentTimeMillis();
             Logger.getLogger(getClass().getName()).log(Level.INFO, String.format("constructed mesh in %s ms", end - start));
         }
         return mesh;
+    }
+
+    private void addFaces(TriangleMesh mesh, List<Vec3D[]> faces) {
+        for (Vec3D[] face : faces) {
+            //add a face, which is a triangle
+            mesh.addFace(face[FIRST], face[SECOND], face[THRIRD]);
+        }
     }
 }
