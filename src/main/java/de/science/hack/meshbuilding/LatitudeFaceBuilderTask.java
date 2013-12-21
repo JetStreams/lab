@@ -8,7 +8,6 @@ package de.science.hack.meshbuilding;
 
 import de.science.hack.Line;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import toxi.geom.Vec3D;
@@ -19,10 +18,11 @@ import toxi.geom.Vec3D;
  * @author Mario
  */
 class LatitudeFaceBuilderTask extends AbstractFaceBuilderTask {
+    private static final int FIRST = 0;
 
     @Override
     protected List<Vec3D[]> compute() {
-        return addFaces(workUnits[0], workUnits[1]);
+        return addFaces(workUnits[FIRST], workUnits[1]);
     }
 
     /**
@@ -36,15 +36,17 @@ class LatitudeFaceBuilderTask extends AbstractFaceBuilderTask {
     List<Vec3D[]> addFaces(List<Line> previousProjections, List<Line> projections) {
 
         List<Vec3D[]> faces = new ArrayList<>();
-
-        int indices [] = new int[]{0, projections.size()-1};
-        for(int i = 0; i < indices.length; i++){
+        
+        int last = projections.size()-1;
+        int indices [] = new int[]{FIRST, last};
+        for(int i = FIRST; i < indices.length; i++){
             int index = indices[i];
             Line projPrev = previousProjections.get(index);
             Line projCurrent = projections.get(index);
             LinkedList<Line> tuple = createTuple(projPrev, projCurrent);
             faces.addAll(createTriangles(tuple));
         }
+        
         return faces;
     }
 
