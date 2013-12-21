@@ -61,11 +61,11 @@ class MeshBuilderTask extends RecursiveTask<TriangleMesh> {
                 latitudeFaceBuilder.setWorkUnits(previousLines, currentLines);
                 topFaceBuilder.setWorkUnits(previousLines, currentLines);
 
-                latitudeFaceBuilder.fork();
+                topFaceBuilder.fork();
                 
-                addFaces(topFaceBuilder.compute());
+                addFaces(latitudeFaceBuilder.compute());
                 addFaces(longitudeFaceBuilder.compute());
-                addFaces(latitudeFaceBuilder.join());
+                addFaces(topFaceBuilder.join());
             }else {
                 addFaces(longitudeFaceBuilder.compute());
             }
