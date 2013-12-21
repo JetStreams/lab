@@ -7,7 +7,6 @@
 package de.science.hack.meshbuilding;
 
 import de.science.hack.Line;
-import static java.lang.Math.abs;
 import java.util.List;
 import java.util.Map;
 import java.util.SortedMap;
@@ -30,6 +29,7 @@ class MeshBuilderTask extends RecursiveTask<TriangleMesh> {
      * the maximum gap btween two longitudes
      */
     private static int MAX_GAP = 2;
+    private static int MAX_LON = 360;
     
     private SortedMap<Float, List<Line>> data;
     private LongitudeFaceBuilderTask longitudeFaceBuilder;
@@ -62,10 +62,12 @@ class MeshBuilderTask extends RecursiveTask<TriangleMesh> {
                 topFaceBuilder.setWorkUnits(previousLines, currentLines);
 
                 topFaceBuilder.fork();
+                addFaces(topFaceBuilder.compute());
                 
                 addFaces(latitudeFaceBuilder.compute());
                 addFaces(longitudeFaceBuilder.compute());
-                addFaces(topFaceBuilder.join());
+                
+                topFaceBuilder.join();
             }else {
                 addFaces(longitudeFaceBuilder.compute());
             }
@@ -87,17 +89,21 @@ class MeshBuilderTask extends RecursiveTask<TriangleMesh> {
 
         Float firstLon = data.firstKey();
         Float lastLon = data.lastKey();
-        float gap = abs(lastLon - firstLon);
+        
+        float endGap = MAX_LON - lastLon;
+        float gap = firstLon + endGap;
+        
         if (gap > 0 && gap <= MAX_GAP) {
             List<Line> firstLine = data.get(firstLon);
             List<Line> lastLine = data.get(lastLon);
             latitudeFaceBuilder.setWorkUnits(firstLine, lastLine);
             topFaceBuilder.setWorkUnits(firstLine, lastLine);
 
-            latitudeFaceBuilder.fork();
-            
+            topFaceBuilder.fork();
             addFaces(topFaceBuilder.compute());
-            addFaces(latitudeFaceBuilder.join());
+            addFaces(latitudeFaceBuilder.compute());
+            
+            topFaceBuilder.join();
         }
     }
 
