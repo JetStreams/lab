@@ -34,20 +34,24 @@ class LatitudeFaceBuilderTask extends AbstractFaceBuilderTask {
      * @param projections
      */
     List<Vec3D[]> addFaces(List<Line> previousProjections, List<Line> projections) {
-        
+
         List<Vec3D[]> faces = new ArrayList<>();
 
-        Iterator<Line> itPrevious = previousProjections.iterator();
-        Iterator<Line> itCurrent = projections.iterator();
-        while (itPrevious.hasNext() && itCurrent.hasNext()) {
-            Line projPrev = itPrevious.next();
-            Line projCurrent = itCurrent.next();
-            LinkedList<Line> tuple = new LinkedList<>();
-            tuple.add(projPrev);
-            tuple.add(projCurrent);
+        int indices [] = new int[]{0, projections.size()-1};
+        for(int i = 0; i < indices.length; i++){
+            int index = indices[i];
+            Line projPrev = previousProjections.get(index);
+            Line projCurrent = projections.get(index);
+            LinkedList<Line> tuple = createTuple(projPrev, projCurrent);
             faces.addAll(createTriangles(tuple));
         }
-        
         return faces;
+    }
+
+    private LinkedList<Line> createTuple(Line projPrev, Line projCurrent) {
+        LinkedList<Line> tuple = new LinkedList<>();
+        tuple.add(projPrev);
+        tuple.add(projCurrent);
+        return tuple;
     }
 }
