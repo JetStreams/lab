@@ -1,0 +1,7 @@
+archivesBaseName = 'jetstreams-core'
+
+dependencies {
+    compile files('libs/toxiclibscore.jar')
+    compile 'java3d:vecmath:1.3.1', 'net.sf.opencsv:opencsv:2.3', 
+        'com.googlecode.lambdaj:lambdaj:2.3.3', 'commons-io:commons-io:2.4'
+}
