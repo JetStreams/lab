@@ -7,6 +7,7 @@
 package de.science.hack.meshbuilding;
 
 import de.science.hack.Line;
+import static de.science.hack.meshbuilding.AbstractFaceBuilderTask.ZERO;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
@@ -14,16 +15,16 @@ import toxi.geom.Vec3D;
 
 /**
  * Creates faces along the longitudes.
- * 
+ *
  * @author Mario
  */
 class LongitudeFaceBuilderTask extends AbstractFaceBuilderTask {
 
     @Override
-    protected List<Vec3D[]> compute() {
-        return addFaces(workUnits[0]);
+    protected List<Vec3D[]> doWork(List<Line>... workUnits) {
+        return addFaces(workUnits[ZERO]);
     }
-    
+
     /**
      * Adds faces along the longitudes.
      *
@@ -32,16 +33,16 @@ class LongitudeFaceBuilderTask extends AbstractFaceBuilderTask {
      */
     private List<Vec3D[]> addFaces(List<Line> lines) {
         List<Vec3D[]> faces = new ArrayList<>();
-        
+
         for (int i = 0, m = lines.size(); i < m; i++) {
             //contains two projection or the four corners of a rectangle which is used to construct two triangles
             LinkedList<Line> tuple = nextTuple(lines, i);
             faces.addAll(createTriangles(tuple));
         }
-        
+
         return faces;
     }
-    
+
     //the next two projections
     private LinkedList<Line> nextTuple(List<Line> projections, int current) {
         LinkedList<Line> tuple = new LinkedList<>();

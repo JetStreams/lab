@@ -14,17 +14,32 @@ import java.util.List;
 import java.util.concurrent.RecursiveTask;
 import toxi.geom.Vec3D;
 
+import static java.util.Collections.emptyList;
+import static org.apache.commons.lang.ArrayUtils.isEmpty;
+
 /**
  * Parent task to create faces for the mesh.
  * @author Mario
  */
 abstract class AbstractFaceBuilderTask extends RecursiveTask<List<Vec3D[]>> {
+    protected static final int ZERO = 0;
 
-    protected List<Line>[] workUnits;
+    private List<Line>[] workUnits;
 
     void setWorkUnits(List<Line>... workUnits) {
         this.workUnits = workUnits;
     }
+    
+    @Override
+    protected List<Vec3D[]> compute() {
+        List<Vec3D[]> faces = emptyList();
+        if(!isEmpty(workUnits)){
+            faces = doWork(workUnits);
+        }
+        return faces;
+    }
+    
+    protected abstract List<Vec3D[]> doWork(List<Line>... workUnits);
 
     protected Vec3D[] createTriangle(ModelPoint point1, ModelPoint point2, ModelPoint point3) {
         return new Vec3D[]{toVec(point1), toVec(point2), toVec(point3)};
