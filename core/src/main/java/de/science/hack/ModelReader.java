@@ -23,7 +23,7 @@ public class ModelReader {
     
     private static final String EARTH = "earth.stl";
     
-    private STLReader reader = new STLReader();
+    private final STLReader reader = new STLReader();
     
     /**
      * This method reads the globe model.

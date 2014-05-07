@@ -12,9 +12,9 @@ package de.science.hack;
  */
 public class Line {
     
-    private ModelPoint point1;
+    private final ModelPoint point1;
     
-    private ModelPoint point2;
+    private final ModelPoint point2;
 
     /**
      * Constructor

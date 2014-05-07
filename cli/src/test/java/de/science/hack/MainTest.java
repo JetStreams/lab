@@ -7,6 +7,7 @@
 package de.science.hack;
 
 import java.io.File;
+import javax.annotation.Generated;
 import org.apache.commons.cli.ParseException;
 import org.junit.Before;
 import org.junit.Test;

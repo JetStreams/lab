@@ -25,14 +25,14 @@ class FacesBuilderTask extends RecursiveTask<List<Vec3D[]>> {
     /**
      * the maximum gap btween two longitudes
      */
-    private static int MAX_GAP = 2;
-    private static int MAX_LON = 360;
+    private static final int MAX_GAP = 2;
+    private static final int MAX_LON = 360;
     
-    private SortedMap<Float, List<Line>> data;
-    private LongitudeFaceBuilderTask longitudeFaceBuilder;
-    private LatitudeFaceBuilderTask latitudeFaceBuilder;
-    private TopFaceBuilderTask topFaceBuilder;
-    private List<Vec3D[]> faces;
+    private final SortedMap<Float, List<Line>> data;
+    private final LongitudeFaceBuilderTask longitudeFaceBuilder;
+    private final LatitudeFaceBuilderTask latitudeFaceBuilder;
+    private final TopFaceBuilderTask topFaceBuilder;
+    private final List<Vec3D[]> faces;
 
     FacesBuilderTask(SortedMap<Float, List<Line>> data) {
         this.data = data;

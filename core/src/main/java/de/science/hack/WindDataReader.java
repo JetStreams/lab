@@ -74,11 +74,9 @@ public class WindDataReader {
         SortedMap<Float,List<Line>> data = new TreeMap<>();
         
         Group<Coordinate> group = readCoordinates(name);
-        Set<String> keys = group.keySet();
-        for (String key : keys) {
+        group.keySet().forEach((key) -> {
             List<Line> projections = new ArrayList<>();
-            List<Coordinate> coordinates = group.find(key);
-            for (Coordinate coord : coordinates) {
+            group.find(key).stream().forEach((coord) -> {
                 Coordinate groundCoord = (Coordinate)coord.clone();
                 groundCoord.setAlt(0.0);
                 
@@ -87,9 +85,9 @@ public class WindDataReader {
                 ModelPoint dataPoint = CoordinatesConverter.toModel(coord);
                 Line projection = new Line(groundPoint, dataPoint);
                 projections.add(projection);
-            }
+            });
             data.put(parseFloat(key), projections);
-        }
+        });
 
         return data;
     }

@@ -31,10 +31,10 @@ public class Main {
     private static final String[] EXT = new String[]{"txt", "csv"};
     private static final String DEFAULT_OUT = "model.stl";
 
-    private CommandLineParser parser;
-    private Options options;
-    private WindModelBuilder windModelBuilder;
-    private JetStreamModelWriter jetStreamModelWriter;
+    private final CommandLineParser parser;
+    private final Options options;
+    private final WindModelBuilder windModelBuilder;
+    private final JetStreamModelWriter jetStreamModelWriter;
 
 
     public Main() {
@@ -61,11 +61,10 @@ public class Main {
     private void process(String [] args) throws ParseException {
         CommandLine commandLine = parser.parse(options, args);
         
-        Collection<File> inputFiles = getInputFiles(commandLine);
-        for (File file : inputFiles) {
-            TriangleMesh mesh = windModelBuilder.build(file);
+        getInputFiles(commandLine).stream().forEach((f) -> {
+            TriangleMesh mesh = windModelBuilder.build(f);
             jetStreamModelWriter.addWindModel(mesh);
-        }
+        });
         
         jetStreamModelWriter.write(getOutput(commandLine));
     }

@@ -16,8 +16,8 @@ import toxi.geom.mesh.TriangleMesh;
  */
 public class WindModelBuilder {
     
-    private WindDataReader dataReader;
-    private MeshBuilder meshBuilder;
+    private final WindDataReader dataReader;
+    private final MeshBuilder meshBuilder;
     
     public WindModelBuilder() {
         dataReader = new WindDataReader();

@@ -25,7 +25,7 @@ public class MeshBuilder {
     private static final int FIRST = 0;
     private static final int SECOND = 1;
     private static final int THRIRD = 2;
-    private ForkJoinPool pool;
+    private final ForkJoinPool pool;
 
     public MeshBuilder() {
         pool = new ForkJoinPool();
@@ -52,9 +52,8 @@ public class MeshBuilder {
     }
 
     private void addFaces(TriangleMesh mesh, List<Vec3D[]> faces) {
-        for (Vec3D[] face : faces) {
-            //add a face, which is a triangle
+        faces.stream().forEach((face) -> {
             mesh.addFace(face[FIRST], face[SECOND], face[THRIRD]);
-        }
+        });
     }
 }
