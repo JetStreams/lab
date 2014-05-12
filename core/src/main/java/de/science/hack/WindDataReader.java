@@ -6,36 +6,35 @@
  */
 package de.science.hack;
 
-import static ch.lambdaj.Lambda.by;
-import static ch.lambdaj.Lambda.group;
-import static ch.lambdaj.Lambda.on;
-import static java.lang.Double.parseDouble;
-import static java.lang.Float.parseFloat;
-import static java.lang.Math.abs;
-
+import au.com.bytecode.opencsv.CSVReader;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
+import static java.lang.Double.parseDouble;
+import static java.lang.Math.abs;
+
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
+import java.util.Map;
 import java.util.SortedMap;
 import java.util.TreeMap;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-
-import au.com.bytecode.opencsv.CSVReader;
-import ch.lambdaj.group.Group;
+import static java.util.stream.Collectors.groupingBy;
 
 /**
- * Reads the wind data from a CSV based file. The values in the file must be as 
- * as a tripple of a longitude, latitude and wind speed per line separated by a 
+ * Reads the wind data from a CSV based file. The values in the file must be as
+ * as a tripple of a longitude, latitude and wind speed per line separated by a
  * comma.
+ * <br/>
+ * So the actual data structure is not the pressure per coordinate, it is wind
+ * speed per coordinate.
+ *
  * @author Mario
  */
 public class WindDataReader {
-    
+
     /* factor to exxagerate the value for the wind speed */
     private static final int FAC = 40000;
 
@@ -56,7 +55,7 @@ public class WindDataReader {
         return content;
     }
 
-    private Group<Coordinate> readCoordinates(String name) {
+    private Map<Double, List<Coordinate>> readCoordinates(String name) {
         List<Coordinate> coordinates = new ArrayList<>();
         List<String[]> content = readString(name);
         for (String[] cnt : content) {
@@ -67,26 +66,38 @@ public class WindDataReader {
             coordinates.add(new Coordinate(lon, lat, alt));
         }
         //group coordinates by longitude
-        return group(coordinates, by(on(Coordinate.class).getLon()));
+        return coordinates.stream().collect(groupingBy(Coordinate::getLon));
     }
-    
-    public SortedMap<Float,List<Line>> read(String name) {
-        SortedMap<Float,List<Line>> data = new TreeMap<>();
-        
-        Group<Coordinate> group = readCoordinates(name);
-        group.keySet().forEach((key) -> {
+
+    /**
+     * This method reads the coordinates and wind speed from the file and
+     * returns a {@link SortedMap} of all projections.<br/>
+     * Projections means a thought line from the ground coordinate (altitude 0)
+     * until the wind speed.
+     *
+     * @param name the file name
+     * @return sorted map where the key is the longitude and the value is a list
+     * of projections per latitude
+     */
+    public SortedMap<Float, List<Line>> read(String name) {
+        SortedMap<Float, List<Line>> data = new TreeMap<>();
+
+        Map<Double, List<Coordinate>> coordinates = readCoordinates(name);
+        coordinates.entrySet().forEach(entry -> {
+            Double key = entry.getKey();
             List<Line> projections = new ArrayList<>();
-            group.find(key).stream().forEach((coord) -> {
-                Coordinate groundCoord = (Coordinate)coord.clone();
+            entry.getValue().stream().forEach((coord) -> {
+
+                Coordinate groundCoord = (Coordinate) coord.clone();
                 groundCoord.setAlt(0.0);
-                
+
                 //create the line surface - data point
                 ModelPoint groundPoint = CoordinatesConverter.toModel(groundCoord);
                 ModelPoint dataPoint = CoordinatesConverter.toModel(coord);
-                Line projection = new Line(groundPoint, dataPoint);
-                projections.add(projection);
+                projections.add(new Line(groundPoint, dataPoint));
+
             });
-            data.put(parseFloat(key), projections);
+            data.put(key.floatValue(), projections);
         });
 
         return data;
