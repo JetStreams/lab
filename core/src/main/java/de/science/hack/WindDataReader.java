@@ -11,8 +11,6 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
-import static java.lang.Double.parseDouble;
-import static java.lang.Math.abs;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -21,7 +19,13 @@ import java.util.SortedMap;
 import java.util.TreeMap;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
+import static java.lang.Double.parseDouble;
+import static java.lang.Math.abs;
+
 import static java.util.stream.Collectors.groupingBy;
+
+import static de.science.hack.CoordinatesConverter.toModel;
 
 /**
  * Reads the wind data from a CSV based file. The values in the file must be as
@@ -38,10 +42,12 @@ public class WindDataReader {
     /* factor to exxagerate the value for the wind speed */
     private static final int FAC = 40000;
 
+    private static final char SEP = ',';
+
     private CSVReader createReader(String name) throws FileNotFoundException {
         File file = new File(name);
         FileReader reader = new FileReader(file);
-        return new CSVReader(reader, ',');
+        return new CSVReader(reader, SEP);
     }
 
     private List<String[]> readString(String name) {
@@ -55,18 +61,15 @@ public class WindDataReader {
         return content;
     }
 
-    private Map<Double, List<Coordinate>> readCoordinates(String name) {
-        List<Coordinate> coordinates = new ArrayList<>();
+    //read and group coordinates by longitude
+    private Map<Double, List<Coordinate>> groupCoordinates(String name) {
         List<String[]> content = readString(name);
-        for (String[] cnt : content) {
-            //we assume that the array length is 3
-            double lon = parseDouble(cnt[0]);
-            double lat = parseDouble(cnt[1]);
-            double alt = abs(parseDouble(cnt[2])) * FAC;
-            coordinates.add(new Coordinate(lon, lat, alt));
-        }
-        //group coordinates by longitude
-        return coordinates.stream().collect(groupingBy(Coordinate::getLon));
+        return content.stream().map(cnt -> createCoordinate(cnt)).collect(groupingBy(Coordinate::getLon));
+    }
+
+    private static Coordinate createCoordinate(String[] cnt) throws NumberFormatException {
+        //we assume that the array length is 3
+        return new Coordinate(parseDouble(cnt[0]), parseDouble(cnt[1]), abs(parseDouble(cnt[2])) * FAC);
     }
 
     /**
@@ -82,7 +85,7 @@ public class WindDataReader {
     public SortedMap<Float, List<Line>> read(String name) {
         SortedMap<Float, List<Line>> data = new TreeMap<>();
 
-        Map<Double, List<Coordinate>> coordinates = readCoordinates(name);
+        Map<Double, List<Coordinate>> coordinates = groupCoordinates(name);
         coordinates.entrySet().forEach(entry -> {
             Double key = entry.getKey();
             List<Line> projections = new ArrayList<>();
@@ -91,10 +94,8 @@ public class WindDataReader {
                 Coordinate groundCoord = (Coordinate) coord.clone();
                 groundCoord.setAlt(0.0);
 
-                //create the line surface - data point
-                ModelPoint groundPoint = CoordinatesConverter.toModel(groundCoord);
-                ModelPoint dataPoint = CoordinatesConverter.toModel(coord);
-                projections.add(new Line(groundPoint, dataPoint));
+                //create the line from surface to data point
+                projections.add(new Line(toModel(groundCoord), toModel(coord)));
 
             });
             data.put(key.floatValue(), projections);
