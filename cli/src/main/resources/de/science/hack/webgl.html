@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
     <head>
@@ -56,55 +55,31 @@
                 Detector.addGetWebGLMessage();
 
             var container, stats;
-
             var camera, cameraTarget, scene, renderer, light;
 
             init();
             animate();
 
             function init() {
-
+                
+                //create and add container
                 container = document.createElement('div');
                 document.body.appendChild(container);
 
-                camera = new THREE.PerspectiveCamera(100, window.innerWidth / window.innerHeight, 1, 15);
-
+                camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 1, 15);
                 cameraTarget = new THREE.Vector3(0, 0, 0);
 
                 scene = new THREE.Scene();
                 scene.fog = new THREE.Fog(0x72645b, 2, 15);
-
-                // Binary files
-                var material = new THREE.MeshPhongMaterial({ambient: 0x555555, color: 0xAAAAFF, specular: 0x111111, shininess: 200});
-
-                var loader = new THREE.STLLoader();
-                loader.addEventListener('load', function(event) {
-
-                    var geometry = event.content;
-                    var mesh = new THREE.Mesh(geometry, material);
-
-                    //mesh.position.set(0, 0, 6);
-                    mesh.rotation.set(-Math.PI / 2, 0, 0);
-                    mesh.scale.set(.02, .02, .02);
-
-                    mesh.castShadow = true;
-                    mesh.receiveShadow = true;
-
-                    scene.add(mesh);
-
-                });
-                loader.load('./earth.stl');
-
+                
+                loadMesh();
 
                 // Lights
-
                 scene.add(new THREE.AmbientLight(0xffffff));
 
                 addShadowedLight(1, 1, 1, 0xffffff, 1.5);
-                //addShadowedLight(0.5, 1, -1, 0xffaa00, 1);
 
                 // renderer
-
                 renderer = new THREE.WebGLRenderer({antialias: true});
                 renderer.setSize(window.innerWidth, window.innerHeight);
 
@@ -125,10 +100,26 @@
                 stats.domElement.style.top = '0px';
                 container.appendChild(stats.domElement);
 
-                //
-
                 window.addEventListener('resize', onWindowResize, false);
+            }
+            
+            function loadMesh() {
+                var material = new THREE.MeshLambertMaterial({ambient: 0x555555, color: 0xAAAAFF});
+                var loader = new THREE.STLLoader();
+                loader.addEventListener('load', function(event) {
+                    var geometry = event.content;
+                    var mesh = new THREE.Mesh(geometry, material);
 
+                    mesh.rotation.set(-Math.PI / 2, 0, 0);
+                    mesh.scale.set(.02, .02, .02);
+
+                    mesh.castShadow = true;
+                    mesh.receiveShadow = true;
+
+                    scene.add(mesh);
+
+                });
+                loader.load('./earth.stl');
             }
 
             function addShadowedLight(x, y, z, color, intensity) {
@@ -187,7 +178,6 @@
                 camera.lookAt(cameraTarget);
 
                 renderer.render(scene, camera);
-
             }
 
         </script>
