@@ -14,6 +14,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import toxi.geom.Vec3D;
 import toxi.geom.mesh.TriangleMesh;
+import toxi.geom.mesh.WETriangleMesh;
 
 /**
  * This builder constructs the mesh for the wind data.
@@ -39,7 +40,7 @@ public class MeshBuilder {
      */
     public TriangleMesh build(SortedMap<Float, List<Line>> data) {
 
-        TriangleMesh mesh = new TriangleMesh();
+        TriangleMesh mesh = new WETriangleMesh();
         if (!data.isEmpty()) {
             long start = System.currentTimeMillis();
 
