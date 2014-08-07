@@ -8,8 +8,7 @@
     </head>
     <body>
         <div id="info">
-            <!--<a href="http://threejs.org" target="_blank">three.js</a> - Model of Jetstreams-->
-            <input type="file" id="files" name="files[]" />
+            <a href="http://threejs.org" target="_blank">three.js</a> - Model of Jetstreams
         </div>
 
         <script src="res/js/threejs/three.min.js"></script>
@@ -21,17 +20,9 @@
         <script src="res/js/threejs/stats.min.js"></script>
 
         <script>
+            run();
 
-            function handleFileSelect(evt) {
-                var files = evt.target.files; // FileList object
-
-                // files is a FileList of File objects. List some properties.
-                for (var i = 0, f; f = files[i]; i++) {
-                    run(escape(f.name));
-                }
-            }
-
-            function run(path) {
+            function run() {
                 if (!Detector.webgl)
                     Detector.addGetWebGLMessage();
 
@@ -52,8 +43,8 @@
 
                     scene = new THREE.Scene();
 
-                    //loadMesh('./earth.stl');
-                    loadMesh(path);
+                    loadMesh('./model.stl');
+                    //loadMesh(path);
 
                     // Lights
                     scene.add(new THREE.AmbientLight(0xffffff));
@@ -90,7 +81,8 @@
                         mesh = new THREE.Mesh(geometry, material);
 
                         mesh.rotation.set(-Math.PI / 2, 0, 0);
-                        mesh.scale.set(.1, .1, .1);
+                        
+                        mesh.scale.set(.0000008, .0000008, .0000008);
 
                         mesh.castShadow = true;
                         mesh.receiveShadow = true;
@@ -106,7 +98,7 @@
                     light.position.set(x, y, z)
                     scene.add(light);
 
-                    light.castShadow = true;
+                    //light.castShadow = true;
                     light.shadowCameraVisible = true;
 
                     var d = 2;
@@ -136,16 +128,14 @@
                 function animate() {
 
                     requestAnimationFrame(animate);
-
-                    mesh.rotation.z += 0.005;
-
+                    if (typeof mesh != "undefined") {
+                        mesh.rotation.z += 0.005;
+                    }
                     renderer.render(scene, camera);
-
                     stats.update();
                 }
             }
 
-            document.getElementById('files').addEventListener('change', handleFileSelect, false);
         </script>
     </body>
 </html>
