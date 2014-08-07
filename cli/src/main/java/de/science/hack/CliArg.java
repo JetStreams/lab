@@ -22,9 +22,9 @@ enum CliArg {
         this.longKey = longKey;
         this.description = description;
     }
-    private String description;
-    private String shortKey;
-    private String longKey;
+    private final String description;
+    private final String shortKey;
+    private final String longKey;
 
     String getShortKey() {
         return shortKey;
