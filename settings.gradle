@@ -1,2 +1,2 @@
-include 'core', 'cli'
+include 'core', 'cli', 'web'
 rootProject.name = 'jetstreams'
