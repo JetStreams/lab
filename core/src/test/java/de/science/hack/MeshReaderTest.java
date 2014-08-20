@@ -20,13 +20,13 @@ import toxi.geom.mesh.Mesh3D;
  *
  * @author Mario
  */
-public class ModelReaderTest {
+public class MeshReaderTest {
 
-    private ModelReader classUnderTest;
+    private MeshReader classUnderTest;
 
     @Before
     public void setUp() {
-        classUnderTest = new ModelReader();
+        classUnderTest = new MeshReader();
     }
 
     /**

@@ -21,13 +21,13 @@ import toxi.geom.mesh.TriangleMesh;
 
 public class ModelManipulationTest {
 
-    private ModelReader reader;
-    private ModelWriter writer;
+    private MeshReader reader;
+    private FileModelWriter writer;
 
     @Before
     public void setUp() {
-        reader = new ModelReader();
-        writer = new ModelWriter();
+        reader = new MeshReader();
+        writer = new FileModelWriter();
     }
 
     @Test

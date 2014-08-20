@@ -13,7 +13,7 @@ import toxi.geom.mesh.*;
  * Reads the mesh from a file.
  * @author Mario
  */
-public class ModelReader {
+public class MeshReader {
     
     /**
      * reduces the scaling factor so that the jet stream on the model

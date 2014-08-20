@@ -10,23 +10,28 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.OutputStream;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import toxi.geom.mesh.TriangleMesh;
 
 /**
  * Writes the mesh to a file.
  * @author Mario
  */
-public class ModelWriter {
+final class FileModelWriter {
+    
+    private static final Logger LOG = LoggerFactory.getLogger(FileModelWriter.class);
+    
+    void write(String fileName, TriangleMesh mesh) {
+        write(new File(fileName), mesh);
+    }
 
-    public void write(File file, TriangleMesh mesh) {
-        OutputStream stream;
+    void write(File file, TriangleMesh mesh) {
         try {
-            stream = new FileOutputStream(file);
+            OutputStream stream = new FileOutputStream(file);
             mesh.saveAsSTL(stream);
         } catch (FileNotFoundException ex) {
-            Logger.getLogger(ModelWriter.class.getName()).log(Level.SEVERE, null, ex);
+            LOG.warn(ex.getMessage(), ex);
         }
     }
 }

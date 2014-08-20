@@ -17,18 +17,18 @@ import toxi.geom.mesh.TriangleMesh;
  *
  * @author Mario
  */
-public class ModelWriterTest {
+public class FileModelWriterTest {
     
-    private ModelWriter classUnderTest;
+    private FileModelWriter classUnderTest;
     
-    private ModelReader reader;
+    private MeshReader reader;
     
     private Mesh3D source;
     
     @Before
     public void setUp() {
-        classUnderTest = new ModelWriter();
-        reader = new ModelReader();
+        classUnderTest = new FileModelWriter();
+        reader = new MeshReader();
         source = reader.readEarth();
     }
 

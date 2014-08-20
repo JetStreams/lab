@@ -22,11 +22,11 @@ import toxi.geom.mesh.TriangleMesh;
  */
 public class MainTest {
     
-    private ModelReader reader;
+    private MeshReader reader;
 
     @Before
     public void setUp() {
-        reader = new ModelReader();
+        reader = new MeshReader();
     }
 
     @Test

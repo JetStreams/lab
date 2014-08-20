@@ -18,14 +18,14 @@ import toxi.geom.mesh.TriangleMesh;
  */
 public class JetStreamModelWriter {
     
-    private final ModelReader modelReader;
-    private final ModelWriter writer;
+    private final MeshReader modelReader;
+    private final FileModelWriter writer;
     private final List<TriangleMesh> windModels;
 
     public JetStreamModelWriter() {
         windModels = new ArrayList<>();
-        modelReader = new ModelReader();
-        writer = new ModelWriter();
+        modelReader = new MeshReader();
+        writer = new FileModelWriter();
     }
 
     public void addWindModel(TriangleMesh model) {
@@ -33,18 +33,21 @@ public class JetStreamModelWriter {
     }
 
     /**
-     * Reads data from the given input file and writes it together with the
-     * globe to the given output file.
+     * Reads the globe data, adds wind model and writes it together 
+     * to the given output file.
      *
      * @param outputFile path to the output file
      */
     public void write(String outputFile) {
 
-        TriangleMesh earth = modelReader.readEarth();
-        
-        windModels.stream().forEach(w -> earth.addMesh(w));
+        TriangleMesh earth = build();
 
-        File file = new File(outputFile);
-        writer.write(file, earth);
+        writer.write(outputFile, earth);
+    }
+
+    private TriangleMesh build() {
+        TriangleMesh earth = modelReader.readEarth();
+        windModels.forEach(w -> earth.addMesh(w));
+        return earth;
     }
 }
