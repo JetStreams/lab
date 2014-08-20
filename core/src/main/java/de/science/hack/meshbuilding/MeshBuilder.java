@@ -6,7 +6,7 @@
  */
 package de.science.hack.meshbuilding;
 
-import de.science.hack.Line;
+import de.science.hack.model.Line;
 import java.util.List;
 import java.util.SortedMap;
 import java.util.concurrent.ForkJoinPool;

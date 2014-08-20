@@ -6,6 +6,8 @@
  */
 package de.science.hack;
 
+import de.science.hack.model.CoordinatesConverter;
+import de.science.hack.model.WGS84;
 import java.io.InputStream;
 import toxi.geom.mesh.*;
 
@@ -33,7 +35,7 @@ public class MeshReader {
         InputStream stream = getClass().getResourceAsStream(EARTH);
         TriangleMesh earth = (TriangleMesh)reader.loadBinary(stream, EARTH, STLReader.TRIANGLEMESH);
         float facEarth = earth.getBoundingBox().getMax().x;
-        float scaling = (float)CoordinatesConverter.RADIUS/facEarth;
+        float scaling = (float)WGS84.RADIUS.getValue()/facEarth;
         return earth.getScaled(scaling-REDUCE);
     }
 

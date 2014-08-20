@@ -6,8 +6,8 @@
  */
 package de.science.hack.meshbuilding;
 
-import de.science.hack.Line;
-import de.science.hack.ModelPoint;
+import de.science.hack.model.Line;
+import de.science.hack.model.ModelPoint;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;

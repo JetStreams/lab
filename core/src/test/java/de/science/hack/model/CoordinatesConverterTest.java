@@ -4,7 +4,7 @@
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version. 
  */
-package de.science.hack;
+package de.science.hack.model;
 
 import java.io.BufferedWriter;
 import java.io.File;
@@ -28,13 +28,13 @@ public class CoordinatesConverterTest {
     public void testToModel() {
         ModelPoint point = CoordinatesConverter.toModel(new Coordinate(0, 0, 0));
         assertNotNull(point);
-        assertEquals(CoordinatesConverter.RADIUS, point.getX(), DIFF);
+        assertEquals(WGS84.RADIUS.getValue(), point.getX(), DIFF);
         assertEquals(0.0, point.getY(), DIFF);
         assertEquals(0.0, point.getZ(), DIFF);
 
         point = CoordinatesConverter.toModel(new Coordinate(-180, 0, 0));
         assertNotNull(point);
-        assertEquals(-CoordinatesConverter.RADIUS, point.getX(), DIFF);
+        assertEquals(-WGS84.RADIUS.getValue(), point.getX(), DIFF);
         assertEquals(0.0, point.getY(), DIFF);
         assertEquals(0.0, point.getZ(), DIFF);
     }

@@ -4,7 +4,7 @@
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version. 
  */
-package de.science.hack;
+package de.science.hack.model;
 
 import javax.vecmath.Point3d;
 

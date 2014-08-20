@@ -4,7 +4,7 @@
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version. 
  */
-package de.science.hack;
+package de.science.hack.model;
 
 /**
  * Converter for lat, long & altitude into to spherical coordinates.<br/>
@@ -15,22 +15,19 @@ package de.science.hack;
  */
 public class CoordinatesConverter {
 
-    /*
-     * WGS84 ellipsoid constants Radius
-     */
-    static final double RADIUS = 6378137;
-
     private CoordinatesConverter() {
     }
 
     public static ModelPoint toModel(Coordinate lla) {
+        final double radius = WGS84.RADIUS.getValue();
+        
         double lat = Math.toRadians(lla.getLat());
         double lon = Math.toRadians(lla.getLon());
         double alt = lla.getAlt();
-
-        double x = RADIUS * Math.cos(lat) * Math.cos(lon);
-        double y = RADIUS * Math.cos(lat) * Math.sin(lon);
-        double z = (RADIUS + alt) * Math.sin(lat);
+        
+        double x = radius * Math.cos(lat) * Math.cos(lon);
+        double y = radius * Math.cos(lat) * Math.sin(lon);
+        double z = (radius + alt) * Math.sin(lat);
         
         return new ModelPoint(x, y, z);
     }

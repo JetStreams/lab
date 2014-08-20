@@ -6,7 +6,7 @@
  */
 package de.science.hack.meshbuilding;
 
-import de.science.hack.Line;
+import de.science.hack.model.Line;
 import static de.science.hack.meshbuilding.AbstractFaceBuilderTask.ZERO;
 import java.util.ArrayList;
 import java.util.LinkedList;

@@ -6,6 +6,8 @@
  */
 package de.science.hack;
 
+import de.science.hack.model.Coordinate;
+import de.science.hack.model.Line;
 import au.com.bytecode.opencsv.CSVReader;
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -25,7 +27,7 @@ import static java.lang.Math.abs;
 
 import static java.util.stream.Collectors.groupingBy;
 
-import static de.science.hack.CoordinatesConverter.toModel;
+import static de.science.hack.model.CoordinatesConverter.toModel;
 
 /**
  * Reads the wind data from a CSV based file. The values in the file must be as
