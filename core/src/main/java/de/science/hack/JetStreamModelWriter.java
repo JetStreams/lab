@@ -7,6 +7,7 @@
 package de.science.hack;
 
 import java.io.File;
+import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.List;
 import toxi.geom.mesh.TriangleMesh;
@@ -39,10 +40,19 @@ public class JetStreamModelWriter {
      * @param outputFile path to the output file
      */
     public void write(String outputFile) {
-
         TriangleMesh earth = build();
-
         writer.write(outputFile, earth);
+    }
+    
+    /**
+     * Reads the globe data, adds wind model and writes it together 
+     * to the given output stream.
+     *
+     * @param outputStream stream to write
+     */
+    public void write(OutputStream outputStream) {
+        TriangleMesh earth = build();
+        earth.saveAsSTL(outputStream);
     }
 
     private TriangleMesh build() {

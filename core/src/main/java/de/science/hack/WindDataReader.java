@@ -6,28 +6,27 @@
  */
 package de.science.hack;
 
-import de.science.hack.model.Coordinate;
-import de.science.hack.model.Line;
 import au.com.bytecode.opencsv.CSVReader;
-import java.io.File;
 import java.io.FileNotFoundException;
-import java.io.FileReader;
 import java.io.IOException;
+import static java.lang.Double.parseDouble;
+import static java.lang.Math.abs;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.SortedMap;
 import java.util.TreeMap;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-
-import static java.lang.Double.parseDouble;
-import static java.lang.Math.abs;
-
 import static java.util.stream.Collectors.groupingBy;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import de.science.hack.model.Coordinate;
+import de.science.hack.model.Line;
+
 import static de.science.hack.model.CoordinatesConverter.toModel;
+import static de.science.hack.CsvReaderFactory.create;
 
 /**
  * Reads the wind data from a CSV based file. The values in the file must be as
@@ -41,31 +40,33 @@ import static de.science.hack.model.CoordinatesConverter.toModel;
  */
 public class WindDataReader {
 
+    private static final Logger LOG = LoggerFactory.getLogger(WindDataReader.class);
+
     /* factor to exxagerate the value for the wind speed */
     private static final int FAC = 40000;
 
-    private static final char SEP = ',';
-
-    private CSVReader createReader(String name) throws FileNotFoundException {
-        File file = new File(name);
-        FileReader reader = new FileReader(file);
-        return new CSVReader(reader, SEP);
-    }
-
-    private List<String[]> readString(String name) {
+    private List<String[]> readStrings(String name) {
         List<String[]> content = new ArrayList<>();
         try {
-            CSVReader reader = createReader(name);
+            content = readStrings(create(name));
+        } catch (FileNotFoundException ex) {
+            LOG.warn(ex.getLocalizedMessage(), ex);
+        }
+        return content;
+    }
+
+    private List<String[]> readStrings(CSVReader reader) {
+        List<String[]> content = new ArrayList<>();
+        try {
             content = reader.readAll();
         } catch (IOException ex) {
-            Logger.getLogger(WindDataReader.class.getName()).log(Level.SEVERE, null, ex);
+            LOG.warn(ex.getLocalizedMessage(), ex);
         }
         return content;
     }
 
     //read and group coordinates by longitude
-    private Map<Double, List<Coordinate>> groupCoordinates(String name) {
-        List<String[]> content = readString(name);
+    private Map<Double, List<Coordinate>> groupCoordinates(List<String[]> content) {
         return content.stream().map(cnt -> createCoordinate(cnt)).collect(groupingBy(Coordinate::getLon));
     }
 
@@ -75,19 +76,14 @@ public class WindDataReader {
     }
 
     /**
-     * This method reads the coordinates and wind speed from the file and
-     * returns a {@link SortedMap} of all projections.<br/>
-     * Projections means a thought line from the ground coordinate (altitude 0)
-     * until the wind speed.
+     * Create the projections.
      *
-     * @param name the file name
-     * @return sorted map where the key is the longitude and the value is a list
-     * of projections per latitude
+     * @param coordinates collection of coordinates
+     * @return a sortend map of lines, starting from ground till the altitude.
      */
-    public SortedMap<Float, List<Line>> read(String name) {
+    private SortedMap<Float, List<Line>> createProjections(Map<Double, List<Coordinate>> coordinates) {
         SortedMap<Float, List<Line>> data = new TreeMap<>();
 
-        Map<Double, List<Coordinate>> coordinates = groupCoordinates(name);
         coordinates.entrySet().forEach(entry -> {
             Double key = entry.getKey();
             List<Line> projections = new ArrayList<>();
@@ -104,5 +100,36 @@ public class WindDataReader {
         });
 
         return data;
+    }
+
+    /**
+     * This method reads the coordinates and wind speed from the file and
+     * returns a {@link SortedMap} of all projections.<br/>
+     * Projections means a thought line from the ground coordinate (altitude 0)
+     * until the wind speed.
+     *
+     * @param fileName the file name
+     * @return sorted map where the key is the longitude and the value is a list
+     * of projections per latitude
+     */
+    public SortedMap<Float, List<Line>> read(String fileName) {
+
+        return createProjections(groupCoordinates(readStrings(fileName)));
+    }
+
+    /**
+     * This method reads the coordinates and wind speed from the file and
+     * returns a {@link SortedMap} of all projections.<br/>
+     * Projections means a thought line from the ground coordinate (altitude 0)
+     * until the wind speed.
+     *
+     * @param bytes bytes to read from
+     * @return sorted map where the key is the longitude and the value is a list
+     * of projections per latitude
+     */
+    public SortedMap<Float, List<Line>> read(byte[] bytes) {
+        
+        CSVReader reader = create(bytes);
+        return createProjections(groupCoordinates(readStrings(reader)));
     }
 }
