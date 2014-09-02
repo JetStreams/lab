@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.ModelAndView;
 import toxi.geom.mesh.TriangleMesh;
 
 /**
@@ -30,23 +31,29 @@ import toxi.geom.mesh.TriangleMesh;
 public class UploadController {
 
     private static final Logger LOG = LoggerFactory.getLogger(UploadController.class);
-    
-    private static final String UPLOAD_FAILED_EXC = "Your upload failed: %s";
 
     static final String SUCCESSFULL_UPLOAD = "You uploaded the file successfully.";
     static final String FAILED_UPLOAD = "Your upload failed, because the file was empty.";
+    
+    static final String MSG_OBJ = "message";
+    
+    static final String INDEX_VIEW = "index";
+    static final String WEBGL_VIEW = "webgl";
 
     @Autowired
     private ResultCache resultCache;
 
     /**
      * Upload a single file and process the content
+     *
      * @param file the actual content
      * @return the result as String
      */
     @RequestMapping(value = "/upload", method = RequestMethod.POST)
     public @ResponseBody
-    String upload(@RequestParam("file") MultipartFile file) {
+    ModelAndView upload(@RequestParam("file") MultipartFile file) {
+        
+        ModelAndView model;
 
         if (!file.isEmpty()) {
             try {
@@ -55,13 +62,16 @@ public class UploadController {
                 TriangleMesh mesh = builder.build(bytes);
                 resultCache.setMesh(mesh);
 
-                return SUCCESSFULL_UPLOAD;
+                model = new ModelAndView(WEBGL_VIEW);
             } catch (IOException e) {
                 LOG.warn(e.getMessage(), e);
-                return String.format(UPLOAD_FAILED_EXC, e.getMessage());
+                model = new ModelAndView(INDEX_VIEW, MSG_OBJ, e.getMessage());
             }
         } else {
-            return FAILED_UPLOAD;
+            model = new ModelAndView(INDEX_VIEW, MSG_OBJ, FAILED_UPLOAD);
         }
+        
+        return model;
     }
+    
 }

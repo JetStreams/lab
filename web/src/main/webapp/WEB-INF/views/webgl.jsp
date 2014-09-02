@@ -5,20 +5,20 @@
         <title>three.js webgl - STL</title>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
-        <link type="text/css" rel="stylesheet" href="res/css/style.css"/>
+        <link type="text/css" rel="stylesheet" href="css/style.css"/>
     </head>
     <body>
         <div id="info">
             <a href="http://threejs.org" target="_blank">three.js</a> - Model of Jetstreams
         </div>
 
-        <script src="res/js/threejs/three.min.js"></script>
+        <script src="js/threejs/three.min.js"></script>
 
-        <script src="res/js/threejs/STLLoader.js"></script>
-        <script src="res/js/threejs/TypedGeometry.js"></script>
+        <script src="js/threejs/STLLoader.js"></script>
+        <script src="js/threejs/TypedGeometry.js"></script>
 
-        <script src="res/js/threejs/Detector.js"></script>
-        <script src="res/js/threejs/stats.min.js"></script>
+        <script src="js/threejs/Detector.js"></script>
+        <script src="js/threejs/stats.min.js"></script>
 
         <script>
             run();
@@ -44,7 +44,7 @@
 
                     scene = new THREE.Scene();
 
-                    loadMesh('./model.stl');
+                    loadMesh('model.stl');
                     //loadMesh(path);
 
                     // Lights

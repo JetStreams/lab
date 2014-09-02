@@ -10,6 +10,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.ModelAndView;
 
 import static org.junit.Assert.*;
 import static org.springframework.test.util.ReflectionTestUtils.setField;
@@ -41,8 +42,10 @@ public class UploadControllerTest {
     public void testFailedUpload() {
         byte[] content = new byte[0];
         MultipartFile file = new MockMultipartFile(NAME, content);
-        String result = classUnderTest.upload(file);
-        assertEquals(String.format(UploadController.FAILED_UPLOAD, NAME), result);
+        ModelAndView result = classUnderTest.upload(file);
+        assertNotNull(result);
+        assertEquals(UploadController.INDEX_VIEW, result.getViewName());
+        assertEquals(UploadController.FAILED_UPLOAD, result.getModel().get(UploadController.MSG_OBJ));
     }
     
     /**
@@ -54,8 +57,9 @@ public class UploadControllerTest {
                 + "0,67.5,-2.00323486328125\n"
                 + "0,66,-3.88800048828125").getBytes();
         MultipartFile file = new MockMultipartFile(NAME, content);
-        String result = classUnderTest.upload(file);
-        assertEquals(UploadController.SUCCESSFULL_UPLOAD, result);
+        ModelAndView result = classUnderTest.upload(file);
+        assertNotNull(result);
+        assertEquals(UploadController.WEBGL_VIEW, result.getViewName());
     }
     
 }
