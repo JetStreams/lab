@@ -24,7 +24,9 @@
         
         <script>
             $(function() {
-                Jetstreams.run();
+                Jetstreams.run('download.do', function(){
+                    console.log('done');
+                });
             });
         </script>
     </body>

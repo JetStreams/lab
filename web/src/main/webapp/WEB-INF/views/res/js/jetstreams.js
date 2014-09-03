@@ -7,9 +7,8 @@
 var Jetstreams = (function() {
     var container, stats;
     var camera, scene, renderer, mesh;
-    var path = 'download.do';
 
-    function init() {
+    function init(path, callback) {
 
         //create and add container
         container = document.createElement('div');
@@ -20,7 +19,7 @@ var Jetstreams = (function() {
 
         scene = new THREE.Scene();
 
-        loadMesh(path);
+        loadMesh(path, callback);
 
         // Lights
         scene.add(new THREE.AmbientLight(0xffffff));
@@ -40,7 +39,6 @@ var Jetstreams = (function() {
         container.appendChild(renderer.domElement);
 
         // stats
-
         stats = new Stats();
         stats.domElement.style.position = 'absolute';
         stats.domElement.style.top = '0px';
@@ -49,11 +47,11 @@ var Jetstreams = (function() {
         window.addEventListener('resize', onWindowResize, false);
     }
 
-    function loadMesh(path) {
-        var material = new THREE.MeshLambertMaterial({ambient: 0x555555, color: 0xAAAAFF});
+    function loadMesh(path, callback) {
         var loader = new THREE.STLLoader();
-        loader.addEventListener('load', function(event) {
+        var loadListener = function(event) {
             var geometry = event.content;
+            var material = new THREE.MeshLambertMaterial({ambient: 0x555555, color: 0xAAAAFF});
             mesh = new THREE.Mesh(geometry, material);
             mesh.rotation.set(-Math.PI / 2, 0, 0);
             //change scale if you choose a mesh with a different size
@@ -64,8 +62,14 @@ var Jetstreams = (function() {
 
             console.log("mesh loaded");
 
+            if (typeof callback === "function") {
+                callback();
+            }
+
             scene.add(mesh);
-        });
+        };
+
+        loader.addEventListener('load', loadListener);
         loader.load(path);
     }
 
@@ -114,13 +118,11 @@ var Jetstreams = (function() {
 
     /** public visible */
     return {
-        run: function() {
+        run: function(path, loadedCallback) {
             if (!Detector.webgl)
                 Detector.addGetWebGLMessage();
 
-
-
-            init();
+            init(path, loadedCallback);
             animate();
         }
     };
