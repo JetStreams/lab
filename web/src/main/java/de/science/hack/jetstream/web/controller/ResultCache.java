@@ -6,6 +6,7 @@
  */
 package de.science.hack.jetstream.web.controller;
 
+import java.io.Serializable;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 import toxi.geom.mesh.TriangleMesh;
@@ -17,7 +18,7 @@ import toxi.geom.mesh.TriangleMesh;
  */
 @Component
 @Scope("session")
-public class ResultCache {
+public class ResultCache implements Serializable{
     
     private TriangleMesh mesh;
 
@@ -28,6 +29,5 @@ public class ResultCache {
     public void setMesh(TriangleMesh mesh) {
         this.mesh = mesh;
     }
-    
     
 }

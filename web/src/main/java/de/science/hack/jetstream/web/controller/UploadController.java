@@ -8,6 +8,7 @@ package de.science.hack.jetstream.web.controller;
 
 import de.science.hack.WindModelBuilder;
 import java.io.IOException;
+import java.io.Serializable;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,7 +29,7 @@ import toxi.geom.mesh.TriangleMesh;
  */
 @Controller
 @Scope("session")
-public class UploadController {
+public class UploadController implements Serializable{
 
     private static final Logger LOG = LoggerFactory.getLogger(UploadController.class);
 

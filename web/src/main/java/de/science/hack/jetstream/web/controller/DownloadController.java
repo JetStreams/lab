@@ -9,6 +9,7 @@ package de.science.hack.jetstream.web.controller;
 import de.science.hack.JetStreamModelWriter;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.io.Serializable;
 import javax.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
@@ -23,7 +24,7 @@ import toxi.geom.mesh.TriangleMesh;
  */
 @Controller
 @Scope("session")
-public class DownloadController {
+public class DownloadController implements Serializable{
 
     static final String MIME = "application/sla";
 
