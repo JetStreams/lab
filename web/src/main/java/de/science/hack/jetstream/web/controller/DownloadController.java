@@ -26,18 +26,24 @@ import toxi.geom.mesh.TriangleMesh;
 @Scope("session")
 public class DownloadController implements Serializable{
 
+    private static final String FILENAME = "model.stl";
+    
     static final String MIME = "application/sla";
 
     @Autowired
     private ResultCache resultCache;
 
+    /**
+     * Download the mesh.
+     * @param response {@link HttpServletResponse}
+     * @throws IOException 
+     */
     @RequestMapping(value = "/download")
     public void download(HttpServletResponse response) throws IOException {
 
         response.setContentType(MIME);
         String headerKey = "Content-Disposition";
-        String headerValue = String.format("attachment; filename=\"%s\"",
-                "model.stl");
+        String headerValue = String.format("attachment; filename=\"%s\"", FILENAME);
         response.setHeader(headerKey, headerValue);
 
         OutputStream outStream = response.getOutputStream();

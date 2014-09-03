@@ -12,7 +12,7 @@ import org.springframework.stereotype.Component;
 import toxi.geom.mesh.TriangleMesh;
 
 /**
- * This class save the result from the previous calculation during the session.
+ * This class saves the result from the previous calculation during the session.
  * 
  * @author Mario
  */
