@@ -18,6 +18,11 @@ public class CoordinatesConverter {
     private CoordinatesConverter() {
     }
 
+    /**
+     * Converts the {@link Coordinate} to a {@link ModelPoint}.
+     * @param lla the real world coordinate.
+     * @return point in th model.
+     */
     public static ModelPoint toModel(Coordinate lla) {
         final double radius = WGS84.RADIUS.getValue();
         

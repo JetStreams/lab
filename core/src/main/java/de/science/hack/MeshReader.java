@@ -6,7 +6,6 @@
  */
 package de.science.hack;
 
-import de.science.hack.model.CoordinatesConverter;
 import de.science.hack.model.WGS84;
 import java.io.InputStream;
 import toxi.geom.mesh.*;

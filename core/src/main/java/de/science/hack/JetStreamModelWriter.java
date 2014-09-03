@@ -6,7 +6,6 @@
  */
 package de.science.hack;
 
-import java.io.File;
 import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.List;
@@ -29,6 +28,10 @@ public class JetStreamModelWriter {
         writer = new FileModelWriter();
     }
 
+    /**
+     * Adds a new wind model.
+     * @param model the mesh to be added.
+     */
     public void addWindModel(TriangleMesh model) {
         windModels.add(model);
     }

@@ -18,7 +18,7 @@ public enum WGS84 {
      */
     RADIUS(6378137);
 
-    private double value;
+    private final double value;
 
     private WGS84(double value) {
         this.value = value;

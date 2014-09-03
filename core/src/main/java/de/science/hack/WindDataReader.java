@@ -43,7 +43,7 @@ public class WindDataReader {
     private static final Logger LOG = LoggerFactory.getLogger(WindDataReader.class);
 
     /* factor to exxagerate the value for the wind speed */
-    private static final int FAC = 40000;
+    private static final int FAC = 40000; //might be passed as a parameter
 
     private List<String[]> readStrings(String name) {
         List<String[]> content = new ArrayList<>();
