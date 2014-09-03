@@ -80,13 +80,14 @@
                     loader.addEventListener('load', function(event) {
                         var geometry = event.content;
                         mesh = new THREE.Mesh(geometry, material);
-
                         mesh.rotation.set(-Math.PI / 2, 0, 0);
-                        
+                        //change scale if you choose a mesh with a different size
                         mesh.scale.set(.0000008, .0000008, .0000008);
 
                         mesh.castShadow = true;
                         mesh.receiveShadow = true;
+                        
+                        console.log("mesh loaded");
 
                         scene.add(mesh);
                     });
@@ -129,7 +130,7 @@
                 function animate() {
 
                     requestAnimationFrame(animate);
-                    if (typeof mesh != "undefined") {
+                    if (typeof mesh !== "undefined") {
                         mesh.rotation.z += 0.005;
                     }
                     renderer.render(scene, camera);
