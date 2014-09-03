@@ -4,15 +4,10 @@
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version. 
  */
-function run() {
-    if (!Detector.webgl)
-        Detector.addGetWebGLMessage();
-
+var Jetstreams = (function() {
     var container, stats;
     var camera, scene, renderer, mesh;
-
-    init();
-    animate();
+    var path = 'download.do';
 
     function init() {
 
@@ -25,7 +20,6 @@ function run() {
 
         scene = new THREE.Scene();
 
-        var path = 'download.do';
         loadMesh(path);
 
         // Lights
@@ -117,7 +111,20 @@ function run() {
         renderer.render(scene, camera);
         stats.update();
     }
-}
+
+    /** public visible */
+    return {
+        run: function() {
+            if (!Detector.webgl)
+                Detector.addGetWebGLMessage();
+
+
+
+            init();
+            animate();
+        }
+    };
+})();
 
 
 

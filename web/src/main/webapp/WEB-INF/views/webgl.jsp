@@ -24,7 +24,7 @@
         
         <script>
             $(function() {
-                run();
+                Jetstreams.run();
             });
         </script>
     </body>
