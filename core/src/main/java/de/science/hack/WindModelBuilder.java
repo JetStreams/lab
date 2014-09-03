@@ -31,4 +31,8 @@ public class WindModelBuilder {
     public TriangleMesh build(String inputFile){
         return meshBuilder.build(dataReader.read(inputFile));
     }
+    
+    public TriangleMesh build(byte[] bytes) {
+        return meshBuilder.build(dataReader.read(bytes));
+    }
 }
