@@ -44,8 +44,8 @@
 
                     scene = new THREE.Scene();
 
-                    loadMesh('model.stl');
-                    //loadMesh(path);
+                    var path = 'download.do';
+                    loadMesh(path);
 
                     // Lights
                     scene.add(new THREE.AmbientLight(0xffffff));
