@@ -10,8 +10,8 @@ import de.science.hack.model.Line;
 import java.util.List;
 import java.util.SortedMap;
 import java.util.concurrent.ForkJoinPool;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import toxi.geom.Vec3D;
 import toxi.geom.mesh.TriangleMesh;
 import toxi.geom.mesh.WETriangleMesh;
@@ -22,6 +22,7 @@ import toxi.geom.mesh.WETriangleMesh;
  * @author Mario
  */
 public class MeshBuilder {
+    private static final Logger LOG = LoggerFactory.getLogger(MeshBuilder.class);
 
     private static final int FIRST = 0;
     private static final int SECOND = 1;
@@ -47,7 +48,7 @@ public class MeshBuilder {
             addFaces(mesh, pool.invoke(new FacesBuilderTask(data)));
 
             long end = System.currentTimeMillis();
-            Logger.getLogger(getClass().getName()).log(Level.INFO, String.format("constructed mesh in %s ms", end - start));
+            LOG.info("constructed mesh in {} ms", end - start);
         }
         return mesh;
     }
