@@ -14,11 +14,10 @@
         </style>
     </head>
     <body>
-        <h1>Welcome to Jetstreams!</h1>
+        <h1>Welcome to Jetstreams 3D simulation.</h1>
 
         <form  method="post" enctype="multipart/form-data" action="upload.do">
             <div id="panel" title="Wind Data">
-
                 <div>
                     <input  id="file-type" type="file" size="4" name="file" style="display: none"/>
                     <button id="browse-click" type="button" class="button">Select file</button>
@@ -30,12 +29,18 @@
         </form>
 
         <jsp:include page="WEB-INF/views/includes/scripts.jsp"/>
+        <script src="js/fileSelect.js"></script>
         <script>
             $(function() {
+                $('#panel').puipanel();
+                $('#browse-click').puibutton();
+                $('#upload').puibutton({
+                    icon: 'ui-icon-transferthick-e-w'
+                });
 
                 var intervalFunc = function() {
                     var type = $('#file-type').val();
-                    if(type !== "undefined"){
+                    if (type !== "undefined") {
                         type = type.replace("C:\\fakepath\\", "");
                     }
                     $('#file-name').html(type);
@@ -44,12 +49,6 @@
                     $('#file-type').click();
                     setInterval(intervalFunc, 1);
                     return false;
-                });
-
-                $('#panel').puipanel();
-                $('#browse-click').puibutton();
-                $('#upload').puibutton({
-                    icon: 'ui-icon-transferthick-e-w'
                 });
             });
         </script>
