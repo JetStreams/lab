@@ -6,9 +6,7 @@
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
         <link type="text/css" rel="stylesheet" href="css/style.css"/>
-        <link type="text/css" rel="stylesheet" href="css/jquery-ui.min.css">
-        <link type="text/css" rel="stylesheet" href="css/jquery-ui.theme.min.css">
-        <link type="text/css" rel="stylesheet" href="css/primeui-1.1-min.css">
+        <jsp:include page="includes/styles.jsp"/>
     </head>
     <body>
         <div id="info">
@@ -21,9 +19,7 @@
         <script src="js/threejs/Detector.js"></script>
         <script src="js/threejs/stats.min.js"></script>
 
-        <script src="js/jquery/jquery-1.11.1.min.js"></script>
-        <script src="js/jquery/jquery-ui.min.js"></script>
-        <script src="js/primeui/primeui-1.1-min.js"></script>
+        <jsp:include page="includes/scripts.jsp"/>
 
         <script src="js/jetstreams.js"></script>            
 
