@@ -59,14 +59,12 @@ var Jetstreams = (function() {
 
             mesh.castShadow = true;
             mesh.receiveShadow = true;
+            scene.add(mesh);
 
             console.log("mesh loaded");
-
             if (typeof callback === "function") {
                 callback();
             }
-
-            scene.add(mesh);
         };
 
         loader.addEventListener('load', loadListener);
@@ -76,7 +74,7 @@ var Jetstreams = (function() {
     function addShadowedLight(x, y, z, color, intensity) {
 
         var light = new THREE.DirectionalLight(color, intensity);
-        light.position.set(x, y, z)
+        light.position.set(x, y, z);
         scene.add(light);
 
         //light.castShadow = true;
