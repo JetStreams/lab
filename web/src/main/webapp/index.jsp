@@ -4,7 +4,7 @@
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <jsp:include page="includes/styles.jsp"/>
+        <jsp:include page="WEB-INF/views/includes/styles.jsp"/>
         <title>Jetstreams</title>
         <style>
             body{
@@ -17,11 +17,11 @@
 
         <form  method="post" enctype="multipart/form-data" action="upload.do">
             <input name="file" type="file" class="upload"/>
-            <button type="submit" value="upload" class="upload"/>
+            <input type="submit" value="upload" class="upload"/>
         </form>
         
         
-        <jsp:include page="includes/scripts.jsp"/>
+        <jsp:include page="WEB-INF/views/includes/scripts.jsp"/>
         <script>
             $(function() {
                $('.upload').puibutton(); 

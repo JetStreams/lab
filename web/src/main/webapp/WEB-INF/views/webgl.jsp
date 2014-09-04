@@ -52,7 +52,7 @@
                 });
             });
         </script>
-        <div id="dlg" title="Loading Model">  
+        <div id="dlg" title="Loading">  
             <div id="progress" />  
         </div>  
     </body>
