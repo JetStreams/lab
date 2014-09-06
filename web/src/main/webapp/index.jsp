@@ -19,7 +19,8 @@
         <form  method="post" enctype="multipart/form-data" action="upload.do">
             <div id="panel" title="Wind Data">
                 <div>
-                    <input  id="file-type" type="file" size="4" name="file" style="display: none"/>
+                    <input  id="file-type" type="file" size="4" name="file" 
+                            accept="text/*" style="display: none"/>
                     <button id="browse-click" type="button" class="button">Select file</button>
                     <!-- filename to display to the user -->
                     <p id="file-name"></p>

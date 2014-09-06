@@ -38,7 +38,7 @@ public class UploadController implements Serializable{
     
     static final String MSG_OBJ = "message";
     
-    static final String INDEX_VIEW = "index";
+    static final String FAILED_VIEW = "failed";
     static final String WEBGL_VIEW = "webgl";
 
     @Autowired
@@ -66,10 +66,10 @@ public class UploadController implements Serializable{
                 model = new ModelAndView(WEBGL_VIEW);
             } catch (IOException e) {
                 LOG.warn(e.getMessage(), e);
-                model = new ModelAndView(INDEX_VIEW, MSG_OBJ, e.getMessage());
+                model = new ModelAndView(FAILED_VIEW, MSG_OBJ, e.getMessage());
             }
         } else {
-            model = new ModelAndView(INDEX_VIEW, MSG_OBJ, FAILED_UPLOAD);
+            model = new ModelAndView(FAILED_VIEW, MSG_OBJ, FAILED_UPLOAD);
         }
         
         return model;

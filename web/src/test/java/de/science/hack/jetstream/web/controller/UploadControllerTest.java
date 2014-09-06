@@ -44,7 +44,7 @@ public class UploadControllerTest {
         MultipartFile file = new MockMultipartFile(NAME, content);
         ModelAndView result = classUnderTest.upload(file);
         assertNotNull(result);
-        assertEquals(UploadController.INDEX_VIEW, result.getViewName());
+        assertEquals(UploadController.FAILED_VIEW, result.getViewName());
         assertEquals(UploadController.FAILED_UPLOAD, result.getModel().get(UploadController.MSG_OBJ));
     }
     
