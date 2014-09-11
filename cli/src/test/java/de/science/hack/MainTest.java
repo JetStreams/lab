@@ -7,15 +7,14 @@
 package de.science.hack;
 
 import java.io.File;
-import javax.annotation.Generated;
 import org.apache.commons.cli.ParseException;
 import org.junit.Before;
 import org.junit.Test;
 
 import toxi.geom.mesh.Mesh3D;
-import static org.junit.Assert.*;
 import toxi.geom.mesh.TriangleMesh;
 
+import static org.junit.Assert.*;
 /**
  *
  * @author Mario
