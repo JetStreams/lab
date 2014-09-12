@@ -9,4 +9,4 @@ So it is not the actual form of the wind, but a representation of the speed at a
 
 [![Build Status](https://travis-ci.org/travis-ci/travis-build.png?branch=master)](https://travis-ci.org/JetStreams/lab/builds)
 
-[Demo Web Application](http://lab.ma-schroed.eu.cloudbees.net/)
+The [Demo Web Application](http://lab.ma-schroed.eu.cloudbees.net/) is deployed daily.
