@@ -44,7 +44,7 @@
                 setInterval(function() {
                     var val = $('#progress').puiprogressbar('option', 'value') + 10;
                     $('#progress').puiprogressbar('option', 'value', val);
-                }, 500);
+                }, 2000);
 
                 //load stl model
                 Jetstreams.run('download.do', function() {
