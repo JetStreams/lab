@@ -29,7 +29,7 @@ public class FileModelWriterTest {
     public void setUp() {
         classUnderTest = new FileModelWriter();
         reader = new MeshReader();
-        source = reader.readEarth();
+        source = reader.readFullGlobe();
     }
 
     /**

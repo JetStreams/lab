@@ -32,7 +32,7 @@ public class ModelManipulationTest {
 
     @Test
     public void testAddAFewWindCoordinates() {
-        Mesh3D mesh = reader.readEarth();
+        Mesh3D mesh = reader.readFullGlobe();
         Collection<Face> allFaces = mesh.getFaces();
         int oldCount = allFaces.size();
 

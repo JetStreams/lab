@@ -27,10 +27,10 @@ public class MeshReader {
     private final STLReader reader = new STLReader();
     
     /**
-     * This method reads the globe model.
+     * This method reads the full globe model.
      * @return 
      */
-    public TriangleMesh readEarth() {
+    public TriangleMesh readFullGlobe() {
         InputStream stream = getClass().getResourceAsStream(EARTH);
         TriangleMesh earth = (TriangleMesh)reader.loadBinary(stream, EARTH, STLReader.TRIANGLEMESH);
         float facEarth = earth.getBoundingBox().getMax().x;

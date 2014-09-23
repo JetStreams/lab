@@ -34,7 +34,7 @@ public class MeshReaderTest {
      */
     @Test
     public void testReadEarth() {
-        Mesh3D result = classUnderTest.readEarth();
+        Mesh3D result = classUnderTest.readFullGlobe();
         assertNotNull(result);
         assertEquals(480335, result.getNumFaces());
         AABB box = result.getBoundingBox();
