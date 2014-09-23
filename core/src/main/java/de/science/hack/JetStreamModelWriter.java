@@ -59,7 +59,7 @@ public class JetStreamModelWriter {
     }
 
     private TriangleMesh build() {
-        TriangleMesh earth = modelReader.readEarth();
+        TriangleMesh earth = modelReader.readFullGlobe();
         windModels.forEach(w -> earth.addMesh(w));
         return earth;
     }
