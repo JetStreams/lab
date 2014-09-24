@@ -15,7 +15,7 @@ enum CliArg {
 
     F("f", "file", "File with the wind data."),
     D("d", "directory", "Directory with the wind data files."),
-    O("o", "output", "Full path of the output.");
+    O("o", "output", "Full path of the output (optional).");
 
     private CliArg(String shortKey, String longKey, String description) {
         this.shortKey = shortKey;
