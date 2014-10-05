@@ -51,7 +51,7 @@ public class FileModelWriterTest {
         classUnderTest.write(file, out);
         assertTrue(file.exists());
         
-        Mesh3D exported = stlReader.loadBinary(file.getPath(), STLReader.TRIANGLEMESH);
+        Mesh3D exported = reader.read(file.getPath());
         assertNotNull(exported);
         assertEquals(source.getFaces().size(), exported.getFaces().size());
     }
