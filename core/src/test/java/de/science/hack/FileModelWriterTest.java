@@ -11,6 +11,7 @@ import org.junit.Before;
 import org.junit.Test;
 import static org.junit.Assert.*;
 import toxi.geom.mesh.Mesh3D;
+import toxi.geom.mesh.STLReader;
 import toxi.geom.mesh.TriangleMesh;
 
 /**
@@ -25,11 +26,15 @@ public class FileModelWriterTest {
     
     private Mesh3D source;
     
+    private STLReader stlReader; 
+    
     @Before
     public void setUp() {
         classUnderTest = new FileModelWriter();
         reader = new MeshReader();
-        source = reader.readFullGlobe();
+        source = reader.readGlobe(GlobeType.Full);
+        
+        stlReader = new STLReader();
     }
 
     /**
@@ -46,7 +51,7 @@ public class FileModelWriterTest {
         classUnderTest.write(file, out);
         assertTrue(file.exists());
         
-        Mesh3D exported = reader.read(file.getPath());
+        Mesh3D exported = stlReader.loadBinary(file.getPath(), STLReader.TRIANGLEMESH);
         assertNotNull(exported);
         assertEquals(source.getFaces().size(), exported.getFaces().size());
     }

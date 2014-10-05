@@ -33,11 +33,17 @@ public class MeshReaderTest {
      * Test of readEarth method, of class ModelReader.
      */
     @Test
-    public void testReadEarth() {
-        Mesh3D result = classUnderTest.readFullGlobe();
+    public void testReadModel() {
+        Mesh3D result = classUnderTest.readGlobe(GlobeType.Full);
         assertNotNull(result);
         assertEquals(480335, result.getNumFaces());
         AABB box = result.getBoundingBox();
+        assertFalse(box.getMax().x == 0.0);
+        
+        result = classUnderTest.readGlobe(GlobeType.Wire);
+        assertNotNull(result);
+        assertEquals(538990, result.getNumFaces());
+        box = result.getBoundingBox();
         assertFalse(box.getMax().x == 0.0);
     }
     

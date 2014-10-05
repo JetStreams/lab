@@ -22,23 +22,20 @@ public class MeshReader {
      */
     private static final int REDUCE = 1000;
     
-    private static final String EARTH = GlobeType.Full.getModelName();
-    
     private final STLReader reader = new STLReader();
     
     /**
-     * This method reads the full globe model.
-     * @return 
+     * This method reads the globe model.
+     * @param type the {@link GlobeType} to use.
+     * @return a {@link TriangleMesh}
      */
-    public TriangleMesh readFullGlobe() {
-        InputStream stream = getClass().getResourceAsStream(EARTH);
-        TriangleMesh earth = (TriangleMesh)reader.loadBinary(stream, EARTH, STLReader.TRIANGLEMESH);
+    public TriangleMesh readGlobe(GlobeType type) {
+        String modelName = type.getModelName();
+        InputStream stream = getClass().getResourceAsStream(modelName);
+        TriangleMesh earth = (TriangleMesh)reader.loadBinary(stream, modelName, STLReader.TRIANGLEMESH);
         float facEarth = earth.getBoundingBox().getMax().x;
         float scaling = (float)WGS84.RADIUS.getValue()/facEarth;
         return earth.getScaled(scaling-REDUCE);
     }
 
-    Mesh3D read(String fileName) {
-        return reader.loadBinary(fileName, STLReader.TRIANGLEMESH);
-    }
 }

@@ -12,7 +12,10 @@ package de.science.hack;
  */
 public enum GlobeType {
     
-    Full("full_globe.stl"), Wire("wire_globe.stl");
+    /** globe as a sphere **/
+    Full("full_globe.stl"), 
+    /** wired frame, space between continents **/
+    Wire("wire_globe.stl");
 
     private GlobeType(String modelName) {
         this.modelName = modelName;
