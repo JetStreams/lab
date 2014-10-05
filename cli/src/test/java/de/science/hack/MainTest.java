@@ -31,7 +31,7 @@ public class MainTest {
     @Test
     public void testWrite() throws ParseException {
         
-        TriangleMesh meshBefore = reader.readFullGlobe();
+        TriangleMesh meshBefore = reader.readGlobe(GlobeType.Full);
         
         File dataFile = new File(getClass().getResource("wind.txt").getFile());
         File out = new File(getClass().getResource(".").getPath(), "jetstreams.stl");
