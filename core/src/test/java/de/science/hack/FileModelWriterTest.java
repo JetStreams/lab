@@ -11,7 +11,6 @@ import org.junit.Before;
 import org.junit.Test;
 import static org.junit.Assert.*;
 import toxi.geom.mesh.Mesh3D;
-import toxi.geom.mesh.STLReader;
 import toxi.geom.mesh.TriangleMesh;
 
 /**
