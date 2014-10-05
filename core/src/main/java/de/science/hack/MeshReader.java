@@ -22,7 +22,7 @@ public class MeshReader {
      */
     private static final int REDUCE = 1000;
     
-    private static final String EARTH = "earth.stl";
+    private static final String EARTH = GlobeType.Full.getModelName();
     
     private final STLReader reader = new STLReader();
     
