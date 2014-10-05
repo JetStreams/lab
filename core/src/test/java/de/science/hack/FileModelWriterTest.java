@@ -26,15 +26,11 @@ public class FileModelWriterTest {
     
     private Mesh3D source;
     
-    private STLReader stlReader; 
-    
     @Before
     public void setUp() {
         classUnderTest = new FileModelWriter();
         reader = new MeshReader();
         source = reader.readGlobe(GlobeType.Full);
-        
-        stlReader = new STLReader();
     }
 
     /**
