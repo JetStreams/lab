@@ -9,6 +9,7 @@ package de.science.hack;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Optional;
 import org.apache.commons.cli.CommandLine;
 import org.apache.commons.cli.CommandLineParser;
 import org.apache.commons.cli.GnuParser;
@@ -36,7 +37,6 @@ public class Main {
     private final CommandLineParser parser;
     private final Options options;
     private final WindModelBuilder windModelBuilder;
-    private final JetStreamModelWriter jetStreamModelWriter;
 
     public Main() {
         parser = new GnuParser();
@@ -45,9 +45,9 @@ public class Main {
         options.addOption(buildOption(CliArg.D));
         options.addOption(buildOption(CliArg.F));
         options.addOption(buildOption(CliArg.O));
+        options.addOption(buildOption(CliArg.T));
 
         windModelBuilder = new WindModelBuilder();
-        jetStreamModelWriter = new JetStreamModelWriter();
     }
 
     private Option buildOption(CliArg arg) {
@@ -65,16 +65,30 @@ public class Main {
         Collection<File> inputFiles = getInputFiles(commandLine);
 
         if (!inputFiles.isEmpty()) {
+            JetStreamModelWriter modelWriter = createModelWriter(commandLine);
+            
             inputFiles.stream().forEach((f) -> {
                 TriangleMesh mesh = windModelBuilder.build(f);
-                jetStreamModelWriter.addWindModel(mesh);
+                modelWriter.addWindModel(mesh);
             });
 
-            jetStreamModelWriter.write(getOutput(commandLine));
+            modelWriter.write(getOutput(commandLine));
         }else{
             HelpFormatter formatter = new HelpFormatter();
             formatter.printHelp(APP, options);
         }
+    }
+
+    private JetStreamModelWriter createModelWriter(CommandLine commandLine) {
+        String type = commandLine.getOptionValue(CliArg.T.getShortKey());
+        Optional<GlobeType> opt = GlobeType.getByKey(type);
+        JetStreamModelWriter modelWriter;
+        if(opt.isPresent()){
+            modelWriter = new JetStreamModelWriter(opt.get());
+        }else{
+            modelWriter = new JetStreamModelWriter();
+        }
+        return modelWriter;
     }
 
     private Collection<File> getInputFiles(CommandLine commandLine) {

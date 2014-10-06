@@ -7,6 +7,7 @@
 package de.science.hack;
 
 import java.io.File;
+import org.apache.commons.io.FileUtils;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -39,9 +40,7 @@ public class FileModelWriterTest {
     
     @After
     public void shutDown() {
-        if(resultFile.exists()){
-            resultFile.delete();
-        }
+        FileUtils.deleteQuietly(resultFile);
     }
 
     /**

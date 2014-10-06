@@ -9,7 +9,7 @@ package de.science.hack;
 import static java.util.Arrays.stream;
 import java.util.Optional;
 import static java.util.Optional.empty;
-import org.apache.commons.lang.StringUtils;
+import static org.apache.commons.lang.StringUtils.isNotBlank;
 
 /**
  * The model type to be used.
@@ -27,12 +27,12 @@ public enum GlobeType {
         this.modelName = modelName;
     }
     
-    private String key;
+    private final String key;
     private final String modelName;
 
     public static Optional<GlobeType> getByKey(String key) {
         Optional<GlobeType> opt = empty();
-        if(StringUtils.isNotBlank(key)){
+        if(isNotBlank(key)){
             opt = stream(GlobeType.values()).filter(type -> type.getKey().equals(key)).findFirst();
         }
         return opt;

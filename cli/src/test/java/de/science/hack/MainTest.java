@@ -8,6 +8,8 @@ package de.science.hack;
 
 import java.io.File;
 import org.apache.commons.cli.ParseException;
+import org.apache.commons.io.FileUtils;
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -22,30 +24,55 @@ import static org.junit.Assert.*;
 public class MainTest {
     
     private MeshReader reader;
-
+    
+    private File dataFile;
+    
+    private File resultFile;
+    
     @Before
     public void setUp() {
         reader = new MeshReader();
+        
+        dataFile = new File(getClass().getResource("wind.txt").getFile());
+        resultFile = new File(getClass().getResource(".").getPath(), "jetstreams.stl");
+    }
+    
+    @After
+    public void shutDown() {
+        FileUtils.deleteQuietly(resultFile);
     }
 
     @Test
-    public void testWrite() throws ParseException {
+    public void testWriteFull() throws ParseException {
         
         TriangleMesh meshBefore = reader.readGlobe(GlobeType.Full);
         
-        File dataFile = new File(getClass().getResource("wind.txt").getFile());
-        File out = new File(getClass().getResource(".").getPath(), "jetstreams.stl");
+        String [] arguments = new String[] {"-d", dataFile.getParent(), "-o", resultFile.getPath()};
+        int expVertices = processAndVerify(arguments);
         
-        String [] arguments = new String[] {"-d", dataFile.getParent(), "-o", out.getPath()};
-        Main.main(arguments);
-        
-        assertTrue(out.exists());
-        
-        Mesh3D exported = reader.read(out.getPath());
-        assertNotNull(exported);
-        int expVertices = exported.getNumVertices();
         assertFalse(expVertices == meshBefore.getNumVertices());
         assertEquals(255779, expVertices);
+    }
+    
+    @Test
+    public void testWriteWired() throws ParseException {
+        
+        TriangleMesh meshBefore = reader.readGlobe(GlobeType.Wire);
+        
+        String [] arguments = new String[] {"-d", dataFile.getParent(), "-o", resultFile.getPath(), "-t", "w"};
+        int expVertices = processAndVerify(arguments);
+        
+        assertFalse(expVertices == meshBefore.getNumVertices());
+        assertEquals(290199, expVertices);
+    }
+
+    private int processAndVerify(String[] arguments) throws ParseException {
+        Main.main(arguments);
+        assertTrue(resultFile.exists());
+        Mesh3D exported = reader.read(resultFile.getPath());
+        assertNotNull(exported);
+        int expVertices = exported.getNumVertices();
+        return expVertices;
     }
 
 }
