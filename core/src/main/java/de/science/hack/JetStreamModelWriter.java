@@ -21,11 +21,25 @@ public class JetStreamModelWriter {
     private final MeshReader modelReader;
     private final FileModelWriter writer;
     private final List<TriangleMesh> windModels;
+    
+    private GlobeType globeType;
 
+    /**
+     * Default constuctor which produces a model based on {@link GlobeType.Full}
+     */
     public JetStreamModelWriter() {
+        this(GlobeType.Full);
+    }
+    
+    /**
+     * Constructor which uses the given {@link GlobeType} for the output.  
+     * @param globeType {@link GlobeType}
+     */
+    public JetStreamModelWriter(GlobeType globeType) {
         windModels = new ArrayList<>();
         modelReader = new MeshReader();
         writer = new FileModelWriter();
+        this.globeType = globeType;
     }
 
     /**
@@ -59,7 +73,7 @@ public class JetStreamModelWriter {
     }
 
     private TriangleMesh build() {
-        TriangleMesh earth = modelReader.readGlobe(GlobeType.Full);
+        TriangleMesh earth = modelReader.readGlobe(globeType);
         windModels.forEach(w -> earth.addMesh(w));
         return earth;
     }

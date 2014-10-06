@@ -7,6 +7,7 @@
 package de.science.hack;
 
 import java.io.File;
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import static org.junit.Assert.*;
@@ -25,11 +26,22 @@ public class FileModelWriterTest {
     
     private Mesh3D source;
     
+    private File resultFile;
+    
     @Before
     public void setUp() {
         classUnderTest = new FileModelWriter();
         reader = new MeshReader();
         source = reader.readGlobe(GlobeType.Full);
+        String path = getClass().getResource(".").getFile();
+        resultFile = new File(path, "out.stl");
+    }
+    
+    @After
+    public void shutDown() {
+        if(resultFile.exists()){
+            resultFile.delete();
+        }
     }
 
     /**
@@ -41,12 +53,11 @@ public class FileModelWriterTest {
         TriangleMesh out = new TriangleMesh();
         out.addMesh(source);
         
-        String path = getClass().getResource(".").getFile();
-        File file = new File(path, "out.stl");
-        classUnderTest.write(file, out);
-        assertTrue(file.exists());
         
-        Mesh3D exported = reader.read(file.getPath());
+        classUnderTest.write(resultFile, out);
+        assertTrue(resultFile.exists());
+        
+        Mesh3D exported = reader.read(resultFile.getPath());
         assertNotNull(exported);
         assertEquals(source.getFaces().size(), exported.getFaces().size());
     }
