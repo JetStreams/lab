@@ -47,7 +47,7 @@
                 }, 2000);
 
                 //load stl model
-                Jetstreams.run('download.do', function() {
+                Jetstreams.run('download/w', function() {
                     $('#dlg').puidialog('hide');
                 });
             });

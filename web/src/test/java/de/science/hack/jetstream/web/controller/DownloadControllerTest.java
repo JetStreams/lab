@@ -8,7 +8,6 @@ package de.science.hack.jetstream.web.controller;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
-import java.io.OutputStream;
 import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletResponse;
 import org.junit.Before;
@@ -16,7 +15,6 @@ import org.junit.Test;
 import org.springframework.mock.web.DelegatingServletOutputStream;
 import toxi.geom.mesh.TriangleMesh;
 
-import static org.junit.Assert.*;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -51,6 +49,16 @@ public class DownloadControllerTest {
     public void testDownload() throws Exception {
         cache.setMesh(new TriangleMesh());
         classUnderTest.download(response);
+        verify(response).setContentType(DownloadController.MIME);
+    }
+    
+    /**
+     * Test of download method, of class DownloadController.
+     */
+    @Test
+    public void testDownloadByType() throws Exception {
+        cache.setMesh(new TriangleMesh());
+        classUnderTest.download(response, "w");
         verify(response).setContentType(DownloadController.MIME);
     }
     

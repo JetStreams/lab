@@ -6,15 +6,19 @@
  */
 package de.science.hack.jetstream.web.controller;
 
+import de.science.hack.GlobeType;
 import de.science.hack.JetStreamModelWriter;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.io.Serializable;
+import java.util.Optional;
 import javax.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import toxi.geom.mesh.TriangleMesh;
 
 /**
@@ -24,10 +28,10 @@ import toxi.geom.mesh.TriangleMesh;
  */
 @Controller
 @Scope("session")
-public class DownloadController implements Serializable{
+public class DownloadController implements Serializable {
 
     private static final String FILENAME = "model.stl";
-    
+
     static final String MIME = "application/sla";
 
     @Autowired
@@ -35,12 +39,26 @@ public class DownloadController implements Serializable{
 
     /**
      * Download the mesh.
+     *
      * @param response {@link HttpServletResponse}
-     * @throws IOException 
+     * @throws IOException
      */
     @RequestMapping(value = "/download")
     public void download(HttpServletResponse response) throws IOException {
 
+        JetStreamModelWriter modelWriter = new JetStreamModelWriter();
+        writeModel(response, modelWriter);
+    }
+
+    @RequestMapping(value = "/download/{type}")
+    public void download(HttpServletResponse response, @PathVariable String type) throws IOException {
+        
+        Optional<GlobeType> opt = GlobeType.getByKey(type);
+        JetStreamModelWriter modelWriter = new JetStreamModelWriter(opt);
+        writeModel(response, modelWriter);
+    }
+
+    private void writeModel(HttpServletResponse response, JetStreamModelWriter modelWriter) throws IOException {
         response.setContentType(MIME);
         String headerKey = "Content-Disposition";
         String headerValue = String.format("attachment; filename=\"%s\"", FILENAME);
@@ -49,7 +67,6 @@ public class DownloadController implements Serializable{
         OutputStream outStream = response.getOutputStream();
         TriangleMesh wind = resultCache.getMesh();
 
-        JetStreamModelWriter modelWriter = new JetStreamModelWriter();
         modelWriter.addWindModel(wind);
         modelWriter.write(outStream);
     }
