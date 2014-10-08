@@ -7,6 +7,7 @@
 package de.science.hack;
 
 import java.io.File;
+import static java.util.Optional.of;
 import org.apache.commons.io.FileUtils;
 import org.junit.After;
 import org.junit.Before;
@@ -45,7 +46,7 @@ public class JetStreamModelWriterTest {
     
     @Test
     public void testWriteWire() {
-        JetStreamModelWriter classUnderTest = new JetStreamModelWriter(GlobeType.Wire);
+        JetStreamModelWriter classUnderTest = new JetStreamModelWriter(of(GlobeType.Wire));
         classUnderTest.write(resultFile.getPath());
         assertTrue(resultFile.exists());
     }

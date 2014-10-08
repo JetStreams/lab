@@ -82,13 +82,7 @@ public class Main {
     private JetStreamModelWriter createModelWriter(CommandLine commandLine) {
         String type = commandLine.getOptionValue(CliArg.T.getShortKey());
         Optional<GlobeType> opt = GlobeType.getByKey(type);
-        JetStreamModelWriter modelWriter;
-        if(opt.isPresent()){
-            modelWriter = new JetStreamModelWriter(opt.get());
-        }else{
-            modelWriter = new JetStreamModelWriter();
-        }
-        return modelWriter;
+        return new JetStreamModelWriter(opt);
     }
 
     private Collection<File> getInputFiles(CommandLine commandLine) {

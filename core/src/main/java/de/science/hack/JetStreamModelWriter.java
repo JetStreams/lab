@@ -9,6 +9,9 @@ package de.science.hack;
 import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
+import static java.util.Optional.empty;
+import static java.util.Optional.of;
 import toxi.geom.mesh.TriangleMesh;
 
 /**
@@ -17,33 +20,37 @@ import toxi.geom.mesh.TriangleMesh;
  * @author Mario
  */
 public class JetStreamModelWriter {
-    
+
     private final MeshReader modelReader;
     private final FileModelWriter writer;
     private final List<TriangleMesh> windModels;
-    
-    private GlobeType globeType;
+
+    private GlobeType globeType = GlobeType.Full;
 
     /**
      * Default constuctor which produces a model based on {@link GlobeType.Full}
      */
     public JetStreamModelWriter() {
-        this(GlobeType.Full);
+        this(empty());
     }
-    
+
     /**
-     * Constructor which uses the given {@link GlobeType} for the output.  
-     * @param globeType {@link GlobeType}
+     * Constructor which uses the given Optional {@link GlobeType} for the output.
+     *
+     * @param opt {@link Optional}
      */
-    public JetStreamModelWriter(GlobeType globeType) {
+    public JetStreamModelWriter(Optional<GlobeType> opt) {
         windModels = new ArrayList<>();
         modelReader = new MeshReader();
         writer = new FileModelWriter();
-        this.globeType = globeType;
+        if (opt.isPresent()) {
+            this.globeType = opt.get();
+        }
     }
 
     /**
      * Adds a new wind model.
+     *
      * @param model the mesh to be added.
      */
     public void addWindModel(TriangleMesh model) {
@@ -51,8 +58,8 @@ public class JetStreamModelWriter {
     }
 
     /**
-     * Reads the globe data, adds wind model and writes it together 
-     * to the given output file.
+     * Reads the globe data, adds wind model and writes it together to the given
+     * output file.
      *
      * @param outputFile path to the output file
      */
@@ -60,10 +67,10 @@ public class JetStreamModelWriter {
         TriangleMesh earth = build();
         writer.write(outputFile, earth);
     }
-    
+
     /**
-     * Reads the globe data, adds wind model and writes it together 
-     * to the given output stream.
+     * Reads the globe data, adds wind model and writes it together to the given
+     * output stream.
      *
      * @param outputStream stream to write
      */
