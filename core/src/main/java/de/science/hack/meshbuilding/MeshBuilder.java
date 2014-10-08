@@ -10,6 +10,7 @@ import de.science.hack.model.Line;
 import java.util.List;
 import java.util.SortedMap;
 import java.util.concurrent.ForkJoinPool;
+import org.apache.commons.lang.time.StopWatch;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import toxi.geom.Vec3D;
@@ -43,12 +44,13 @@ public class MeshBuilder {
 
         TriangleMesh mesh = new WETriangleMesh();
         if (!data.isEmpty()) {
-            long start = System.currentTimeMillis();
+            StopWatch stopWatch = new StopWatch();
 
+            stopWatch.start();
             addFaces(mesh, pool.invoke(new FacesBuilderTask(data)));
-
-            long end = System.currentTimeMillis();
-            LOG.info("constructed mesh in {} ms", end - start);
+            stopWatch.stop();
+            
+            LOG.info("constructed mesh in {} ms", stopWatch);
         }
         return mesh;
     }
