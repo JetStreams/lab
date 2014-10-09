@@ -47,36 +47,11 @@ var UI = (function() {
         });
     }
 
-    function createUpload() {
-        $('#panel').puipanel();
-        $('#browse-click').puibutton();
-        $('#upload').puibutton({
-            icon: 'ui-icon-transferthick-e-w'
-        });
-
-        var intervalFunc = function() {
-            var type = $('#file-type').val();
-            if (type !== "undefined") {
-                type = type.replace("C:\\fakepath\\", "");
-            }
-            $('#file-name').html(type);
-        };
-        $('#browse-click').on('click', function() {
-            $('#file-type').click();
-            setInterval(intervalFunc, 1);
-            return false;
-        });
-    }
-
-
     /** public visible */
     return {
-        webgl: function(type) {
+        create: function(type) {
             createWebgl();
             loadModel(type);
-        },
-        upload: function() {
-            createUpload();
         }
     };
 })(jQuery);

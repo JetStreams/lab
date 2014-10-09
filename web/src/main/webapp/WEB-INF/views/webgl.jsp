@@ -23,11 +23,11 @@
         <jsp:include page="includes/scripts.jsp"/>
 
         <script src="js/jetstreams.js"></script>  
-        <script src="js/ui.js"></script>  
+        <script src="js/download.js"></script>  
 
         <script>
             $(function() {
-                UI.webgl('w');
+                UI.create('w');
             });
         </script>
         <div id="dlg" title="Loading">  

@@ -38,10 +38,10 @@
         </div>
 
         <jsp:include page="WEB-INF/views/includes/scripts.jsp"/>
-        <script src="js/ui.js"></script>  
+        <script src="js/upload.js"></script>  
         <script>
             $(function() {
-                UI.upload();
+                UI.create();
             });
         </script>
     </body>
