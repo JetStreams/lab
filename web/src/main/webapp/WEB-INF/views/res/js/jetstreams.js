@@ -6,9 +6,10 @@
  */
 var Jetstreams = (function() {
     var container, stats;
+    
     var camera, scene, renderer, mesh;
 
-    function init(path, callback) {
+    function createContainer() {
 
         //create and add container
         container = document.createElement('div');
@@ -18,8 +19,6 @@ var Jetstreams = (function() {
         camera.position.z = 10;
 
         scene = new THREE.Scene();
-
-        loadMesh(path, callback);
 
         // Lights
         scene.add(new THREE.AmbientLight(0xffffff));
@@ -120,7 +119,8 @@ var Jetstreams = (function() {
             if (!Detector.webgl)
                 Detector.addGetWebGLMessage();
 
-            init(path, loadedCallback);
+            createContainer(path, loadedCallback);
+            loadMesh(path, loadedCallback);
             animate();
         }
     };

@@ -19,6 +19,15 @@ var UI = (function() {
             minimizable: false,
             maximizable: false
         });
+
+//        $('#full').puibutton({
+//            click: function(event) {
+//               loadModel('f');  
+//            }
+//        });
+    }
+
+    function showProgress() {
         //show dialog
         $('#dlg').puidialog('show');
 
@@ -27,6 +36,15 @@ var UI = (function() {
             var val = $('#progress').puiprogressbar('option', 'value') + 10;
             $('#progress').puiprogressbar('option', 'value', val);
         }, 2000);
+    }
+
+    function loadModel(type) {
+        showProgress();
+
+        //load stl model
+        Jetstreams.run('download/' + type, function() {
+            $('#dlg').puidialog('hide');
+        });
     }
 
     function createUpload() {
@@ -55,11 +73,7 @@ var UI = (function() {
     return {
         webgl: function(type) {
             createWebgl();
-
-            //load stl model
-            Jetstreams.run('download/'+type, function() {
-                $('#dlg').puidialog('hide');
-            });
+            loadModel(type);
         },
         upload: function() {
             createUpload();
