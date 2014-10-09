@@ -38,27 +38,10 @@
         </div>
 
         <jsp:include page="WEB-INF/views/includes/scripts.jsp"/>
-        <script src="js/fileSelect.js"></script>
+        <script src="js/ui.js"></script>  
         <script>
             $(function() {
-                $('#panel').puipanel();
-                $('#browse-click').puibutton();
-                $('#upload').puibutton({
-                    icon: 'ui-icon-transferthick-e-w'
-                });
-
-                var intervalFunc = function() {
-                    var type = $('#file-type').val();
-                    if (type !== "undefined") {
-                        type = type.replace("C:\\fakepath\\", "");
-                    }
-                    $('#file-name').html(type);
-                };
-                $('#browse-click').on('click', function() {
-                    $('#file-type').click();
-                    setInterval(intervalFunc, 1);
-                    return false;
-                });
+                UI.upload();
             });
         </script>
     </body>

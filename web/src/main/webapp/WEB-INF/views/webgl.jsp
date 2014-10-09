@@ -21,35 +21,12 @@
 
         <jsp:include page="includes/scripts.jsp"/>
 
-        <script src="js/jetstreams.js"></script>            
+        <script src="js/jetstreams.js"></script>  
+        <script src="js/ui.js"></script>  
 
         <script>
             $(function() {
-                //setup progress bar
-                //TODO: it might be better to use jquery's indeterminate 
-                //progressbar when loading takes too long
-                $("#progress").puiprogressbar({
-                    labelTemplate: 'Hold tight...'
-                });
-                //setup dialog
-                $('#dlg').puidialog({
-                    closable: false,
-                    minimizable: false,
-                    maximizable: false
-                });
-                //show dialog
-                $('#dlg').puidialog('show');
-                
-                //start progress animation
-                setInterval(function() {
-                    var val = $('#progress').puiprogressbar('option', 'value') + 10;
-                    $('#progress').puiprogressbar('option', 'value', val);
-                }, 2000);
-
-                //load stl model
-                Jetstreams.run('download/w', function() {
-                    $('#dlg').puidialog('hide');
-                });
+                UI.webgl('w');
             });
         </script>
         <div id="dlg" title="Loading">  
