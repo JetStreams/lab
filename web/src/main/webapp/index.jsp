@@ -32,7 +32,7 @@
         <div style="margin-top: 25px">
             <h4>Data Samples</h4>
             <ul>
-                <li><a href="txt/wind_north.txt">Norther Hemisphere</a></li>
+                <li><a href="txt/wind_north.txt">Northern Hemisphere</a></li>
                 <li><a href="txt/wind_south.txt">Southern Hemisphere</a></li>
             </ul>
         </div>
