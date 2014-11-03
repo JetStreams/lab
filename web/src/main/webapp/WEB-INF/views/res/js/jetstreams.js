@@ -37,11 +37,7 @@ var Jetstreams = (function() {
 
         container.appendChild(renderer.domElement);
 
-        // stats
-        stats = new Stats();
-        stats.domElement.style.position = 'absolute';
-        stats.domElement.style.top = '0px';
-        container.appendChild(stats.domElement);
+        addStats();
 
         window.addEventListener('resize', onWindowResize, false);
     }
@@ -94,6 +90,15 @@ var Jetstreams = (function() {
         light.shadowBias = -0.005;
         light.shadowDarkness = 0.15;
     }
+    
+    function addStats() {
+        // stats
+        stats = new Stats();
+        stats.domElement.style.position = 'absolute';
+        stats.domElement.style.bottom = '0px';
+        stats.domElement.style.right = '0px';
+        container.appendChild(stats.domElement);
+    }
 
     function onWindowResize() {
 
@@ -112,16 +117,31 @@ var Jetstreams = (function() {
         renderer.render(scene, camera);
         stats.update();
     }
+    
+    function checkWebgl() {
+        if (!Detector.webgl){
+            Detector.addGetWebGLMessage();
+        }
+    }
+    
+    function updateScene(path, callback) {
+        if(scene){
+            scene.remove(mesh);
+            loadMesh(path, callback);
+        }
+    }
 
     /** public visible */
     return {
         run: function(path, loadedCallback) {
-            if (!Detector.webgl)
-                Detector.addGetWebGLMessage();
-
+            checkWebgl();
             createContainer(path, loadedCallback);
             loadMesh(path, loadedCallback);
             animate();
+        },
+        update: function(path, loadedCallback){
+            checkWebgl();
+            updateScene(path, loadedCallback);
         }
     };
 })();

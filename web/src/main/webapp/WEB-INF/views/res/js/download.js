@@ -20,11 +20,11 @@ var UI = (function() {
             maximizable: false
         });
 
-//        $('#full').puibutton({
-//            click: function(event) {
-//               loadModel('f');  
-//            }
-//        });
+        $('#full').puibutton({
+            click: function(event) {
+               updateModel('f');  
+            }
+        });
     }
 
     function showProgress() {
@@ -43,6 +43,15 @@ var UI = (function() {
 
         //load stl model
         Jetstreams.run('download/' + type, function() {
+            $('#dlg').puidialog('hide');
+        });
+    }
+    
+    function updateModel(type) {
+        showProgress();
+
+        //load stl model
+        Jetstreams.update('download/' + type, function() {
             $('#dlg').puidialog('hide');
         });
     }

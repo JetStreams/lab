@@ -11,7 +11,10 @@
     <body>
         <div id="info">
             <a href="http://threejs.org" target="_blank">three.js</a> - Model of Jetstreams
-            <!--button id="full" type="button">Full</button-->  
+        </div>
+        
+        <div id="control">
+            <button id="full" type="button">Full</button> 
         </div>
 
         <script src="js/threejs/three.min.js"></script>

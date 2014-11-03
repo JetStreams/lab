@@ -15,6 +15,12 @@ body {
     display:block;
 }
 
+#control {
+    top: 15px;
+    float: left;
+    z-index: 120;
+}
+
 a { color: skyblue }
 .button { background:#999; color:#eee; padding:0.2em 0.5em; cursor:pointer }
 .highlight { background:orange; color:#fff; }
