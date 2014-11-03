@@ -4,15 +4,14 @@
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version. 
  */
-var UI = (function() {
+var UI = (function () {
 
     function createWebgl() {
         //setup progress bar
-        //TODO: it might be better to use jquery's indeterminate 
-        //progressbar when loading takes too long
-        $("#progress").puiprogressbar({
-            labelTemplate: 'Hold tight...'
+        $("#progress").progressbar({
+            value: false
         });
+
         //setup dialog
         $('#dlg').puidialog({
             closable: false,
@@ -20,11 +19,7 @@ var UI = (function() {
             maximizable: false
         });
 
-        $('#full').puibutton({
-            click: function(event) {
-               updateModel('f');  
-            }
-        });
+        $("#control").buttonset();
     }
 
     function showProgress() {
@@ -32,7 +27,7 @@ var UI = (function() {
         $('#dlg').puidialog('show');
 
         //start progress animation
-        setInterval(function() {
+        setInterval(function () {
             var val = $('#progress').puiprogressbar('option', 'value') + 10;
             $('#progress').puiprogressbar('option', 'value', val);
         }, 2000);
@@ -42,26 +37,30 @@ var UI = (function() {
         showProgress();
 
         //load stl model
-        Jetstreams.run('download/' + type, function() {
+        Jetstreams.run('download/' + type, function () {
             $('#dlg').puidialog('hide');
         });
     }
-    
+
     function updateModel(type) {
         showProgress();
 
         //load stl model
-        Jetstreams.update('download/' + type, function() {
+        Jetstreams.update('download/' + type, function () {
             $('#dlg').puidialog('hide');
         });
     }
 
     /** public visible */
     return {
-        create: function(type) {
+        create: function (type) {
             createWebgl();
             loadModel(type);
+        },
+        update: function (type) {
+            updateModel(type);
         }
+
     };
 })(jQuery);
 

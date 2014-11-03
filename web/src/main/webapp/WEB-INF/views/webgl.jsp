@@ -9,12 +9,17 @@
         <jsp:include page="includes/styles.jsp"/>
     </head>
     <body>
+
+
         <div id="info">
             <a href="http://threejs.org" target="_blank">three.js</a> - Model of Jetstreams
-        </div>
-        
-        <div id="control">
-            <button id="full" type="button">Full</button> 
+            <div id="control">
+                <input type="radio" name="rd" id="rd1" value="f" onclick="UI.update('f')"/> 
+                <label for="rd1">full</label>
+                <input type="radio" name="rd" id="rd2" value="w" onclick="UI.update('w')" checked="checked"/> 
+                <label for="rd2">wire</label>
+            </div>
+            <!--button id="full" type="button">Full</button--> 
         </div>
 
         <script src="js/threejs/three.min.js"></script>
@@ -29,12 +34,12 @@
         <script src="js/download.js"></script>  
 
         <script>
-            $(function() {
+            $(function () {
                 UI.create('w');
             });
         </script>
-        <div id="dlg" title="Loading">  
-            <div id="progress" />  
+        <div id="dlg" title="Loading...">  
+            <div id="progress"></div>  
         </div>  
     </body>
 </html>
