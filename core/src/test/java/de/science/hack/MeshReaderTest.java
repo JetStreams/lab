@@ -6,6 +6,8 @@
  */
 package de.science.hack;
 
+import static java.util.Optional.empty;
+import static java.util.Optional.of;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertFalse;
@@ -34,13 +36,13 @@ public class MeshReaderTest {
      */
     @Test
     public void testReadModel() {
-        Mesh3D result = classUnderTest.readGlobe(GlobeType.Full);
+        Mesh3D result = classUnderTest.readGlobe(empty());
         assertNotNull(result);
         assertEquals(480335, result.getNumFaces());
         AABB box = result.getBoundingBox();
         assertFalse(box.getMax().x == 0.0);
         
-        result = classUnderTest.readGlobe(GlobeType.Wire);
+        result = classUnderTest.readGlobe(of(GlobeType.Wire));
         assertNotNull(result);
         assertEquals(538990, result.getNumFaces());
         box = result.getBoundingBox();
