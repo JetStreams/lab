@@ -37,7 +37,7 @@ var UI = (function () {
         showProgress();
 
         //load stl model
-        Jetstreams.run('download/' + type, function () {
+        Jetstreams.run(type, function () {
             $('#dlg').puidialog('hide');
         });
     }
@@ -46,7 +46,7 @@ var UI = (function () {
         showProgress();
 
         //load stl model
-        Jetstreams.update('download/' + type, function () {
+        Jetstreams.update(type, function () {
             $('#dlg').puidialog('hide');
         });
     }

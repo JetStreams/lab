@@ -8,6 +8,7 @@ package de.science.hack.jetstream.web.controller;
 
 import de.science.hack.GlobeType;
 import de.science.hack.JetStreamModelWriter;
+import de.science.hack.MeshReader;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.io.Serializable;
@@ -28,8 +29,10 @@ import toxi.geom.mesh.TriangleMesh;
 @Controller
 @Scope("session")
 public class DownloadController implements Serializable {
+    
+    private static final String WIND = "wind.stl";
 
-    private static final String FILENAME = "model.stl";
+    private static final String GLOBE = "globe.stl";
 
     static final String MIME = "application/sla";
 
@@ -42,31 +45,27 @@ public class DownloadController implements Serializable {
      * @param response {@link HttpServletResponse}
      * @throws IOException
      */
-    @RequestMapping(value = "/download")
-    public void download(HttpServletResponse response) throws IOException {
-
-        JetStreamModelWriter modelWriter = new JetStreamModelWriter();
-        writeModel(response, modelWriter);
+    @RequestMapping(value = "/wind")
+    public void windData(HttpServletResponse response) throws IOException {
+        
+        TriangleMesh wind = resultCache.getMesh();
+        wind.saveAsSTL(prepareResponse(response));
     }
 
-    @RequestMapping(value = "/download/{type}")
-    public void download(HttpServletResponse response, @PathVariable String type) throws IOException {
+    @RequestMapping(value = "/globe/{type}")
+    public void globe(HttpServletResponse response, @PathVariable String type) throws IOException {
         
         Optional<GlobeType> opt = GlobeType.getByKey(type);
-        JetStreamModelWriter modelWriter = new JetStreamModelWriter(opt);
-        writeModel(response, modelWriter);
+        MeshReader modelReader = new MeshReader();
+        TriangleMesh globe = modelReader.readGlobe(opt);
+        globe.saveAsSTL(prepareResponse(response));
     }
 
-    private void writeModel(HttpServletResponse response, JetStreamModelWriter modelWriter) throws IOException {
+    private OutputStream prepareResponse(HttpServletResponse response) throws IOException {
         response.setContentType(MIME);
         String headerKey = "Content-Disposition";
-        String headerValue = String.format("attachment; filename=\"%s\"", FILENAME);
+        String headerValue = String.format("attachment; filename=\"%s\"", GLOBE);
         response.setHeader(headerKey, headerValue);
-
-        OutputStream outStream = response.getOutputStream();
-        TriangleMesh wind = resultCache.getMesh();
-
-        modelWriter.addWindModel(wind);
-        modelWriter.write(outStream);
+        return response.getOutputStream();
     }
 }

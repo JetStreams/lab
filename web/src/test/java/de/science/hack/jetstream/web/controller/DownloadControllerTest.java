@@ -46,9 +46,9 @@ public class DownloadControllerTest {
      * Test of download method, of class DownloadController.
      */
     @Test
-    public void testDownload() throws Exception {
+    public void testWindDownload() throws Exception {
         cache.setMesh(new TriangleMesh());
-        classUnderTest.download(response);
+        classUnderTest.windData(response);
         verify(response).setContentType(DownloadController.MIME);
     }
     
@@ -56,9 +56,9 @@ public class DownloadControllerTest {
      * Test of download method, of class DownloadController.
      */
     @Test
-    public void testDownloadByType() throws Exception {
+    public void testGlobeDownload() throws Exception {
         cache.setMesh(new TriangleMesh());
-        classUnderTest.download(response, "w");
+        classUnderTest.globe(response, "w");
         verify(response).setContentType(DownloadController.MIME);
     }
     

@@ -11,9 +11,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import static java.util.Optional.empty;
-import static java.util.Optional.of;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import toxi.geom.mesh.TriangleMesh;
 
 /**
@@ -23,13 +20,12 @@ import toxi.geom.mesh.TriangleMesh;
  */
 public class JetStreamModelWriter {
     
-    private static final Logger LOG = LoggerFactory.getLogger(JetStreamModelWriter.class);
 
     private final MeshReader modelReader;
     private final FileModelWriter writer;
     private final List<TriangleMesh> windModels;
 
-    private GlobeType globeType = GlobeType.Full;
+    private Optional<GlobeType> opt = empty();
 
     /**
      * Default constuctor which produces a model based on {@link GlobeType.Full}
@@ -48,9 +44,7 @@ public class JetStreamModelWriter {
         windModels = new ArrayList<>();
         modelReader = new MeshReader();
         writer = new FileModelWriter();
-        if (opt.isPresent()) {
-            this.globeType = opt.get();
-        }
+        this.opt = opt;
     }
 
     /**
@@ -85,8 +79,7 @@ public class JetStreamModelWriter {
     }
 
     private TriangleMesh build() {
-        LOG.debug("Using globe of type '{}' for building.", globeType.name());
-        TriangleMesh earth = modelReader.readGlobe(globeType);
+        TriangleMesh earth = modelReader.readGlobe(opt);
         windModels.forEach(w -> earth.addMesh(w));
         return earth;
     }

@@ -8,6 +8,9 @@ package de.science.hack;
 
 import de.science.hack.model.WGS84;
 import java.io.InputStream;
+import java.util.Optional;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import toxi.geom.mesh.*;
 
 /**
@@ -16,6 +19,8 @@ import toxi.geom.mesh.*;
  * @author Mario
  */
 public class MeshReader {
+    
+    private static final Logger LOG = LoggerFactory.getLogger(MeshReader.class);
 
     /**
      * reduces the scaling factor so that the jet stream on the model don't
@@ -25,6 +30,14 @@ public class MeshReader {
 
     private final STLReader reader = new STLReader();
 
+    public TriangleMesh readGlobe(Optional<GlobeType> opt){
+        GlobeType type = GlobeType.Full;
+        if(opt.isPresent()){
+            type = opt.get();
+        }
+        return readGlobe(type);
+    }
+    
     /**
      * This method reads the globe model.
      *
@@ -32,6 +45,8 @@ public class MeshReader {
      * @return a {@link TriangleMesh}
      */
     public TriangleMesh readGlobe(GlobeType type) {
+        LOG.debug("Using globe of type '{}'.", type.name());
+        
         String modelName = type.getModelName();
         InputStream stream = getClass().getResourceAsStream(modelName);
         TriangleMesh earth = (TriangleMesh) reader.loadBinary(stream, modelName, STLReader.TRIANGLEMESH);

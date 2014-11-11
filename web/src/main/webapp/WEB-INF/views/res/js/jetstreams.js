@@ -7,7 +7,9 @@
 var Jetstreams = (function() {
     var container, stats;
     
-    var camera, scene, renderer, mesh;
+    var camera, scene, renderer;
+    
+    var globe, wind;
 
     function createContainer() {
 
@@ -41,13 +43,26 @@ var Jetstreams = (function() {
 
         window.addEventListener('resize', onWindowResize, false);
     }
+    
+    function loadAll(type, callback){
+        loadGlobe(type, callback);
+        loadWind();
+    }
+    
+    function loadGlobe(type, callback){
+        globe = loadMesh('globe/'+ type, callback);
+    }
+    
+    function loadWind() {
+        wind = loadMesh('wind', null);
+    }
 
     function loadMesh(path, callback) {
         var loader = new THREE.STLLoader();
         var loadListener = function(event) {
             var geometry = event.content;
             var material = new THREE.MeshLambertMaterial({ambient: 0x555555, color: 0xAAAAFF});
-            mesh = new THREE.Mesh(geometry, material);
+            var mesh = new THREE.Mesh(geometry, material);
             mesh.rotation.set(-Math.PI / 2, 0, 0);
             //change scale if you choose a mesh with a different size
             mesh.scale.set(.0000008, .0000008, .0000008);
@@ -64,6 +79,7 @@ var Jetstreams = (function() {
 
         loader.addEventListener('load', loadListener);
         loader.load(path);
+        return mesh;
     }
 
     function addShadowedLight(x, y, z, color, intensity) {
@@ -124,24 +140,24 @@ var Jetstreams = (function() {
         }
     }
     
-    function updateScene(path, callback) {
+    function updateScene(type, callback) {
         if(scene){
-            scene.remove(mesh);
-            loadMesh(path, callback);
+            scene.remove(globe);
+            loadGlobe(type, callback);
         }
     }
 
     /** public visible */
     return {
-        run: function(path, loadedCallback) {
+        run: function(type, loadedCallback) {
             checkWebgl();
-            createContainer(path, loadedCallback);
-            loadMesh(path, loadedCallback);
+            createContainer();
+            loadAll(type, loadedCallback);
             animate();
         },
-        update: function(path, loadedCallback){
+        update: function(type, loadedCallback){
             checkWebgl();
-            updateScene(path, loadedCallback);
+            updateScene(type, loadedCallback);
         }
     };
 })();
