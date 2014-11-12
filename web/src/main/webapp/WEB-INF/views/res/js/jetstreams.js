@@ -58,11 +58,12 @@ var Jetstreams = (function() {
     }
 
     function loadMesh(path, callback) {
+        var mesh;
         var loader = new THREE.STLLoader();
         var loadListener = function(event) {
             var geometry = event.content;
             var material = new THREE.MeshLambertMaterial({ambient: 0x555555, color: 0xAAAAFF});
-            var mesh = new THREE.Mesh(geometry, material);
+            mesh = new THREE.Mesh(geometry, material);
             mesh.rotation.set(-Math.PI / 2, 0, 0);
             //change scale if you choose a mesh with a different size
             mesh.scale.set(.0000008, .0000008, .0000008);
@@ -127,8 +128,9 @@ var Jetstreams = (function() {
     function animate() {
 
         requestAnimationFrame(animate);
-        if (typeof mesh !== "undefined") {
-            mesh.rotation.z += 0.005;
+        if (typeof globe !== "undefined" && typeof wind !== "undefined") {
+            globe.rotation.z += 0.005;
+            wind.rotation.z += 0.005;
         }
         renderer.render(scene, camera);
         stats.update();
