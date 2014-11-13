@@ -5,6 +5,8 @@
  * (at your option) any later version. 
  */
 var Jetstreams = (function() {
+    var SCALE = .0000008;
+    
     var container, stats;
     
     var camera, scene, renderer;
@@ -50,37 +52,51 @@ var Jetstreams = (function() {
     }
     
     function loadGlobe(type, callback){
-        globe = loadMesh('globe/'+ type, callback);
-    }
-    
-    function loadWind() {
-        wind = loadMesh('wind', null);
-    }
-
-    function loadMesh(path, callback) {
-        var mesh;
-        var loader = new THREE.STLLoader();
+        
         var loadListener = function(event) {
             var geometry = event.content;
             var material = new THREE.MeshLambertMaterial({ambient: 0x555555, color: 0xAAAAFF});
-            mesh = new THREE.Mesh(geometry, material);
-            mesh.rotation.set(-Math.PI / 2, 0, 0);
+            globe = new THREE.Mesh(geometry, material);
+            globe.rotation.set(-Math.PI / 2, 0, 0);
             //change scale if you choose a mesh with a different size
-            mesh.scale.set(.0000008, .0000008, .0000008);
+            globe.scale.set(SCALE, SCALE, SCALE);
 
-            mesh.castShadow = true;
-            mesh.receiveShadow = true;
-            scene.add(mesh);
+            globe.castShadow = true;
+            globe.receiveShadow = true;
+            scene.add(globe);
 
-            console.log("mesh loaded");
+            console.log("globe loaded");
             if (typeof callback === "function") {
                 callback();
             }
         };
+        loadMesh('globe/'+ type, loadListener);
+    }
+    
+    function loadWind() {
+        
+        var loadListener = function(event) {
+            var geometry = event.content;
+            var material = new THREE.MeshLambertMaterial({ambient: 0x777777, color: 0xFFAAAA});
+            wind = new THREE.Mesh(geometry, material);
+            wind.rotation.set(-Math.PI / 2, 0, 0);
+            //change scale if you choose a mesh with a different size
+            wind.scale.set(SCALE, SCALE, SCALE);
 
+            wind.castShadow = true;
+            wind.receiveShadow = true;
+            scene.add(wind);
+
+            console.log("wind loaded");
+        };
+
+        loadMesh('wind', loadListener);
+    }
+
+    function loadMesh(path, loadListener) {
+        var loader = new THREE.STLLoader();
         loader.addEventListener('load', loadListener);
         loader.load(path);
-        return mesh;
     }
 
     function addShadowedLight(x, y, z, color, intensity) {
@@ -128,7 +144,7 @@ var Jetstreams = (function() {
     function animate() {
 
         requestAnimationFrame(animate);
-        if (typeof globe !== "undefined" && typeof wind !== "undefined") {
+        if (typeof globe !== "undefined") {
             globe.rotation.z += 0.005;
             wind.rotation.z += 0.005;
         }

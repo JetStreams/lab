@@ -25,12 +25,6 @@ var UI = (function () {
     function showProgress() {
         //show dialog
         $('#dlg').puidialog('show');
-
-        //start progress animation
-        setInterval(function () {
-            var val = $('#progress').puiprogressbar('option', 'value') + 10;
-            $('#progress').puiprogressbar('option', 'value', val);
-        }, 2000);
     }
 
     function loadModel(type) {
