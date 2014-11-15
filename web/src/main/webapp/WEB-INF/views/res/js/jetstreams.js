@@ -12,7 +12,7 @@ var Jetstreams = (function() {
     var camera, scene, renderer;
     
     var globe, wind;
-
+    
     function createContainer() {
 
         //create and add container
@@ -161,7 +161,11 @@ var Jetstreams = (function() {
     function updateScene(type, callback) {
         if(scene){
             scene.remove(globe);
-            loadGlobe(type, callback);
+            var f = function() {
+              callback();
+              wind.rotation.z = 0.0;
+            };
+            loadGlobe(type, f);
         }
     }
 
