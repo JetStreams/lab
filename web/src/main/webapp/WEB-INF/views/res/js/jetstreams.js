@@ -6,6 +6,7 @@
  */
 var Jetstreams = (function() {
     var SCALE = .0000008;
+    var SPEED = 0.005;
     
     var container, stats;
     
@@ -25,9 +26,7 @@ var Jetstreams = (function() {
         scene = new THREE.Scene();
 
         // Lights
-        scene.add(new THREE.AmbientLight(0xffffff));
-
-        addShadowedLight(5, 5, 5, 0xffffff, 1.5);
+        addShadowLight(0, 0, 10, 0xBEBEBE, 2);
 
         // renderer
         renderer = new THREE.WebGLRenderer({antialias: true});
@@ -35,7 +34,6 @@ var Jetstreams = (function() {
 
         renderer.gammaInput = true;
         renderer.gammaOutput = true;
-
         renderer.shadowMapEnabled = true;
         renderer.shadowMapCullFace = THREE.CullFaceBack;
 
@@ -44,6 +42,28 @@ var Jetstreams = (function() {
         addStats();
 
         window.addEventListener('resize', onWindowResize, false);
+    }
+    
+    function addShadowLight(x, y, z, color, intensity) {
+
+        var light = new THREE.DirectionalLight(color, intensity);
+        light.position.set(x, y, z);
+        scene.add(light);
+
+        light.castShadow = true;
+        light.shadowCameraVisible = true;
+
+        var d = 2;
+        light.shadowCameraLeft = -d;
+        light.shadowCameraRight = d;
+        light.shadowCameraTop = d;
+        light.shadowCameraBottom = -d;
+
+        light.shadowCameraNear = 1;
+        light.shadowCameraFar = 4;
+
+        light.shadowBias = -0.005;
+        light.shadowDarkness = 0.15;
     }
     
     function loadAll(type, callback){
@@ -77,16 +97,13 @@ var Jetstreams = (function() {
         
         var loadListener = function(event) {
             var geometry = event.content;
-            var material = new THREE.MeshLambertMaterial({ambient: 0x777777, color: 0xFFAAAA});
+            var material = new THREE.MeshLambertMaterial({ambient: 0x000000, color: 0xFFAAAA});
             wind = new THREE.Mesh(geometry, material);
             wind.rotation.set(-Math.PI / 2, 0, 0);
             //change scale if you choose a mesh with a different size
             wind.scale.set(SCALE, SCALE, SCALE);
 
-            wind.castShadow = true;
-            wind.receiveShadow = true;
             scene.add(wind);
-
             console.log("wind loaded");
         };
 
@@ -97,31 +114,6 @@ var Jetstreams = (function() {
         var loader = new THREE.STLLoader();
         loader.addEventListener('load', loadListener);
         loader.load(path);
-    }
-
-    function addShadowedLight(x, y, z, color, intensity) {
-
-        var light = new THREE.DirectionalLight(color, intensity);
-        light.position.set(x, y, z);
-        scene.add(light);
-
-        //light.castShadow = true;
-        light.shadowCameraVisible = true;
-
-        var d = 2;
-        light.shadowCameraLeft = -d;
-        light.shadowCameraRight = d;
-        light.shadowCameraTop = d;
-        light.shadowCameraBottom = -d;
-
-        light.shadowCameraNear = 1;
-        light.shadowCameraFar = 4;
-
-        light.shadowMapWidth = 1024;
-        light.shadowMapHeight = 1024;
-
-        light.shadowBias = -0.005;
-        light.shadowDarkness = 0.15;
     }
     
     function addStats() {
@@ -145,8 +137,8 @@ var Jetstreams = (function() {
 
         requestAnimationFrame(animate);
         if (typeof globe !== "undefined") {
-            globe.rotation.z += 0.005;
-            wind.rotation.z += 0.005;
+            globe.rotation.z += SPEED;
+            wind.rotation.z += SPEED;
         }
         renderer.render(scene, camera);
         stats.update();
