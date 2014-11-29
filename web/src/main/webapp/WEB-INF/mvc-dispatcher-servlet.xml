@@ -26,5 +26,6 @@
     <mvc:resources mapping="/js/**" location="/WEB-INF/views/res/js/" />
     <mvc:resources mapping="/txt/**" location="/WEB-INF/views/res/txt/" />
     <mvc:resources mapping="/images/**" location="/WEB-INF/views/res/images/" />
+    <mvc:resources mapping="/mdl/**" location="/WEB-INF/views/res/mdl/" />
     
 </beans>
