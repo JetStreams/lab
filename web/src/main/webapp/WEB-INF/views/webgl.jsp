@@ -14,9 +14,9 @@
         <div id="info">
             <a href="http://threejs.org" target="_blank">three.js</a> - Model of Jetstreams
             <div id="control">
-                <input type="radio" name="rd" id="rd1" value="f" onclick="UI.update('f')"/> 
+                <input type="radio" name="rd" id="rd1" value="f" onclick="UI.update('fs')"/> 
                 <label for="rd1">full</label>
-                <input type="radio" name="rd" id="rd2" value="w" onclick="UI.update('w')" checked="checked"/> 
+                <input type="radio" name="rd" id="rd2" value="w" onclick="UI.update('ws')" checked="checked"/> 
                 <label for="rd2">wire</label>
             </div>
             <!--button id="full" type="button">Full</button--> 
@@ -35,7 +35,7 @@
 
         <script>
             $(function () {
-                UI.create('w');
+                UI.create('ws');
             });
         </script>
         <div id="dlg" title="Loading...">  

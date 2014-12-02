@@ -19,8 +19,10 @@ public enum GlobeType {
     
     /** globe as a sphere **/
     Full("f", "full_globe.stl"), 
+    Full_Small("fs", "full_globe_small.stl"),
     /** wired frame, space between continents **/
-    Wire("w","wire_globe.stl");
+    Wire("w","wire_globe.stl"),
+    Wire_Small("ws", "wire_globe_small.stl");
 
     private GlobeType(String key, String modelName) {
         this.key = key;
