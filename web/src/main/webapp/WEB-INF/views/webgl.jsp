@@ -19,7 +19,6 @@
                 <input type="radio" name="rd" id="rd2" value="w" onclick="UI.update('ws')" checked="checked"/> 
                 <label for="rd2">wire</label>
             </div>
-            <!--button id="full" type="button">Full</button--> 
         </div>
 
         <script src="js/threejs/three.min.js"></script>
