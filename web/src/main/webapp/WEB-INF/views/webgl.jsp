@@ -29,8 +29,8 @@
 
         <jsp:include page="includes/scripts.jsp"/>
 
-        <script src="js/jetstreams.js"></script>  
-        <script src="js/download.js"></script>  
+        <script src="js/app/jetstreams.js"></script>  
+        <script src="js/app/webgl.js"></script>  
 
         <script>
             $(function () {
