@@ -36,13 +36,7 @@
                 <li><a href="txt/wind_south.txt">Southern Hemisphere</a></li>
             </ul>
         </div>
-
-        <jsp:include page="WEB-INF/views/includes/scripts.jsp"/>
-        <script src="js/upload.js"></script>  
-        <script>
-            $(function() {
-                UI.create();
-            });
-        </script>
+        
+        <script data-main="js/app/default" src="js/require.js"></script>
     </body>
 </html>

@@ -34,7 +34,7 @@ var UI = (function() {
             createUpload();
         }
     };
-})(jQuery);
+})($, PUI);
 
 
 

@@ -21,11 +21,6 @@
             <p><a href="index.jsp">Try again</a></p>
         </div>
 
-        <jsp:include page="includes/scripts.jsp"/>
-        <script>
-            $(function() {
-                $('#panel').puipanel();
-            });
-        </script>
+        <script data-main="js/app/default" src="js/require.js"></script>
     </body>
 </html>
