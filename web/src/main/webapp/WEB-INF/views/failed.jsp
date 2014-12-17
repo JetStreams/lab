@@ -4,14 +4,8 @@
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <jsp:include page="includes/styles.jsp"/>
+        <link type="text/css" rel="stylesheet" href="css/default.css"/>
         <title>Jetstreams</title>
-        <style>
-            body{
-                margin: 50px;
-                font-family: Sans-Serif;
-            }
-        </style>
     </head>
     <body>
         <h1>Oops.</h1>
