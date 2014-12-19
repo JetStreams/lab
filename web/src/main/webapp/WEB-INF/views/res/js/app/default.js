@@ -1,9 +1,9 @@
 require.config({
     baseUrl: './js',
     paths: {
-        "jquery": "jquery/jquery-1.11.1.min",
-        "jqueryui": "jquery/jquery-ui.min",
-        "primeui": "primeui/primeui-1.1.min"
+        jquery: "jquery/jquery-1.11.1.min",
+        jqueryui: "jquery/jquery-ui.min",
+        primeui: "primeui/primeui-1.1.min"
     },
     shim: {
         primeui: {
