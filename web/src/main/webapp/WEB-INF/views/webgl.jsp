@@ -31,7 +31,7 @@
         <script src="js/primeui/primeui-1.1.min.js"></script>
 
         <script src="js/app/jetstreams.js"></script>  
-        <script src="js/app/webgl.js"></script>  
+        <script src="js/app/webgl-ui.js"></script>  
 
         <script>
                     $(function () {

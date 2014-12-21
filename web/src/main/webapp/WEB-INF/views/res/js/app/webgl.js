@@ -1,62 +1,31 @@
-/*
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version. 
- */
-var UI = (function () {
-
-    function createWebgl() {
-        //setup progress bar
-        $("#progress").progressbar({
-            value: false
-        });
-
-        //setup dialog
-        $('#dlg').puidialog({
-            closable: false,
-            minimizable: false,
-            maximizable: false
-        });
-
-        $("#control").buttonset();
-    }
-
-    function showProgress() {
-        //show dialog
-        $('#dlg').puidialog('show');
-    }
-
-    function loadModel(type) {
-        showProgress();
-
-        //load stl model
-        Jetstreams.run(type, function () {
-            $('#dlg').puidialog('hide');
-        });
-    }
-
-    function updateModel(type) {
-        showProgress();
-
-        //load stl model
-        Jetstreams.update(type, function () {
-            $('#dlg').puidialog('hide');
-        });
-    }
-
-    /** public visible */
-    return {
-        create: function (type) {
-            createWebgl();
-            loadModel(type);
+require.config({
+    baseUrl: './js',
+    paths: {
+        jquery: "jquery/jquery-1.11.1.min",
+        jqueryui: "jquery/jquery-ui.min",
+        primeui: "primeui/primeui-1.1.min",
+        three: "threejs/three.min",
+        stats: "threejs/stats.min",
+        detector: "threejs/Detector",
+        stlLoader: "threejs/STLLoader",
+        typedGeometry: "threejs/TypedGeometry",
+        jetstream: "app/jetstreams",
+        webglUi: "appwebgl-ui"
+        
+    },
+    shim: {
+        primeui: {
+            deps: ["jquery", "jqueryui"],
+            exports: "$"
         },
-        update: function (type) {
-            updateModel(type);
-        }
+        three: { exports: 'THREE' },
+        detector: {exports: 'Detector'},
+        stats: {exports: 'Stats'}
+    }
+});
 
-    };
-})(jQuery);
+require(["primeui"], function ($) {
 
 
 
+});
