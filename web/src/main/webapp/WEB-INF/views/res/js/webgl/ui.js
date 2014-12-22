@@ -56,7 +56,7 @@ var UI = (function () {
         }
 
     };
-})(jQuery);
+})(jQuery, Jetstreams);
 
 
 

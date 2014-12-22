@@ -19,27 +19,9 @@
                 <label for="rd2">wire</label>
             </div>
         </div>
-
-        <script src="js/threejs/three.min.js"></script>
-        <script src="js/threejs/STLLoader.js"></script>
-        <script src="js/threejs/TypedGeometry.js"></script>
-        <script src="js/threejs/Detector.js"></script>
-        <script src="js/threejs/stats.min.js"></script>
-
-        <script src="js/jquery/jquery-1.11.1.min.js"></script>
-        <script src="js/jquery/jquery-ui.min.js"></script>
-        <script src="js/primeui/primeui-1.1.min.js"></script>
-
-        <script src="js/app/jetstreams.js"></script>  
-        <script src="js/app/webgl-ui.js"></script>  
-
-        <script>
-                    $(function () {
-                        UI.create('ws');
-                    });
-        </script>
         <div id="dlg" title="Loading...">  
             <div id="progress"></div>  
         </div>  
+        <script data-main="js/conf/webgl" src="js/require.js"></script>
     </body>
 </html>

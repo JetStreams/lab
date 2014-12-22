@@ -15,6 +15,6 @@
             <p><a href="index.jsp">Try again</a></p>
         </div>
 
-        <script data-main="js/app/default" src="js/require.js"></script>
+        <script data-main="js/conf/default" src="js/require.js"></script>
     </body>
 </html>
