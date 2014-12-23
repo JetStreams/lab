@@ -1,6 +1,8 @@
 buildscript {
     repositories {
-        jcenter()
+        jcenter{
+            url: 'http://jcenter.bintray.com'
+        }
         mavenLocal()
         mavenCentral()
     }
@@ -67,5 +69,13 @@ combineJs {
         source = javascript.source.dev.js.files
     }
     dest = file("${buildDir}/all.js")
+}
+
+minifyJs {
+    source = combineJs
+    dest = file("${buildDir}/all.min.js")
+    closure {
+        warningLevel = 'QUIET'
+    }
 }
     
