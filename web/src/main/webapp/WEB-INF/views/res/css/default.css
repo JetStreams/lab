@@ -1,0 +1,8 @@
+@import "jquery-ui.min.css";
+@import "jquery-ui.theme.min.css";
+@import "primeui-1.1-min.css";
+
+body{
+    margin: 50px;
+    font-family: Sans-Serif;
+}

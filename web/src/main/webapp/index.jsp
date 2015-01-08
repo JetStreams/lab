@@ -4,14 +4,8 @@
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <jsp:include page="WEB-INF/views/includes/styles.jsp"/>
+        <link type="text/css" rel="stylesheet" href="css/default.css"/>
         <title>Jetstreams</title>
-        <style>
-            body{
-                margin: 50px;
-                font-family: Sans-Serif;
-            }
-        </style>
     </head>
     <body>
         <h1>Welcome to Jetstreams 3D simulation.</h1>
@@ -36,13 +30,7 @@
                 <li><a href="txt/wind_south.txt">Southern Hemisphere</a></li>
             </ul>
         </div>
-
-        <jsp:include page="WEB-INF/views/includes/scripts.jsp"/>
-        <script src="js/upload.js"></script>  
-        <script>
-            $(function() {
-                UI.create();
-            });
-        </script>
+        
+        <script data-main="js/conf/default" src="js/require.js"></script>
     </body>
 </html>
