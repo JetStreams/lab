@@ -22,9 +22,9 @@
     
     <mvc:annotation-driven />
     <mvc:default-servlet-handler />
-    <mvc:resources mapping="/css/**" location="/WEB-INF/views/res/css/" />
-    <mvc:resources mapping="/js/**" location="/WEB-INF/views/res/js/" />
-    <mvc:resources mapping="/txt/**" location="/WEB-INF/views/res/txt/" />
-    <mvc:resources mapping="/images/**" location="/WEB-INF/views/res/images/" />
+    <mvc:resources mapping="/css/**" location="/WEB-INF/views/res/css/" cache-period="24"/>
+    <mvc:resources mapping="/js/**" location="/WEB-INF/views/res/js/" cache-period="24"/>
+    <mvc:resources mapping="/txt/**" location="/WEB-INF/views/res/txt/" cache-period="24"/>
+    <mvc:resources mapping="/images/**" location="/WEB-INF/views/res/images/" cache-period="24"/>
     
 </beans>
