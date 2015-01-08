@@ -12,7 +12,7 @@
 
         <div id="panel" title="Upload Failed!">
             <p>${message}</p>
-            <p><a href="index.jsp">Try again</a></p>
+            <p><a href="${pageContext.request.contextPath}">Try again</a></p>
         </div>
 
         <script data-main="js/conf/default" src="js/require.js"></script>
