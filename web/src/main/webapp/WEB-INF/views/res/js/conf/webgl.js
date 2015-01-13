@@ -9,6 +9,7 @@ require.config({
         detector: "threejs/Detector",
         stlLoader: "threejs/STLLoader",
         typedGeometry: "threejs/TypedGeometry",
+        trackBallControls: "threejs/TrackballControls",
         jetstreams: "webgl/jetstreams",
         webglUi: "webgl/ui"
     },
@@ -28,8 +29,12 @@ require.config({
             deps: ['threeCore'],
             exports: 'THREE'
         },
+        trackBallControls: {
+            deps: ['threeCore'],
+            exports: 'THREE'
+        },
         jetstreams: {
-            deps: ["detector", "stats", "threeCore", "stlLoader", "typedGeometry"],
+            deps: ["detector", "stats", "threeCore", "stlLoader", "typedGeometry", "trackBallControls"],
             exports: "Jetstreams"
         },
         webglUi: {

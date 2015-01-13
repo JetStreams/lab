@@ -4,21 +4,23 @@
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version. 
  */
-var Jetstreams = (function() {
+var Jetstreams = (function () {
     var SCALE = .0000008;
     var SPEED = 0.005;
-    
+
     var container, stats;
-    
-    var camera, scene, renderer;
-    
+
+    var camera, scene, renderer, controls;
+
     var globe, wind;
-    
-    function createContainer() {
+
+    function create() {
 
         //create and add container
         container = document.createElement('div');
         document.body.appendChild(container);
+
+        addStats();
 
         camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 1, 15);
         camera.position.z = 10;
@@ -29,21 +31,38 @@ var Jetstreams = (function() {
         addShadowLight(0, 0, 10, 0xBEBEBE, 2);
 
         // renderer
+        createRenderer();
+
+        //controls
+        createControls();
+
+        container.appendChild(renderer.domElement);
+
+        window.addEventListener('resize', onWindowResize, false);
+    }
+
+    function createRenderer() {
         renderer = new THREE.WebGLRenderer({antialias: true});
         renderer.setSize(window.innerWidth, window.innerHeight);
-
         renderer.gammaInput = true;
         renderer.gammaOutput = true;
         renderer.shadowMapEnabled = true;
         renderer.shadowMapCullFace = THREE.CullFaceBack;
-
-        container.appendChild(renderer.domElement);
-
-        addStats();
-
-        window.addEventListener('resize', onWindowResize, false);
     }
-    
+
+    function createControls() {
+        controls = new THREE.TrackballControls(camera);
+        controls.noZoom = false;
+         controls.noPan = true;
+         
+        controls.zoomSpeed = 1;
+       
+        controls.staticMoving = true;
+        controls.keys = [ 65, 83 ];
+        
+        controls.addEventListener('change', render);
+    }
+
     function addShadowLight(x, y, z, color, intensity) {
 
         var light = new THREE.DirectionalLight(color, intensity);
@@ -51,7 +70,7 @@ var Jetstreams = (function() {
         scene.add(light);
 
         light.castShadow = true;
-        light.shadowCameraVisible = true;
+//        light.shadowCameraVisible = true;
 
         var d = 2;
         light.shadowCameraLeft = -d;
@@ -65,15 +84,15 @@ var Jetstreams = (function() {
         light.shadowBias = -0.005;
         light.shadowDarkness = 0.15;
     }
-    
-    function loadAll(type, callback){
+
+    function loadAll(type, callback) {
         loadGlobe(type, callback);
         loadWind();
     }
-    
-    function loadGlobe(type, callback){
-        
-        var loadListener = function(event) {
+
+    function loadGlobe(type, callback) {
+
+        var loadListener = function (event) {
             var geometry = event.content;
             var material = new THREE.MeshLambertMaterial({ambient: 0x555555, color: 0xAAAAFF});
             globe = new THREE.Mesh(geometry, material);
@@ -90,12 +109,12 @@ var Jetstreams = (function() {
                 callback();
             }
         };
-        loadMesh('globe/'+ type, loadListener);
+        loadMesh('globe/' + type, loadListener);
     }
-    
+
     function loadWind() {
-        
-        var loadListener = function(event) {
+
+        var loadListener = function (event) {
             var geometry = event.content;
             var material = new THREE.MeshLambertMaterial({ambient: 0x000000, color: 0xFFAAAA});
             wind = new THREE.Mesh(geometry, material);
@@ -115,7 +134,7 @@ var Jetstreams = (function() {
         loader.addEventListener('load', loadListener);
         loader.load(path);
     }
-    
+
     function addStats() {
         // stats
         stats = new Stats();
@@ -131,6 +150,8 @@ var Jetstreams = (function() {
         camera.updateProjectionMatrix();
 
         renderer.setSize(window.innerWidth, window.innerHeight);
+
+        controls.handleResize();
     }
 
     function animate() {
@@ -140,22 +161,27 @@ var Jetstreams = (function() {
             globe.rotation.z += SPEED;
             wind.rotation.z += SPEED;
         }
+        controls.update();
+        render();
+    }
+
+    function render() {
         renderer.render(scene, camera);
         stats.update();
     }
-    
+
     function checkWebgl() {
-        if (!Detector.webgl){
+        if (!Detector.webgl) {
             Detector.addGetWebGLMessage();
         }
     }
-    
+
     function updateScene(type, callback) {
-        if(scene){
+        if (scene) {
             scene.remove(globe);
-            var f = function() {
-              callback();
-              wind.rotation.z = 0.0;
+            var f = function () {
+                callback();
+                wind.rotation.z = 0.0;
             };
             loadGlobe(type, f);
         }
@@ -163,13 +189,13 @@ var Jetstreams = (function() {
 
     /** public visible */
     return {
-        run: function(type, loadedCallback) {
+        run: function (type, loadedCallback) {
             checkWebgl();
-            createContainer();
+            create();
             loadAll(type, loadedCallback);
             animate();
         },
-        update: function(type, loadedCallback){
+        update: function (type, loadedCallback) {
             checkWebgl();
             updateScene(type, loadedCallback);
         }
