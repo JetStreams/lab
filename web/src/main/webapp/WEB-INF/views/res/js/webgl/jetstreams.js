@@ -19,13 +19,13 @@ var Jetstreams = (function () {
         //create and add container
         container = document.createElement('div');
         document.body.appendChild(container);
-
-        addStats();
-
-        camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 1, 15);
-        camera.position.z = 10;
-
+        
         scene = new THREE.Scene();
+        
+        camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 1, 20);
+        camera.position.z = 10;
+        
+        addStats();
 
         addLights();
 
@@ -41,7 +41,9 @@ var Jetstreams = (function () {
     }
 
     function addLights() {
-        var light = new THREE.PointLight(0xff0000, 1, 100);
+        scene.add(new THREE.AmbientLight( 0xaaaaaa ));
+        
+        var light = new THREE.PointLight(0xaa0000, 1, 100);
         light.position.set(0, 0, 0);
         scene.add(light);
 
@@ -54,7 +56,7 @@ var Jetstreams = (function () {
         light.position.set(x, y, z);
         scene.add(light);
 
-        light.castShadow = true;
+//        light.castShadow = true;
         light.shadowCameraVisible = true;
 
         var d = 2;
