@@ -52,14 +52,10 @@ var Jetstreams = (function () {
 
     function createControls() {
         controls = new THREE.TrackballControls(camera);
-        controls.noZoom = false;
-         controls.noPan = true;
-         
+        controls.noPan = true;
         controls.zoomSpeed = 1;
+        controls.maxDistance = 12;
        
-        controls.staticMoving = true;
-        controls.keys = [ 65, 83 ];
-        
         controls.addEventListener('change', render);
     }
 
