@@ -7,12 +7,10 @@
 var Jetstreams = (function () {
     var SCALE = .0000008;
     var SPEED = 0.005;
-
+    
     var container, stats;
-
     var camera, scene, renderer, controls;
-
-    var globe, wind;
+    var globe, wind, aniId;
 
     function create() {
 
@@ -36,7 +34,7 @@ var Jetstreams = (function () {
         createControls();
 
         container.appendChild(renderer.domElement);
-
+        
         window.addEventListener('resize', onWindowResize, false);
     }
 
@@ -88,6 +86,14 @@ var Jetstreams = (function () {
         controls.maxDistance = 12;
 
         controls.addEventListener('change', render);
+        
+        //listener for key pressed
+        document.addEventListener('keypress', function(event){
+            var keyCode = event.keyCode;
+            if(keyCode === 115){
+                toogleAnimation();
+            }
+        });
     }
 
     function loadAll(type, callback) {
@@ -140,6 +146,7 @@ var Jetstreams = (function () {
         loader.load(path);
     }
 
+    //add statistics
     function addStats() {
         // stats
         stats = new Stats();
@@ -153,15 +160,13 @@ var Jetstreams = (function () {
 
         camera.aspect = window.innerWidth / window.innerHeight;
         camera.updateProjectionMatrix();
-
         renderer.setSize(window.innerWidth, window.innerHeight);
-
         controls.handleResize();
     }
 
     function animate() {
 
-        requestAnimationFrame(animate);
+        aniId = requestAnimationFrame(animate);
         if (typeof globe !== "undefined") {
             globe.rotation.z += SPEED;
             wind.rotation.z += SPEED;
@@ -169,7 +174,17 @@ var Jetstreams = (function () {
         controls.update();
         render();
     }
-
+    
+    //starts - stops animation
+    function toogleAnimation() {
+        if(typeof aniId !== "undefined"){
+            cancelAnimationFrame(aniId);
+            aniId = undefined;
+        }else{
+            animate();
+        }
+    }
+    
     function render() {
         renderer.render(scene, camera);
         stats.update();
@@ -206,6 +221,3 @@ var Jetstreams = (function () {
         }
     };
 })();
-
-
-
