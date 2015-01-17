@@ -11,7 +11,9 @@
 
 
         <div id="info">
-            <a href="http://threejs.org" target="_blank">three.js</a> - Model of Jetstreams
+            <h3><a href="http://threejs.org" target="_blank">three.js</a> - Model of Jetstreams</h3>
+            Mouse: change camera position<br/>
+            S: Start|Stop animation
             <div id="control">
                 <input type="radio" name="rd" id="rd1" value="f" onclick="UI.update('fs')"/> 
                 <label for="rd1">full</label>
