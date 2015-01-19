@@ -10,7 +10,8 @@ var Jetstreams = (function () {
     
     var container, stats;
     var camera, scene, renderer, controls;
-    var globe, wind, aniId;
+    var globe, wind;
+    var rotate = true;
 
     function create() {
 
@@ -91,7 +92,7 @@ var Jetstreams = (function () {
         document.addEventListener('keypress', function(event){
             var keyCode = event.keyCode;
             if(keyCode === 115){
-                toogleAnimation();
+                rotate = !rotate;
             }
         });
     }
@@ -166,8 +167,8 @@ var Jetstreams = (function () {
 
     function animate() {
 
-        aniId = requestAnimationFrame(animate);
-        if (typeof globe !== "undefined") {
+        requestAnimationFrame(animate);
+        if (rotationEnabled()) {
             globe.rotation.z += SPEED;
             wind.rotation.z += SPEED;
         }
@@ -175,14 +176,8 @@ var Jetstreams = (function () {
         render();
     }
     
-    //starts - stops animation
-    function toogleAnimation() {
-        if(typeof aniId !== "undefined"){
-            cancelAnimationFrame(aniId);
-            aniId = undefined;
-        }else{
-            animate();
-        }
+    function rotationEnabled() {
+        return rotate && (typeof globe !== "undefined") && (typeof wind !== "undefined");
     }
     
     function render() {
