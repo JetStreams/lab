@@ -34,6 +34,8 @@ dependencies {
             'net.sf.ehcache:ehcache-web:2.0.4'
 
     testCompile 'org.mockito:mockito-core:1.9.5', 'org.springframework:spring-test:4.0.6.RELEASE'
+    testCompile files('libs/jasminejunitrunner-1.0-SNAPSHOT.jar')
+    testCompile 'org.mozilla:rhino:1.7R4'
     
     providedCompile 'javax.servlet:servlet-api:2.5'
     
