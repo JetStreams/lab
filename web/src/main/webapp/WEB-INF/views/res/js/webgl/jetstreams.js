@@ -4,17 +4,18 @@
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version. 
  */
-var Jetstreams = (function () {
+var Jetstreams = (function (window) {
     var SCALE = .0000008;
     var SPEED = 0.005;
     
-    var container, stats;
+    var document, container, stats;
     var camera, scene, renderer, controls;
     var globe, wind;
     var rotate = true;
 
     function create() {
 
+        document = window.document;
         //create and add container
         container = document.createElement('div');
         document.body.appendChild(container);
@@ -215,4 +216,4 @@ var Jetstreams = (function () {
             updateScene(type, loadedCallback);
         }
     };
-})();
+})(window);
