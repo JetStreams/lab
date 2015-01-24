@@ -34,16 +34,20 @@ require.config({
             exports: 'THREE'
         },
         jetstreams: {
-            deps: ["detector", "stats", "threeCore", "stlLoader", "typedGeometry", "trackBallControls"],
+            deps: ["stats", "threeCore", "stlLoader", "typedGeometry", "trackBallControls"],
             exports: "Jetstreams"
         },
         webglUi: {
-            deps: ["primeui", "jetstreams"],
+            deps: ["detector", "primeui", "jetstreams"],
             exports: "UI"
         }
     }
 });
 
 require(["primeui", "jetstreams", "webglUi"], function ($) {
+    if (!Detector.webgl) {
+        Detector.addGetWebGLMessage();
+    } else {
         UI.create('ws');
+    }
 });

@@ -186,12 +186,6 @@ var Jetstreams = (function (window, gl, detector) {
         stats.update();
     }
 
-    function checkWebgl() {
-        if (!detector.webgl) {
-            detector.addGetWebGLMessage();
-        }
-    }
-
     function updateScene(type, callback) {
         if (scene) {
             scene.remove(globe);
@@ -206,14 +200,12 @@ var Jetstreams = (function (window, gl, detector) {
     /** public visible */
     return {
         run: function (type, loadedCallback) {
-            checkWebgl();
             create();
             loadAll(type, loadedCallback);
             animate();
         },
         update: function (type, loadedCallback) {
-            checkWebgl();
             updateScene(type, loadedCallback);
         }
     };
-})(window, THREE, Detector);
+})(window, THREE);
