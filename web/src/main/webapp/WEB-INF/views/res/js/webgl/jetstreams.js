@@ -4,7 +4,7 @@
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version. 
  */
-var Jetstreams = (function (window, gl) {
+var Jetstreams = (function (window, gl, detector) {
     var SCALE = .0000008;
     var SPEED = 0.005;
     
@@ -187,8 +187,8 @@ var Jetstreams = (function (window, gl) {
     }
 
     function checkWebgl() {
-        if (!Detector.webgl) {
-            Detector.addGetWebGLMessage();
+        if (!detector.webgl) {
+            detector.addGetWebGLMessage();
         }
     }
 
@@ -216,4 +216,4 @@ var Jetstreams = (function (window, gl) {
             updateScene(type, loadedCallback);
         }
     };
-})(window, THREE);
+})(window, THREE, Detector);
