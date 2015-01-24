@@ -4,7 +4,7 @@
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version. 
  */
-var UI = (function () {
+var UI = (function ($, jt) {
 
     function createWebgl() {
         //setup progress bar
@@ -31,7 +31,7 @@ var UI = (function () {
         showProgress();
 
         //load stl model
-        Jetstreams.run(type, function () {
+        jt.run(type, function () {
             $('#dlg').puidialog('hide');
         });
     }
@@ -40,7 +40,7 @@ var UI = (function () {
         showProgress();
 
         //load stl model
-        Jetstreams.update(type, function () {
+        jt.update(type, function () {
             $('#dlg').puidialog('hide');
         });
     }
@@ -56,7 +56,7 @@ var UI = (function () {
         }
 
     };
-})(jQuery, Jetstreams);
+})($, Jetstreams);
 
 
 
