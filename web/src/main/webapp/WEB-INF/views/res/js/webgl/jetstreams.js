@@ -4,7 +4,7 @@
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version. 
  */
-var Jetstreams = (function (window, gl, detector) {
+var Jetstreams = (function (window, gl) {
     var SCALE = .0000008;
     var SPEED = 0.005;
     
