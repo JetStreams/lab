@@ -25,6 +25,15 @@ archivesBaseName = 'jetstreams'
 ext {
     jsSrcDir = 'src/main/webapp/WEB-INF/views/res/js'
     env = 'dev'
+    
+    name = System.getProperty("os.name").toLowerCase();
+    if(name.indexOf("win") >= 0){
+        os = "windows";
+    }else if(name.indexOf("mac") >= 0){
+        os = "macosx";
+    }else {
+        os = "linux";
+    }
 }
 
 
@@ -78,4 +87,16 @@ minifyJs {
         warningLevel = 'QUIET'
     }
 }
-    
+
+phantomJSAgent {
+    js = "tools/phantomjs/1.9.7/$os/examples/version.js"
+}
+
+task runJsTest(type: org.bitbucket.grimrose.gradle.PhantomJSAgentTask) {
+    js = "src/test/resources/js/run-jasmine.js"
+    File runner = file('src/test/resources/js/runner.html')
+    println("runner: $runner.")
+    args = [runner]
+    outputFile = file("$buildDir/result.txt")
+}
+   
