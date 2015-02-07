@@ -13,7 +13,9 @@
         <div id="info">
             <h3><a href="http://threejs.org" target="_blank">three.js</a> - Model of Jetstreams</h3>
             Mouse: change camera position<br/>
-            S: Start|Stop rotation
+            S: Start|Stop rotation<br/>
+            R: rotate right<br/>
+            L: rotate left
             <div id="control">
                 <input type="radio" name="rd" id="rd1" value="f" onclick="UI.update('fs')"/> 
                 <label for="rd1">full</label>
