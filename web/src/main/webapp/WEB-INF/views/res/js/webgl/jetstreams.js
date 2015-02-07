@@ -12,6 +12,7 @@ var Jetstreams = (function (window, gl) {
     var camera, scene, renderer, controls;
     var globe, wind;
     var rotate = true;
+    var direction = 1;
 
     function create() {
 
@@ -94,6 +95,10 @@ var Jetstreams = (function (window, gl) {
             var keyCode = event.keyCode;
             if(keyCode === 115){
                 rotate = !rotate;
+            }else if(keyCode === 114){
+                direction = 1;
+            }else if(keyCode === 108){
+                direction = -1;
             }
         });
     }
@@ -170,8 +175,8 @@ var Jetstreams = (function (window, gl) {
 
         requestAnimationFrame(animate);
         if (rotationEnabled()) {
-            globe.rotation.z += SPEED;
-            wind.rotation.z += SPEED;
+            globe.rotation.z += direction * SPEED;
+            wind.rotation.z += direction * SPEED;
         }
         controls.update();
         render();
