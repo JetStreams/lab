@@ -1,7 +1,8 @@
 language: java
-script: gradle check --info
+cache: false
 before_install:
   - "chmod +x gradlew"
+script: gradle check --info
 after_failure:
   - "cat ./build/test-results/*.xml"
 jdk:
