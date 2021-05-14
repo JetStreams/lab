@@ -12,6 +12,7 @@ Run the Web Application
 ---------
 
 To start the web application enter in terminal:
-`./gradlew tomcatRun``
+
+`./gradlew tomcatRun`
 
 Then point your browser to http://localhost:8080/jetstreams
