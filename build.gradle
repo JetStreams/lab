@@ -4,18 +4,18 @@ allprojects {
 
     sourceCompatibility = '1.8'
     [compileJava, compileTestJava]*.options*.encoding = 'UTF-8'
-    defaultTasks 'clean', 'test' 
-    
+    defaultTasks 'clean', 'test'
+
     repositories {
         mavenCentral()
     }
 
     dependencies {
-        compile 'ch.qos.logback:logback-classic:1.1.2'
-        testCompile group: 'junit', name: 'junit', version: '4.10'
+        implementation 'ch.qos.logback:logback-classic:1.1.2'
+        testImplementation group: 'junit', name: 'junit', version: '4.10'
     }
-    
+
     wrapper {
-        gradleVersion = '2.2.1'
+        gradleVersion = '5.6.4'
     }
 }
